@@ -1,0 +1,14 @@
+{
+	"recommendations": [
+		"babobski.bootstrap-5-snippets",
+		"ysemeniuk.emmet-live",
+		"dbaeumer.vscode-eslint",
+		"sidthesloth.html5-boilerplate",
+		"ecmel.vscode-html-css",
+		"tht13.html-preview-vscode",
+		"abusaidm.html-snippets",
+		"zignd.html-css-class-completion",
+		"ritwickdey.liveserver",
+		"yzhang.markdown-all-in-one"
+	]
+}
