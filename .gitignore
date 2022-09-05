@@ -30,3 +30,7 @@
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode
 
 .DS_Store
+/node_modules
+/package-lock.json
+/package.json
+/server.js
