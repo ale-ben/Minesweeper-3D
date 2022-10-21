@@ -14,13 +14,18 @@ function main() {
 	// Tell it to use our program (pair of shaders)
 	gl.useProgram(program);
 
-	let cube = new ObjectRepresentation("cube", "resources/models/axes.obj");
-	//cube.loadMesh(gl);
-	//cube.render(gl, program);
+	let cube = new ObjectRepresentation("axes", "resources/models/axes.obj");
+	cube.loadMesh(gl);
 
 	let cube2 = new ObjectRepresentation("cube", "resources/models/cube.obj");
 	cube2.loadMesh(gl);
-	cube2.render(gl, program);
+	requestAnimationFrame(render);
+
+	function render(time = 0) {
+		cube.render(gl, program, time);
+		cube2.render(gl, program, time);
+		requestAnimationFrame(render);
+	}
 }
 
 main();

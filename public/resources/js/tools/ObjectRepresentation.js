@@ -1,7 +1,7 @@
 
 
 export class ObjectRepresentation {
-	constructor(name, sourceMesh) {
+	constructor(name, sourceMesh, center = {x: 0, y: 0, z: 0}) {
 		this.name = name;
 		this.mesh = { sourceMesh: sourceMesh };
 		this.positions = [];
@@ -14,13 +14,16 @@ export class ObjectRepresentation {
 		this.emissive;  //Ke
 		this.shininess; //Ns
 		this.opacity;   //Ni
+		this.center = center;
+		console.log("ObjectRepresentation " + this.name + " created");
+		console.log(this);
 	}
 
 	loadMesh(gl) {
 		LoadMesh(gl, this);
 	}
 
-	render(gl, program) {
+	render(gl, program, time) {
 		// look up where the vertex data needs to go.
 		var positionLocation = gl.getAttribLocation(program, "a_position");
 		var normalLocation = gl.getAttribLocation(program, "a_normal");
@@ -139,45 +142,34 @@ export class ObjectRepresentation {
 			return d * Math.PI / 180;
 		}
 
-		// Get the starting time.
-		var then = 0;
+		// Tell WebGL how to convert from clip space to pixels
+		gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 
-		let numVertices = this.numVertices;
-		requestAnimationFrame(drawScene);
+		//gl.enable(gl.CULL_FACE);
+		gl.enable(gl.DEPTH_TEST);
 
-		// Draw the scene.
-		function drawScene(time) {
+		// Clear the canvas AND the depth buffer.
+		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+		var matrix = m4.identity();
+
+		if (true) {
 			// convert to seconds
 			time *= 0.001;
-			// Subtract the previous time from the current time
-			var deltaTime = time - then;
-			// Remember the current time for the next frame.
-			then = time;
-
-			// Tell WebGL how to convert from clip space to pixels
-			gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-
-			//gl.enable(gl.CULL_FACE);
-			gl.enable(gl.DEPTH_TEST);
 
 			// Animate the rotation
-			modelYRotationRadians += -0.7 * deltaTime;
-			modelXRotationRadians += -0.4 * deltaTime;
+			modelYRotationRadians += -0.7 * time;
+			modelXRotationRadians += -0.4 * time;
 
-			// Clear the canvas AND the depth buffer.
-			gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-			var matrix = m4.identity();
 			matrix = m4.xRotate(matrix, modelXRotationRadians);
 			matrix = m4.yRotate(matrix, modelYRotationRadians);
 
-			// Set the matrix.
-			gl.uniformMatrix4fv(matrixLocation, false, matrix);
-
-			// Draw the geometry.
-			gl.drawArrays(gl.TRIANGLES, 0, numVertices);
-
-			requestAnimationFrame(drawScene);
 		}
+
+		// Set the matrix.
+		gl.uniformMatrix4fv(matrixLocation, false, matrix);
+
+		// Draw the geometry.
+		gl.drawArrays(gl.TRIANGLES, 0, this.numVertices);
 	}
 }

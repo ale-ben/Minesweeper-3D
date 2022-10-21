@@ -142,7 +142,7 @@
       objectRep.shininess=mesh.materials[0].parameter.get("Ns");
       objectRep.opacity=mesh.materials[0].parameter.get("Ni");
     }
-    else{
+    else{ //TODO: Qui si lavorerebbe per il multi mesh
       objectRep.ambient=mesh.materials[1].parameter.get("Ka");
       objectRep.diffuse=mesh.materials[1].parameter.get("Kd");
       objectRep.specular=mesh.materials[1].parameter.get("Ks");
