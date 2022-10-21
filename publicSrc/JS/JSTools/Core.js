@@ -56,12 +56,14 @@ export class Core {
 		// Load all the meshes in the scene
 		for (const obj of sceneComposition.sceneObj) {
 			// Load the mesh
-			this.meshLoader.addMesh(
-				this.glMainScreen,
-				obj.alias,
-				obj.pathOBJ,
-				obj.coords
-			);
+			if (obj.isVisible) {
+				this.meshLoader.addMesh(
+					this.glMainScreen,
+					obj.alias,
+					obj.pathOBJ,
+					obj.coords
+				);
+			}
 		}
 		console.log("Core.js - End scene setup");
 	}
@@ -75,7 +77,7 @@ export class Core {
 
 		cameraMainScreen = new Camera(
 			[0, 0, 0],
-			[0, 0, 1],
+			[-1, 0, 0],
 			[0, 0, 1],
 			70
 		);

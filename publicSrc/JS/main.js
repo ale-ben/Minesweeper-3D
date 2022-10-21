@@ -11,7 +11,15 @@ let sceneComposition = new Scene();
 sceneComposition.addOBJToList(
 	"cube1",
 	"../../resources/obj/cube.obj",
+	false,
 	{ x: 0, y: 0, z: 0 },
+);
+
+sceneComposition.addOBJToList(
+	"axes",
+	"../../resources/obj/axes.obj",
+	true,
+	{ x: 0, y: 0, z: 2 },
 );
 
 console.debug(sceneComposition);

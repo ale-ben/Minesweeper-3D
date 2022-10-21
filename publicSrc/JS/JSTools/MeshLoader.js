@@ -29,7 +29,7 @@ export class MeshLoader {
 		console.log("MeshLoader.js - Loading mesh: " + alias);
 
 		// Create the mesh object
-		let mesh = [];
+		let mesh = {};
 		mesh.sourceMesh = pathOBJ;
 
 		// Load the mesh from the .obj file

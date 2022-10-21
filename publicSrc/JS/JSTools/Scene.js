@@ -24,10 +24,11 @@ export class Scene {
 	 * 
 	 * @returns {boolean} True if the object has been added, false otherwise
 	 */
-	addOBJToList(alias, pathOBJ, coords) {
+	addOBJToList(alias, pathOBJ, isVisible, coords) {
 		var newObj = {
 			alias: alias,
 			pathOBJ: pathOBJ,
+			isVisible: isVisible,
 			coords: coords,
 		};
 		if (this.sceneObj.push(newObj)) {

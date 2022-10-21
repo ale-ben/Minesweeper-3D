@@ -8,7 +8,7 @@ let old_x, old_y;
 let dX, dY;
 
 //
-let radius = 24;
+let radius = 4;
 let maxRadius = 24,
 	minRadius = 3;
 
@@ -83,8 +83,6 @@ export function setCameraControls(canvas, isActive) {
 		dY = (-(e.pageY - old_y) * 2 * Math.PI) / canvas.height;
 		THETA += dX;
 		PHI -= dY;
-		if (PHI > degToRad(75)) PHI = degToRad(75);
-		if (PHI < degToRad(35)) PHI = degToRad(35);
 		old_x = e.pageX;
 		old_y = e.pageY;
 		e.preventDefault();
