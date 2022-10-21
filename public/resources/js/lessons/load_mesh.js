@@ -91,7 +91,8 @@
    } 
 
 /*========== Loading and storing the geometry ==========*/
-   function LoadMesh(gl,mesh) {
+   function LoadMesh(gl, objectRep) {
+	var mesh = objectRep.mesh;
 
       retrieveDataFromSource(mesh);
       Unitize(mesh.data);
@@ -121,33 +122,33 @@
        i0=mesh.data.face[i].vert[0]-1;
        i1=mesh.data.face[i].vert[1]-1;
        i2=mesh.data.face[i].vert[2]-1;
-       positions.push(x[i0],y[i0],z[i0],x[i1],y[i1],z[i1],x[i2],y[i2],z[i2]); 
+       objectRep.positions.push(x[i0],y[i0],z[i0],x[i1],y[i1],z[i1],x[i2],y[i2],z[i2]); 
        i0=mesh.data.facetnorms[i].i;
        i1=mesh.data.facetnorms[i].j;
        i2=mesh.data.facetnorms[i].k;
-       normals.push(i0,i1,i2,i0,i1,i2,i0,i1,i2); 
+       objectRep.normals.push(i0,i1,i2,i0,i1,i2,i0,i1,i2); 
        i0=mesh.data.face[i].textCoordsIndex[0]-1;
        i1=mesh.data.face[i].textCoordsIndex[1]-1;
        i2=mesh.data.face[i].textCoordsIndex[2]-1;
-       texcoords.push(xt[i0],yt[i0],xt[i1],yt[i1],xt[i2],yt[i2]);
+       objectRep.texcoords.push(xt[i0],yt[i0],xt[i1],yt[i1],xt[i2],yt[i2]);
      }         
-     numVertices=3*nface;
+     objectRep.numVertices=3*nface;
 
     if (mesh.fileMTL == null){
-      ambient=mesh.materials[0].parameter.get("Ka");
-      diffuse=mesh.materials[0].parameter.get("Kd");
-      specular=mesh.materials[0].parameter.get("Ks");
-      emissive=mesh.materials[0].parameter.get("Ke");
-      shininess=mesh.materials[0].parameter.get("Ns");
-      opacity=mesh.materials[0].parameter.get("Ni");
+      objectRep.ambient=mesh.materials[0].parameter.get("Ka");
+      objectRep.diffuse=mesh.materials[0].parameter.get("Kd");
+      objectRep.specular=mesh.materials[0].parameter.get("Ks");
+      objectRep.emissive=mesh.materials[0].parameter.get("Ke");
+      objectRep.shininess=mesh.materials[0].parameter.get("Ns");
+      objectRep.opacity=mesh.materials[0].parameter.get("Ni");
     }
     else{
-      ambient=mesh.materials[1].parameter.get("Ka");
-      diffuse=mesh.materials[1].parameter.get("Kd");
-      specular=mesh.materials[1].parameter.get("Ks");
-      emissive=mesh.materials[1].parameter.get("Ke");
-      shininess=mesh.materials[1].parameter.get("Ns");
-      opacity=mesh.materials[1].parameter.get("Ni");
+      objectRep.ambient=mesh.materials[1].parameter.get("Ka");
+      objectRep.diffuse=mesh.materials[1].parameter.get("Kd");
+      objectRep.specular=mesh.materials[1].parameter.get("Ks");
+      objectRep.emissive=mesh.materials[1].parameter.get("Ke");
+      objectRep.shininess=mesh.materials[1].parameter.get("Ns");
+      objectRep.opacity=mesh.materials[1].parameter.get("Ni");
     }
 
 }

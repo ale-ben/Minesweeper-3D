@@ -1,16 +1,4 @@
-"use strict";
-
-var mesh = new Array();
-var positions = [];
-var normals = [];
-var texcoords = [];
-var numVertices;
-var ambient;   //Ka
-var diffuse;   //Kd
-var specular;  //Ks
-var emissive;  //Ke
-var shininess; //Ns
-var opacity;   //Ni
+import { ObjectRepresentation } from "./resources/js/tools/ObjectRepresentation.js";
 
 function main() {
   // Get A WebGL context
@@ -21,13 +9,10 @@ function main() {
     return;
   }
 
-  mesh.sourceMesh='resources/obj/cube.obj';
-  //mesh.sourceMesh='data/chair/chair.obj';
-  //mesh.sourceMesh='data/boeing/boeing_3.obj';
-  //mesh.sourceMesh='data/mannequin.obj';
-  //mesh.sourceMesh='data/soccerball/soccerball.obj';
-  LoadMesh(gl,mesh);
-  //console.log(mesh);
+  let cube = new ObjectRepresentation("cube", "resources/models/axes.obj");
+  cube.loadMesh(gl);
+
+  console.log(cube);
 
   // setup GLSL program
   var program = webglUtils.createProgramFromScripts(gl, ["3d-vertex-shader", "3d-fragment-shader"]);
@@ -45,35 +30,35 @@ function main() {
   gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
   // Put the positions in the buffer
   //setGeometry(gl);
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(cube.positions), gl.STATIC_DRAW);
 
   // Create a buffer for normals
   var normalsBuffer = gl.createBuffer();
   // Bind it to ARRAY_BUFFER (think of it as ARRAY_BUFFER mormalsBuffer)
   gl.bindBuffer(gl.ARRAY_BUFFER, normalsBuffer);
   // Put the normals in the buffer
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(normals), gl.STATIC_DRAW);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(cube.normals), gl.STATIC_DRAW);
 
   // provide texture coordinates
   var texcoordBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, texcoordBuffer);
   // Set Texcoords
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(texcoords), gl.STATIC_DRAW);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(cube.texcoords), gl.STATIC_DRAW);
 
 
   var ambientLight=[0.2,0.2,0.2];
   var colorLight=[1.0,1.0,1.0];
 
-  gl.uniform3fv(gl.getUniformLocation(program, "diffuse" ), diffuse );
-  gl.uniform3fv(gl.getUniformLocation(program, "ambient" ), ambient); 
-  gl.uniform3fv(gl.getUniformLocation(program, "specular"), specular );	
-  gl.uniform3fv(gl.getUniformLocation(program, "emissive"), emissive );
+  gl.uniform3fv(gl.getUniformLocation(program, "diffuse" ), cube.diffuse );
+  gl.uniform3fv(gl.getUniformLocation(program, "ambient" ), cube.ambient); 
+  gl.uniform3fv(gl.getUniformLocation(program, "specular"), cube.specular );	
+  gl.uniform3fv(gl.getUniformLocation(program, "emissive"), cube.emissive );
   //gl.uniform3fv(gl.getUniformLocation(program, "u_lightDirection" ), xxx );
   gl.uniform3fv(gl.getUniformLocation(program, "u_ambientLight" ), ambientLight );
   gl.uniform3fv(gl.getUniformLocation(program, "u_colorLight" ), colorLight );
 
-  gl.uniform1f(gl.getUniformLocation(program, "shininess"), shininess);
-  gl.uniform1f(gl.getUniformLocation(program, "opacity"), opacity);
+  gl.uniform1f(gl.getUniformLocation(program, "shininess"), cube.shininess);
+  gl.uniform1f(gl.getUniformLocation(program, "opacity"), cube.opacity);
 
   // Turn on the position attribute
   gl.enableVertexAttribArray(positionLocation);
@@ -187,7 +172,7 @@ function main() {
     gl.uniformMatrix4fv(matrixLocation, false, matrix);
 
     // Draw the geometry.
-    gl.drawArrays(gl.TRIANGLES, 0, numVertices);
+    gl.drawArrays(gl.TRIANGLES, 0, cube.numVertices);
 
     requestAnimationFrame(drawScene);
   }
