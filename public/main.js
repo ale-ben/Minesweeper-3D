@@ -14,16 +14,16 @@ function main() {
 	// Tell it to use our program (pair of shaders)
 	gl.useProgram(program);
 
-	let cube = new ObjectRepresentation("axes", "resources/models/axes.obj");
-	cube.loadMesh(gl);
+	var objectList = [];
+	objectList.push(new ObjectRepresentation("axes", "resources/models/axes.obj"));
+	//objectList.push(new ObjectRepresentation("cube", "resources/models/cube.obj"));
 
-	let cube2 = new ObjectRepresentation("cube", "resources/models/cube.obj");
-	cube2.loadMesh(gl);
+	objectList.forEach(element => element.loadMesh(gl));
+
 	requestAnimationFrame(render);
 
 	function render(time = 0) {
-		cube.render(gl, program, time);
-		cube2.render(gl, program, time);
+		objectList.forEach(element => element.render(gl, program, time));
 		requestAnimationFrame(render);
 	}
 }
