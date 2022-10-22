@@ -95,7 +95,7 @@ function LoadMesh(gl, objectRep) {
 	var mesh = objectRep.renderProperties.mesh;
 
 	retrieveDataFromSource(mesh);
-	Unitize(mesh.data);
+	
 	//Ora che ho la mesh e il/i materiali associati, mi occupo di caricare 
 	//la/le texture che tali materiali contengono
 	var map = mesh.materials[1].parameter;
