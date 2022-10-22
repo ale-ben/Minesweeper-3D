@@ -24,6 +24,48 @@ function parseOBJ(text) {
 		[],   // normals
 	];
 
+	// Neede to parse mtl
+	// Since each geometry must be parsed independently in order to apply right mtl, we split the object in an array of geometries
+	const materialLibs = [];
+	const geometries = [];
+	let geometry;
+	let material = 'default';
+	let object = 'default'; // o keyword
+	let groups = ['default']; // g keyword
+
+	function newGeometry() {
+		// If there is an existing geometry and it's
+		// not empty then start a new one.
+		if (geometry && geometry.data.position.length) {
+			geometry = undefined;
+		}
+	}
+
+	function setGeometry() {
+		if (!geometry) {
+			const position = [];
+			const texcoord = [];
+			const normal = [];
+			webglVertexData = [
+				position,
+				texcoord,
+				normal,
+			];
+			geometry = {
+				object,
+				groups,
+				material,
+				data: {
+					position,
+					texcoord,
+					normal,
+				},
+			};
+			geometries.push(geometry);
+		}
+	}
+	// End Neede to parse mtl
+
 	function addVertex(vert) { //TODO: WTF???
 		const ptn = vert.split('/');
 		ptn.forEach((objIndexStr, i) => {
@@ -36,6 +78,8 @@ function parseOBJ(text) {
 		});
 	}
 
+	const noop = () => { }; // Used to ignore keywords
+
 	// Keywords:
 	// v: vertex position
 	// vt: texture coordinate
@@ -43,6 +87,10 @@ function parseOBJ(text) {
 	// f: face (each element is an index in the above arrays)
 	// The indices are 1 based if positive or relative to the number of vertices parsed so far if negative.
 	// The order of the indices are position/texcoord/normal and that all except the position are optional
+	// usemtl: material name
+	// mtllib: material library (file containing the materials *.mtl)
+	// o: object name
+	// s: smooth shading (0 or 1)
 	const keywords = {
 		v(parts) {
 			objPositions.push(parts.map(parseFloat)); // Convert the string to a float and add it to the positions array
@@ -54,6 +102,7 @@ function parseOBJ(text) {
 			objTexcoords.push(parts.map(parseFloat)); // Convert the string to a float and add it to the texture coordinates array
 		},
 		f(parts) { // WebGL only works with triangles, we have to convert the faces to triangles
+			setGeometry(); // Since usemtl is optional, we create a new geometry if we can't find one
 			const numTriangles = parts.length - 2;
 			for (let tri = 0; tri < numTriangles; ++tri) {
 				addVertex(parts[0]);
@@ -61,6 +110,24 @@ function parseOBJ(text) {
 				addVertex(parts[tri + 2]);
 			}
 		},
+		usemtl(parts, unparsedArgs) {
+			material = unparsedArgs;
+			newGeometry();
+		},
+		mtllib(parts, unparsedArgs) {
+			// the spec says there can be multiple filenames here
+			// but many exist with spaces in a single filename
+			materialLibs.push(unparsedArgs);
+		},
+		o(parts, unparsedArgs) {
+			object = unparsedArgs;
+			newGeometry();
+		},
+		s: noop, // Ignore shading TODO: Sicuro di poterlo ignorare?
+		g(parts) {
+			groups = parts;
+			newGeometry()
+		}, // TODO: In verità non me ne faccio niente quindi potrebbe essere una noop?
 	};
 
 	const keywordRE = /(\w*)(?: )*(.*)/; // Match a keyword at the start of a line followed by a list of arguments regexr.com/70n6l
@@ -90,10 +157,16 @@ function parseOBJ(text) {
 		handler(parts, unparsedArgs); // Call the function with the arguments
 	}
 
+	// remove any arrays that have no entries.
+	for (const geometry of geometries) {
+		geometry.data = Object.fromEntries(
+			Object.entries(geometry.data).filter(([, array]) => array.length > 0));
+	}
+
 	return {
-		position: webglVertexData[0],
-		texcoord: webglVertexData[1],
-		normal: webglVertexData[2],
+
+		geometries,
+		materialLibs,
 	};
 }
 
@@ -140,26 +213,35 @@ async function main() {
 	// compiles and links the shaders, looks up attribute and uniform locations
 	const meshProgramInfo = webglUtils.createProgramInfo(gl, [vs, fs]);
 
-	const response = await fetch('./cube.obj');  /* webglfundamentals: url */
+	const response = await fetch('https://webglfundamentals.org/webgl/resources/models/chair/chair.obj');  /* webglfundamentals: url */
 	const text = await response.text();
 	const obj = parseOBJ(text);
 	console.log(obj);
 
-	// Because data is just named arrays like this
-	//
-	// {
-	//   position: [...],
-	//   texcoord: [...],
-	//   normal: [...],
-	// }
-	//
-	// and because those names match the attributes in our vertex
-	// shader we can pass it directly into `createBufferInfoFromArrays`
-	// from the article "less code more fun".
+	const parts = obj.geometries.map(({ data }) => { // Since each geometry has it's own buffer, we have to load them separately
+		// Because data is just named arrays like this
+		//
+		// {
+		//   position: [...],
+		//   texcoord: [...],
+		//   normal: [...],
+		// }
+		//
+		// and because those names match the attributes in our vertex
+		// shader we can pass it directly into `createBufferInfoFromArrays`
+		// from the article "less code more fun".
 
-	// create a buffer for each array by calling
-	// gl.createBuffer, gl.bindBuffer, gl.bufferData
-	const bufferInfo = webglUtils.createBufferInfoFromArrays(gl, obj);
+		// create a buffer for each array by calling
+		// gl.createBuffer, gl.bindBuffer, gl.bufferData
+		const bufferInfo = webglUtils.createBufferInfoFromArrays(gl, data);
+		return {
+			material: {
+				u_diffuse: [Math.random(), Math.random(), Math.random(), 1], // FIXME Genero colore random tanto per
+			},
+			bufferInfo,
+		};
+	});
+
 
 	const cameraTarget = [0, 0, 0];
 	const cameraPosition = [0, 0, 4];
@@ -200,17 +282,24 @@ async function main() {
 		// calls gl.uniform
 		webglUtils.setUniforms(meshProgramInfo, sharedUniforms);
 
-		// calls gl.bindBuffer, gl.enableVertexAttribArray, gl.vertexAttribPointer
-		webglUtils.setBuffersAndAttributes(gl, meshProgramInfo, bufferInfo);
+		// compute the world matrix once since all parts
+		// are at the same space.
+		const u_world = m4.yRotation(time);
 
-		// calls gl.uniform
-		webglUtils.setUniforms(meshProgramInfo, {
-			u_world: m4.yRotation(time),
-			u_diffuse: [1, 0.7, 0.5, 1],
-		});
+		for (const { bufferInfo, material } of parts) {
 
-		// calls gl.drawArrays or gl.drawElements
-		webglUtils.drawBufferInfo(gl, bufferInfo);
+			// calls gl.bindBuffer, gl.enableVertexAttribArray, gl.vertexAttribPointer
+			webglUtils.setBuffersAndAttributes(gl, meshProgramInfo, bufferInfo);
+
+			// calls gl.uniform
+			webglUtils.setUniforms(meshProgramInfo, {
+				u_world,
+				u_diffuse: material.u_diffuse,
+			});
+
+			// calls gl.drawArrays or gl.drawElements
+			webglUtils.drawBufferInfo(gl, bufferInfo);
+		}
 
 		requestAnimationFrame(render);
 	}
