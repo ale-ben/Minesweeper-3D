@@ -244,7 +244,7 @@ async function main() {
 
 
 	const cameraTarget = [0, 0, 0];
-	const cameraPosition = [0, 0, 4];
+	const cameraPosition = [0, 15, 10];
 	const zNear = 0.1;
 	const zFar = 50;
 
