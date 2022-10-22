@@ -15,8 +15,8 @@ console.log("Core.js - End WebGL Core initialization");
 
 console.log("Core.js - Start scene setup");
 
-objList.push(new ObjectRenderer("cube", "../../resources/obj/cube.obj"));
-objList.push(new ObjectRenderer("axes", "../../resources/obj/axes.obj"));
+objList.push(new ObjectRenderer("cube", "./resources/models/cube.obj", {x:-1, y:0, z:0}));
+objList.push(new ObjectRenderer("axes", "./resources/models/axes.obj", {x:0, y:0, z:0}));
 
 objList.forEach(element => element.loadMesh(glMainScreen));
 
@@ -37,7 +37,7 @@ function render(time = 0) {
 	// Convert to seconds
 	time *= 0.002;
 
-	objList.forEach(element => element.render(program[1], program[0]));
+	objList.forEach(element => element.render(time, program[1], program[0]));
 
 	requestAnimationFrame(render);
 }

@@ -3,7 +3,7 @@ export class ObjectRenderer {
 		this.name = name;
 		this.center = center;
 		this.renderProperties = {
-			mesh: {sourceMesh: sourceMesh},
+			mesh: { sourceMesh: sourceMesh },
 			positions: [],
 			normals: [],
 			texcoords: [],
@@ -14,7 +14,12 @@ export class ObjectRenderer {
 			emissive: [], //Ke,
 			shininess: [], //Ns,
 			opacity: [], //Ni,
+			oldCenter: null,
 		};
+		this.properties = {
+			visible: true,
+			rotating: true
+		}
 		console.log("ObjectRepresentation " + this.name + " created");
 		console.log(this);
 	}
@@ -22,6 +27,7 @@ export class ObjectRenderer {
 	loadMesh(gl) {
 		console.log("Loading mesh for " + this.name);
 		LoadMesh(gl, this);
+		this.compute_position();
 		console.log(this)
 		console.log("Mesh loaded for " + this.name);
 	}
@@ -37,7 +43,7 @@ export class ObjectRenderer {
 		}
 	}
 
-	render(gl, program) {
+	render(time, gl, program) {
 		let positionLocation = gl.getAttribLocation(program, "a_position");
 		let normalLocation = gl.getAttribLocation(program, "a_normal");
 		let texcoordLocation = gl.getAttribLocation(program, "a_texcoord");
@@ -101,8 +107,6 @@ export class ObjectRenderer {
 			return d * Math.PI / 180;
 		}
 		var fieldOfViewRadians = degToRad(30);
-		var modelXRotationRadians = degToRad(0);
-		var modelYRotationRadians = degToRad(0);
 
 		// Compute the projection matrix
 		var aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
@@ -124,24 +128,15 @@ export class ObjectRenderer {
 		let matrixLocation = gl.getUniformLocation(program, "u_world");
 		let textureLocation = gl.getUniformLocation(program, "diffuseMap");
 		let viewMatrixLocation = gl.getUniformLocation(program, "u_view");
-		let projectionMatrixLocation = gl.getUniformLocation(
-			program,
-			"u_projection"
-		);
-		let lightWorldDirectionLocation = gl.getUniformLocation(
-			program,
-			"u_lightDirection"
-		);
-		let viewWorldPositionLocation = gl.getUniformLocation(
-			program,
-			"u_viewWorldPosition"
-		);
+		let projectionMatrixLocation = gl.getUniformLocation(program, "u_projection");
+		let lightWorldDirectionLocation = gl.getUniformLocation(program, "u_lightDirection");
+		let viewWorldPositionLocation = gl.getUniformLocation(program, "u_viewWorldPosition");
 
 		gl.uniformMatrix4fv(viewMatrixLocation, false, viewMatrix);
 		gl.uniformMatrix4fv(projectionMatrixLocation, false, projectionMatrix);
 
 		// set the light position
-		gl.uniform3fv(lightWorldDirectionLocation, m4.normalize([-1, 3, 7]));
+		gl.uniform3fv(lightWorldDirectionLocation, m4.normalize([-1, 3, 5]));
 
 		// set the camera/view position
 		gl.uniform3fv(viewWorldPositionLocation, cameraPosition);
