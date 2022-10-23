@@ -435,7 +435,7 @@ async function main() {
 	const meshProgramInfo = webglUtils.createProgramInfo(gl, [vs, fs]);
 
 	// OBJ and MTL loader FIXME: Simplify and allow to specify mtl to load
-	const objHref = './boeing_3.obj';
+	const objHref = './axes.obj';
 	const response = await fetch(objHref);
 	const text = await response.text();
 	const obj = parseOBJ(text);
@@ -538,9 +538,9 @@ async function main() {
 	});
 
 	const cameraTarget = [0, 0, 0];
-	const cameraPosition = [0, 50, 50];
+	const cameraPosition = [15, 15, 15];
 	const zNear = 0.1;
-	const zFar = 150;
+	const zFar = 50;
 
 	function degToRad(deg) {
 		return deg * Math.PI / 180;
@@ -578,7 +578,7 @@ async function main() {
 
 		// compute the world matrix once since all parts
 		// are at the same space.
-		const u_world = m4.yRotation(time);
+		const u_world = m4.identity();
 
 		for (const { bufferInfo, material } of parts) {
 
