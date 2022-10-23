@@ -36,7 +36,7 @@ function parseOBJ(text) {
 	let material = 'default';
 	let object = 'default'; // o keyword
 
-	const noop = () => {}; // Used to ignore keywords
+	const noop = () => { }; // Used to ignore keywords
 
 	function newGeometry() {
 		// If there is an existing geometry and it's
@@ -187,6 +187,64 @@ function parseOBJ(text) {
 	};
 }
 
+function parseMTL(text) {
+	// Same logic as parseOBJ
+	const materials = {};
+	let material;
+
+	// Keywords:
+	// newmtl: material name
+	// Ns: specular shininess exponent
+	// Ka: ambient color
+	// Kd: diffuse color
+	// Ks: specular color
+	// Ke: emissive color
+	// Ni: optical density
+	// d: dissolve (0.0 - 1.0)
+	// illum: illumination model (Not used here so far)
+	const keywords = {
+		newmtl(parts, unparsedArgs) {
+			material = {};
+			materials[unparsedArgs] = material;
+		},
+		Ns(parts) { material.shininess = parseFloat(parts[0]); },
+		Ka(parts) { material.ambient = parts.map(parseFloat); },
+		Kd(parts) { material.diffuse = parts.map(parseFloat); },
+		Ks(parts) { material.specular = parts.map(parseFloat); },
+		Ke(parts) { material.emissive = parts.map(parseFloat); },
+		Ni(parts) { material.opticalDensity = parseFloat(parts[0]); },
+		d(parts) { material.opacity = parseFloat(parts[0]); },
+		illum(parts) { material.illum = parseInt(parts[0]); },
+	};
+
+	const keywordRE = /(\w*)(?: )*(.*)/;
+	const lines = text.split('\n');
+	for (let lineNo = 0; lineNo < lines.length; ++lineNo) {
+		const line = lines[lineNo].trim();
+		if (line === '' || line.startsWith('#')) {
+			continue;
+		}
+
+		const m = keywordRE.exec(line);
+		if (!m) {
+			continue;
+		}
+
+		const [, keyword, unparsedArgs] = m;
+		const parts = line.split(/\s+/).slice(1);
+		const handler = keywords[keyword];
+
+		if (!handler) {
+			console.warn('unhandled keyword:', keyword);
+			continue;
+		}
+
+		handler(parts, unparsedArgs);
+	}
+
+	return materials;
+}
+
 async function main() {
 	// Get A WebGL context
 	/** @type {HTMLCanvasElement} */
@@ -204,12 +262,16 @@ async function main() {
 	uniform mat4 u_projection;
 	uniform mat4 u_view;
 	uniform mat4 u_world;
+	uniform vec3 u_viewWorldPosition;
 	 
 	varying vec3 v_normal;
+	varying vec3 v_surfaceToView;
 	varying vec4 v_color;
 	 
 	void main() {
-	  gl_Position = u_projection * u_view * u_world * a_position;
+	  vec4 worldPosition = u_world * a_position;
+	  gl_Position = u_projection * u_view * worldPosition;
+	  v_surfaceToView = u_viewWorldPosition - worldPosition.xyz;
 	  v_normal = mat3(u_world) * a_normal;
 	  v_color = a_color;
 	}
@@ -219,28 +281,58 @@ async function main() {
 	precision mediump float;
 	 
 	varying vec3 v_normal;
+	varying vec3 v_surfaceToView;
 	varying vec4 v_color;
 	 
-	uniform vec4 u_diffuse;
+	uniform vec3 diffuse;
+	uniform vec3 ambient;
+	uniform vec3 emissive;
+	uniform vec3 specular;
+	uniform float shininess;
+	uniform float opacity;
 	uniform vec3 u_lightDirection;
+	uniform vec3 u_ambientLight;
+
 	 
 	void main () {
 	  vec3 normal = normalize(v_normal);
+
+	  vec3 surfaceToViewDirection = normalize(v_surfaceToView);
+	  vec3 halfVector = normalize(u_lightDirection + surfaceToViewDirection);
+
 	  float fakeLight = dot(u_lightDirection, normal) * .5 + .5;
-	  vec4 diffuse = u_diffuse * v_color;
-	  gl_FragColor = vec4(diffuse.rgb * fakeLight, diffuse.a);
+	  float specularLight = clamp(dot(normal, halfVector), 0.0, 1.0);
+
+	  vec3 effectiveDiffuse = diffuse * v_color.rgb;
+	  float effectiveOpacity = opacity * v_color.a;
+
+	  gl_FragColor = vec4(
+		emissive +
+		ambient * u_ambientLight +
+		effectiveDiffuse * fakeLight +
+		specular * pow(specularLight, shininess),
+		effectiveOpacity);
+  
 	}
 	`;
 
 	// compiles and links the shaders, looks up attribute and uniform locations
 	const meshProgramInfo = webglUtils.createProgramInfo(gl, [vs, fs]);
 
-	const response = await fetch('./chair.obj');  /* webglfundamentals: url */
+	// OBJ and MTL loader FIXME: Simplify and allow to specify mtl to load
+	const objHref = './chair.obj';
+	const response = await fetch(objHref);
 	const text = await response.text();
 	const obj = parseOBJ(text);
-	console.log(obj);
+	const baseHref = new URL(objHref, window.location.href);
+	const matTexts = await Promise.all(obj.materialLibs.map(async filename => {
+		const matHref = new URL(filename, baseHref).href;
+		const response = await fetch(matHref);
+		return await response.text();
+	}));
+	const materials = parseMTL(matTexts.join('\n'));
 
-	const parts = obj.geometries.map(({ data }) => { // Since each geometry has it's own buffer, we have to load them separately
+	const parts = obj.geometries.map(({ material, data }) => { // Since each geometry has it's own buffer, we have to load them separately
 		// Because data is just named arrays like this
 		//
 		// {
@@ -255,24 +347,22 @@ async function main() {
 
 		if (data.color) {
 			if (data.position.length === data.color.length) {
-			  // it's 3. The our helper library assumes 4 so we need
-			  // to tell it there are only 3.
-			  data.color = { numComponents: 3, data: data.color };
+				// it's 3. The our helper library assumes 4 so we need
+				// to tell it there are only 3.
+				data.color = { numComponents: 3, data: data.color };
 			}
 		} else {
-		  // there are no vertex colors so just use constant white
-		  data.color = { value: [1, 1, 1, 1] };
+			// there are no vertex colors so just use constant white
+			data.color = { value: [1, 1, 1, 1] };
 		}
 
 		// create a buffer for each array by calling
 		// gl.createBuffer, gl.bindBuffer, gl.bufferData
 		const bufferInfo = webglUtils.createBufferInfoFromArrays(gl, data);
 		return {
-			material: {
-				u_diffuse: [1, 1, 1, 1],
-			},
+			material: materials[material],
 			bufferInfo,
-		};
+		  };
 	});
 
 
@@ -327,8 +417,7 @@ async function main() {
 			// calls gl.uniform
 			webglUtils.setUniforms(meshProgramInfo, {
 				u_world,
-				u_diffuse: material.u_diffuse,
-			});
+			}, material);
 
 			// calls gl.drawArrays or gl.drawElements
 			webglUtils.drawBufferInfo(gl, bufferInfo);
