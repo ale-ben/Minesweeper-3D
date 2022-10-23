@@ -537,53 +537,10 @@ async function main() {
 		};
 	});
 
-	function getExtents(positions) {
-		const min = positions.slice(0, 3);
-		const max = positions.slice(0, 3);
-		for (let i = 3; i < positions.length; i += 3) {
-			for (let j = 0; j < 3; ++j) {
-				const v = positions[i + j];
-				min[j] = Math.min(v, min[j]);
-				max[j] = Math.max(v, max[j]);
-			}
-		}
-		return { min, max };
-	}
-
-	function getGeometriesExtents(geometries) {
-		return geometries.reduce(({ min, max }, { data }) => {
-			const minMax = getExtents(data.position);
-			return {
-				min: min.map((min, ndx) => Math.min(minMax.min[ndx], min)),
-				max: max.map((max, ndx) => Math.max(minMax.max[ndx], max)),
-			};
-		}, {
-			min: Array(3).fill(Number.POSITIVE_INFINITY),
-			max: Array(3).fill(Number.NEGATIVE_INFINITY),
-		});
-	}
-
-	const extents = getGeometriesExtents(obj.geometries);
-	const range = m4.subtractVectors(extents.max, extents.min);
-	// amount to move the object so its center is at the origin
-	const objOffset = m4.scaleVector(
-		m4.addVectors(
-			extents.min,
-			m4.scaleVector(range, 0.5)),
-		-1);
 	const cameraTarget = [0, 0, 0];
-	// figure out how far away to move the camera so we can likely
-	// see the object.
-	const radius = m4.length(range) * 0.5;
-	const cameraPosition = m4.addVectors(cameraTarget, [
-		0,
-		0,
-		radius,
-	]);
-	// Set zNear and zFar to something hopefully appropriate
-	// for the size of this object.
-	const zNear = radius / 100;
-	const zFar = radius * 3;
+	const cameraPosition = [0, 50, 50];
+	const zNear = 0.1;
+	const zFar = 150;
 
 	function degToRad(deg) {
 		return deg * Math.PI / 180;
@@ -621,10 +578,10 @@ async function main() {
 
 		// compute the world matrix once since all parts
 		// are at the same space.
-		let u_world = m4.yRotation(time);
-		u_world = m4.translate(u_world, ...objOffset);
+		const u_world = m4.yRotation(time);
 
 		for (const { bufferInfo, material } of parts) {
+
 			// calls gl.bindBuffer, gl.enableVertexAttribArray, gl.vertexAttribPointer
 			webglUtils.setBuffersAndAttributes(gl, meshProgramInfo, bufferInfo);
 
