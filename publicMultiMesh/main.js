@@ -209,9 +209,9 @@ function parseMTL(text) {
 		Kd(parts) { material.diffuse = parts.map(parseFloat); },
 		Ks(parts) { material.specular = parts.map(parseFloat); },
 		Ke(parts) { material.emissive = parts.map(parseFloat); },
-		map_Kd(parts, unparsedArgs) { material.diffuseMap = parseMapArgs(unparsedArgs); },
-		map_Ns(parts, unparsedArgs) { material.specularMap = parseMapArgs(unparsedArgs); },
-		map_Bump(parts, unparsedArgs) { material.normalMap = parseMapArgs(unparsedArgs); },
+		map_Kd(parts, unparsedArgs) { material.diffuseMap = unparsedArgs; }, // Note that according to specs unparsedArgs might have some additional args that we won't handle
+		map_Ns(parts, unparsedArgs) { material.specularMap = unparsedArgs; }, // Note that according to specs unparsedArgs might have some additional args that we won't handle
+		map_Bump(parts, unparsedArgs) { material.normalMap = unparsedArgs; }, // Note that according to specs unparsedArgs might have some additional args that we won't handle
 		Ni(parts) { material.opticalDensity = parseFloat(parts[0]); },
 		d(parts) { material.opacity = parseFloat(parts[0]); },
 		illum(parts) { material.illum = parseInt(parts[0]); },
