@@ -7,6 +7,7 @@ function parseOBJ(text) {
 	const objPositions = [[0, 0, 0]];
 	const objTexcoords = [[0, 0]];
 	const objNormals = [[0, 0, 0]];
+	const objColors = [[0, 0, 0]]; // There can be non standard obj formats that have v <x> <y> <z> <red> <green> <blue>
 
 	// Object representation
 	// same order as `f` indices
@@ -14,6 +15,7 @@ function parseOBJ(text) {
 		objPositions,
 		objTexcoords,
 		objNormals,
+		objColors,
 	];
 
 	// WebGL representation of the object
@@ -22,6 +24,7 @@ function parseOBJ(text) {
 		[],   // positions
 		[],   // texcoords
 		[],   // normals
+		[],   // colors
 	];
 
 	// Neede to parse mtl
@@ -46,10 +49,12 @@ function parseOBJ(text) {
 			const position = [];
 			const texcoord = [];
 			const normal = [];
+			const color = [];
 			webglVertexData = [
 				position,
 				texcoord,
 				normal,
+				color,
 			];
 			geometry = {
 				object,
@@ -59,6 +64,7 @@ function parseOBJ(text) {
 					position,
 					texcoord,
 					normal,
+					color,
 				},
 			};
 			geometries.push(geometry);
@@ -75,6 +81,12 @@ function parseOBJ(text) {
 			const objIndex = parseInt(objIndexStr);
 			const index = objIndex + (objIndex >= 0 ? 0 : objVertexData[i].length);
 			webglVertexData[i].push(...objVertexData[i][index]);
+			// Handle non standard obj format with colors
+			// if this is the position index (index 0) and we parsed
+			// vertex colors then copy the vertex colors to the webgl vertex color data
+			if (i === 0 && objColors.length > 1) {
+				geometry.data.color.push(...objColors[index]);
+			}
 		});
 	}
 
@@ -92,8 +104,14 @@ function parseOBJ(text) {
 	// o: object name
 	// s: smooth shading (0 or 1)
 	const keywords = {
-		v(parts) {
-			objPositions.push(parts.map(parseFloat)); // Convert the string to a float and add it to the positions array
+		v(parts) {// Convert the string to a float and add it to the positions array
+			// if there are more than 3 values here they are vertex colors
+			if (parts.length > 3) {
+				objPositions.push(parts.slice(0, 3).map(parseFloat));
+				objColors.push(parts.slice(3).map(parseFloat));
+			} else {
+				objPositions.push(parts.map(parseFloat));
+			}
 		},
 		vn(parts) {
 			objNormals.push(parts.map(parseFloat)); // Convert the string to a float and add it to the normals array
@@ -182,16 +200,19 @@ async function main() {
 	const vs = `
 	attribute vec4 a_position;
 	attribute vec3 a_normal;
+	attribute vec4 a_color;
 	 
 	uniform mat4 u_projection;
 	uniform mat4 u_view;
 	uniform mat4 u_world;
 	 
 	varying vec3 v_normal;
+	varying vec4 v_color;
 	 
 	void main() {
 	  gl_Position = u_projection * u_view * u_world * a_position;
 	  v_normal = mat3(u_world) * a_normal;
+	  v_color = a_color;
 	}
 	`;
 
@@ -199,6 +220,7 @@ async function main() {
 	precision mediump float;
 	 
 	varying vec3 v_normal;
+	varying vec4 v_color;
 	 
 	uniform vec4 u_diffuse;
 	uniform vec3 u_lightDirection;
@@ -206,14 +228,15 @@ async function main() {
 	void main () {
 	  vec3 normal = normalize(v_normal);
 	  float fakeLight = dot(u_lightDirection, normal) * .5 + .5;
-	  gl_FragColor = vec4(u_diffuse.rgb * fakeLight, u_diffuse.a);
+	  vec4 diffuse = u_diffuse * v_color;
+	  gl_FragColor = vec4(diffuse.rgb * fakeLight, diffuse.a);
 	}
 	`;
 
 	// compiles and links the shaders, looks up attribute and uniform locations
 	const meshProgramInfo = webglUtils.createProgramInfo(gl, [vs, fs]);
 
-	const response = await fetch('https://webglfundamentals.org/webgl/resources/models/chair/chair.obj');  /* webglfundamentals: url */
+	const response = await fetch('./chair.obj');  /* webglfundamentals: url */
 	const text = await response.text();
 	const obj = parseOBJ(text);
 	console.log(obj);
@@ -231,12 +254,23 @@ async function main() {
 		// shader we can pass it directly into `createBufferInfoFromArrays`
 		// from the article "less code more fun".
 
+		if (data.color) {
+			if (data.position.length === data.color.length) {
+			  // it's 3. The our helper library assumes 4 so we need
+			  // to tell it there are only 3.
+			  data.color = { numComponents: 3, data: data.color };
+			}
+		} else {
+		  // there are no vertex colors so just use constant white
+		  data.color = { value: [1, 1, 1, 1] };
+		}
+
 		// create a buffer for each array by calling
 		// gl.createBuffer, gl.bindBuffer, gl.bufferData
 		const bufferInfo = webglUtils.createBufferInfoFromArrays(gl, data);
 		return {
 			material: {
-				u_diffuse: [Math.random(), Math.random(), Math.random(), 1], // FIXME Genero colore random tanto per
+				u_diffuse: [1, 1, 1, 1],
 			},
 			bufferInfo,
 		};
