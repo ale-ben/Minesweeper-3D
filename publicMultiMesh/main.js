@@ -32,9 +32,11 @@ function parseOBJ(text) {
 	const materialLibs = [];
 	const geometries = [];
 	let geometry;
+	let groups = ['default']; // g keyword
 	let material = 'default';
 	let object = 'default'; // o keyword
-	let groups = ['default']; // g keyword
+
+	const noop = () => {}; // Used to ignore keywords
 
 	function newGeometry() {
 		// If there is an existing geometry and it's
@@ -90,8 +92,6 @@ function parseOBJ(text) {
 		});
 	}
 
-	const noop = () => { }; // Used to ignore keywords
-
 	// Keywords:
 	// v: vertex position
 	// vt: texture coordinate
@@ -128,24 +128,24 @@ function parseOBJ(text) {
 				addVertex(parts[tri + 2]);
 			}
 		},
-		usemtl(parts, unparsedArgs) {
-			material = unparsedArgs;
-			newGeometry();
-		},
+		s: noop, // Ignore shading TODO: Sicuro di poterlo ignorare?
 		mtllib(parts, unparsedArgs) {
 			// the spec says there can be multiple filenames here
 			// but many exist with spaces in a single filename
 			materialLibs.push(unparsedArgs);
 		},
+		usemtl(parts, unparsedArgs) {
+			material = unparsedArgs;
+			newGeometry();
+		},
+		g(parts) {
+			groups = parts;
+			newGeometry();
+		}, // TODO: In verità non me ne faccio niente quindi potrebbe essere una noop?
 		o(parts, unparsedArgs) {
 			object = unparsedArgs;
 			newGeometry();
 		},
-		s: noop, // Ignore shading TODO: Sicuro di poterlo ignorare?
-		g(parts) {
-			groups = parts;
-			newGeometry()
-		}, // TODO: In verità non me ne faccio niente quindi potrebbe essere una noop?
 	};
 
 	const keywordRE = /(\w*)(?: )*(.*)/; // Match a keyword at the start of a line followed by a list of arguments regexr.com/70n6l
@@ -182,7 +182,6 @@ function parseOBJ(text) {
 	}
 
 	return {
-
 		geometries,
 		materialLibs,
 	};
