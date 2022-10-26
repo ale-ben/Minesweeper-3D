@@ -292,7 +292,7 @@ export class MeshLoader {
 			fn.numElements = indices.length;
 			return fn;
 		}
-	
+
 		function makeUnindexedIterator(positions) {
 			let ndx = 0;
 			const fn = () => ndx++;
