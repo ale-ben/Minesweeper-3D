@@ -2,22 +2,35 @@ import { MeshLoader } from "./MeshLoader.js";
 
 export class ObjectRenderer {
 
-	constructor(name, filePath) {
+	constructor(name, filePath, mtlPath=null) {
 		this.name = name;
 		this.filePath = filePath;
+		this.mtlPath = mtlPath;
 	}
 
 	async loadMesh(gl) {
-		const response = await fetch(this.filePath);
-		const text = await response.text();
-		const obj = MeshLoader.parseOBJ(text);
+		// Load OBJ file
+		const objResponse = await fetch(this.filePath);
+		const objText = await objResponse.text();
+		const obj = MeshLoader.parseOBJ(objText);
+
+		// Load MTL file
 		const baseHref = new URL(this.filePath, window.location.href);
-		const matTexts = await Promise.all(obj.materialLibs.map(async filename => {
-			const matHref = new URL(filename, baseHref).href;
-			const response = await fetch(matHref);
-			return await response.text();
-		}));
-		const materials = MeshLoader.parseMTL(matTexts.join('\n'));
+		let materials;
+		if (!this.mtlPath) {
+			const matTexts = await Promise.all(obj.materialLibs.map(async filename => {
+				const matHref = new URL(filename, baseHref).href;
+				const response = await fetch(matHref);
+				return await response.text();
+			}));
+			materials = MeshLoader.parseMTL(matTexts.join('\n'));
+		} else {
+			console.log("Loading manually defined MTL file " + this.mtlPath);
+			const mtlResponse = await fetch(this.mtlPath);
+			const mtlText = await mtlResponse.text();
+			materials = MeshLoader.parseMTL(mtlText);
+		}
+
 
 		const textures = {
 			defaultWhite: MeshLoader.create1PixelTexture(gl, [255, 255, 255, 255]),

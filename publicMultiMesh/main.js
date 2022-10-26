@@ -97,8 +97,8 @@ async function main() {
 
 	// OBJ and MTL loader FIXME: Simplify and allow to specify mtl to load
 	const objs = [
-		new ObjectRenderer("Chair", './chair.obj'), 
-		//new ObjectRenderer("Boeing", './boeing.obj'),
+		new ObjectRenderer("Chair", './chair.obj', './chair.mtl'), 
+		new ObjectRenderer("Boeing", './boeing.obj', './boeing.mtl'),
 		new ObjectRenderer("Axes", './axes.obj'),];
 
 		console.log(objs[0]);
