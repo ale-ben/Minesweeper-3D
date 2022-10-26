@@ -96,11 +96,15 @@ async function main() {
 	const meshProgramInfo = webglUtils.createProgramInfo(gl, [vs, fs]);
 
 	// OBJ and MTL loader FIXME: Simplify and allow to specify mtl to load
-	//const objHref = './boeing.obj';
-	const objHref = './chair.obj';
-	const obj = new ObjectRenderer("ajeje", './chair.obj');
+	const objs = [
+		new ObjectRenderer("Chair", './chair.obj'), 
+		//new ObjectRenderer("Boeing", './boeing.obj'),
+		new ObjectRenderer("Axes", './axes.obj'),];
 
-	await obj.loadMesh(gl);
+		console.log(objs[0]);
+	for (const obj of objs) {
+		await obj.loadMesh(gl);
+	}
 
 	function render(time) {
 		time *= 0.001;  // convert to seconds
@@ -109,7 +113,7 @@ async function main() {
 		gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 		gl.enable(gl.DEPTH_TEST);
 
-		obj.render(gl, meshProgramInfo, time);
+		objs.forEach(obj => {obj.render(gl, meshProgramInfo, time)});
 
 		requestAnimationFrame(render);
 	}

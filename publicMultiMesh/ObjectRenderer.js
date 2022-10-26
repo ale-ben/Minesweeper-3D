@@ -17,34 +17,34 @@ export class ObjectRenderer {
 			const response = await fetch(matHref);
 			return await response.text();
 		}));
-		this.materials = MeshLoader.parseMTL(matTexts.join('\n'));
+		const materials = MeshLoader.parseMTL(matTexts.join('\n'));
 
-		this.textures = { //TODO: Move to meshloader
+		const textures = {
 			defaultWhite: MeshLoader.create1PixelTexture(gl, [255, 255, 255, 255]),
 			defaultNormal: MeshLoader.create1PixelTexture(gl, [127, 127, 255, 0]),
 		};
 
 		const defaultMaterial = {
 			diffuse: [1, 1, 1],
-			diffuseMap: this.textures.defaultWhite,
-			normalMap: this.textures.defaultNormal,
+			diffuseMap: textures.defaultWhite,
+			normalMap: textures.defaultNormal,
 			ambient: [0, 0, 0],
 			specular: [1, 1, 1],
-			specularMap: this.textures.defaultWhite,
+			specularMap: textures.defaultWhite,
 			shininess: 400,
 			opacity: 1,
 		};
 
 		// load texture for materials
-		for (const material of Object.values(this.materials)) {
+		for (const material of Object.values(materials)) {
 			Object.entries(material)
 				.filter(([key]) => key.endsWith('Map'))
 				.forEach(([key, filename]) => {
-					let texture = this.textures[filename];
+					let texture = textures[filename];
 					if (!texture) {
 						const textureHref = new URL(filename, baseHref).href;
 						texture = MeshLoader.createTexture(gl, textureHref);
-						this.textures[filename] = texture;
+						textures[filename] = texture;
 					}
 					material[key] = texture;
 				});
@@ -97,7 +97,7 @@ export class ObjectRenderer {
 			return {
 				material: {
 					...defaultMaterial,
-					...this.materials[material],
+					...materials[material],
 				},
 				bufferInfo,
 			};
