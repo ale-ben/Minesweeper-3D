@@ -1,4 +1,4 @@
-import { MeshLoader } from "./MeshLoader.js";
+import { MeshLoader } from "./WebGL_obj_loader/MeshLoader.js";
 
 export class ObjectRenderer {
 
