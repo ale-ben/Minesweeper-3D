@@ -3,12 +3,14 @@ import { MeshLoader } from "./MeshLoader.js";
 export class ObjectRenderer {
 
 	constructor(name, filePath, mtlPath=null) {
+		console.log("Generated object renderer for " + name + " from " + filePath);
 		this.name = name;
 		this.filePath = filePath;
 		this.mtlPath = mtlPath;
 	}
 
 	async loadMesh(gl) {
+		console.log("Loading mesh " + this.name + " from " + this.filePath + (this.mtlPath ? " with MTL file " + this.mtlPath : ""));
 		// Load OBJ file
 		const objResponse = await fetch(this.filePath);
 		const objText = await objResponse.text();
@@ -115,6 +117,8 @@ export class ObjectRenderer {
 				bufferInfo,
 			};
 		});
+
+		console.log("Loaded mesh for " + this.name + ". ", this);
 	}
 
 	render(gl, meshProgramInfo, time) {
