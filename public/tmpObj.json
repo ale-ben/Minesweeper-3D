@@ -1,0 +1,759 @@
+{
+	"name": "Chair",
+	"filePath": "./resources/models/chair.obj",
+	"center": {
+		"x": 0,
+		"y": 0,
+		"z": 0
+	},
+	"parts": [
+		{
+			"material": {
+				"diffuse": [
+					0.5,
+					0.5,
+					0.5
+				],
+				"diffuseMap": {},
+				"normalMap": {},
+				"ambient": [
+					1,
+					1,
+					1
+				],
+				"specular": [
+					0.5,
+					0.5,
+					0.5
+				],
+				"specularMap": {},
+				"shininess": 323.999994,
+				"opacity": 1,
+				"emissive": [
+					0,
+					0,
+					0
+				],
+				"opticalDensity": 1,
+				"illum": 2
+			},
+			"bufferInfo": {
+				"attribs": {
+					"a_position": {
+						"buffer": {},
+						"numComponents": 3,
+						"type": 5126,
+						"normalize": false
+					},
+					"a_texcoord": {
+						"buffer": {},
+						"numComponents": 2,
+						"type": 5126,
+						"normalize": false
+					},
+					"a_normal": {
+						"buffer": {},
+						"numComponents": 3,
+						"type": 5126,
+						"normalize": false
+					},
+					"a_color": {
+						"value": [
+							1,
+							1,
+							1,
+							1
+						]
+					},
+					"a_tangent": {
+						"buffer": {},
+						"numComponents": 3,
+						"type": 5126,
+						"normalize": false
+					}
+				},
+				"numElements": 624
+			}
+		},
+		{
+			"material": {
+				"diffuse": [
+					1,
+					0.26,
+					0.56
+				],
+				"diffuseMap": {},
+				"normalMap": {},
+				"ambient": [
+					1,
+					1,
+					1
+				],
+				"specular": [
+					0.5,
+					0.5,
+					0.5
+				],
+				"specularMap": {},
+				"shininess": 323.999994,
+				"opacity": 1,
+				"emissive": [
+					0,
+					0,
+					0
+				],
+				"opticalDensity": 1,
+				"illum": 2
+			},
+			"bufferInfo": {
+				"attribs": {
+					"a_position": {
+						"buffer": {},
+						"numComponents": 3,
+						"type": 5126,
+						"normalize": false
+					},
+					"a_texcoord": {
+						"buffer": {},
+						"numComponents": 2,
+						"type": 5126,
+						"normalize": false
+					},
+					"a_normal": {
+						"buffer": {},
+						"numComponents": 3,
+						"type": 5126,
+						"normalize": false
+					},
+					"a_color": {
+						"value": [
+							1,
+							1,
+							1,
+							1
+						]
+					},
+					"a_tangent": {
+						"buffer": {},
+						"numComponents": 3,
+						"type": 5126,
+						"normalize": false
+					}
+				},
+				"numElements": 189
+			}
+		},
+		{
+			"material": {
+				"diffuse": [
+					1,
+					1,
+					1
+				],
+				"diffuseMap": {},
+				"normalMap": {},
+				"ambient": [
+					1,
+					1,
+					1
+				],
+				"specular": [
+					0.5,
+					0.5,
+					0.5
+				],
+				"specularMap": {},
+				"shininess": 323.999994,
+				"opacity": 1,
+				"emissive": [
+					0,
+					0,
+					0
+				],
+				"opticalDensity": 1,
+				"illum": 2
+			},
+			"bufferInfo": {
+				"attribs": {
+					"a_position": {
+						"buffer": {},
+						"numComponents": 3,
+						"type": 5126,
+						"normalize": false
+					},
+					"a_texcoord": {
+						"buffer": {},
+						"numComponents": 2,
+						"type": 5126,
+						"normalize": false
+					},
+					"a_normal": {
+						"buffer": {},
+						"numComponents": 3,
+						"type": 5126,
+						"normalize": false
+					},
+					"a_color": {
+						"value": [
+							1,
+							1,
+							1,
+							1
+						]
+					},
+					"a_tangent": {
+						"buffer": {},
+						"numComponents": 3,
+						"type": 5126,
+						"normalize": false
+					}
+				},
+				"numElements": 216
+			}
+		},
+		{
+			"material": {
+				"diffuse": [
+					1,
+					0.26,
+					0.56
+				],
+				"diffuseMap": {},
+				"normalMap": {},
+				"ambient": [
+					1,
+					1,
+					1
+				],
+				"specular": [
+					0.5,
+					0.5,
+					0.5
+				],
+				"specularMap": {},
+				"shininess": 323.999994,
+				"opacity": 1,
+				"emissive": [
+					0,
+					0,
+					0
+				],
+				"opticalDensity": 1,
+				"illum": 2
+			},
+			"bufferInfo": {
+				"attribs": {
+					"a_position": {
+						"buffer": {},
+						"numComponents": 3,
+						"type": 5126,
+						"normalize": false
+					},
+					"a_texcoord": {
+						"buffer": {},
+						"numComponents": 2,
+						"type": 5126,
+						"normalize": false
+					},
+					"a_normal": {
+						"buffer": {},
+						"numComponents": 3,
+						"type": 5126,
+						"normalize": false
+					},
+					"a_color": {
+						"value": [
+							1,
+							1,
+							1,
+							1
+						]
+					},
+					"a_tangent": {
+						"buffer": {},
+						"numComponents": 3,
+						"type": 5126,
+						"normalize": false
+					}
+				},
+				"numElements": 120
+			}
+		},
+		{
+			"material": {
+				"diffuse": [
+					0.05,
+					0.46,
+					0.51
+				],
+				"diffuseMap": {},
+				"normalMap": {},
+				"ambient": [
+					1,
+					1,
+					1
+				],
+				"specular": [
+					0.5,
+					0.5,
+					0.5
+				],
+				"specularMap": {},
+				"shininess": 323.999994,
+				"opacity": 1,
+				"emissive": [
+					0,
+					0,
+					0
+				],
+				"opticalDensity": 1,
+				"illum": 2
+			},
+			"bufferInfo": {
+				"attribs": {
+					"a_position": {
+						"buffer": {},
+						"numComponents": 3,
+						"type": 5126,
+						"normalize": false
+					},
+					"a_texcoord": {
+						"buffer": {},
+						"numComponents": 2,
+						"type": 5126,
+						"normalize": false
+					},
+					"a_normal": {
+						"buffer": {},
+						"numComponents": 3,
+						"type": 5126,
+						"normalize": false
+					},
+					"a_color": {
+						"value": [
+							1,
+							1,
+							1,
+							1
+						]
+					},
+					"a_tangent": {
+						"buffer": {},
+						"numComponents": 3,
+						"type": 5126,
+						"normalize": false
+					}
+				},
+				"numElements": 36
+			}
+		},
+		{
+			"material": {
+				"diffuse": [
+					0.02,
+					0.02,
+					0.02
+				],
+				"diffuseMap": {},
+				"normalMap": {},
+				"ambient": [
+					1,
+					1,
+					1
+				],
+				"specular": [
+					0.5,
+					0.5,
+					0.5
+				],
+				"specularMap": {},
+				"shininess": 323.999994,
+				"opacity": 1,
+				"emissive": [
+					0,
+					0,
+					0
+				],
+				"opticalDensity": 1,
+				"illum": 2
+			},
+			"bufferInfo": {
+				"attribs": {
+					"a_position": {
+						"buffer": {},
+						"numComponents": 3,
+						"type": 5126,
+						"normalize": false
+					},
+					"a_texcoord": {
+						"buffer": {},
+						"numComponents": 2,
+						"type": 5126,
+						"normalize": false
+					},
+					"a_normal": {
+						"buffer": {},
+						"numComponents": 3,
+						"type": 5126,
+						"normalize": false
+					},
+					"a_color": {
+						"value": [
+							1,
+							1,
+							1,
+							1
+						]
+					},
+					"a_tangent": {
+						"buffer": {},
+						"numComponents": 3,
+						"type": 5126,
+						"normalize": false
+					}
+				},
+				"numElements": 3348
+			}
+		},
+		{
+			"material": {
+				"diffuse": [
+					1,
+					1,
+					1
+				],
+				"diffuseMap": {},
+				"normalMap": {},
+				"ambient": [
+					1,
+					1,
+					1
+				],
+				"specular": [
+					0.5,
+					0.5,
+					0.5
+				],
+				"specularMap": {},
+				"shininess": 323.999994,
+				"opacity": 1,
+				"emissive": [
+					0,
+					0,
+					0
+				],
+				"opticalDensity": 1,
+				"illum": 2
+			},
+			"bufferInfo": {
+				"attribs": {
+					"a_position": {
+						"buffer": {},
+						"numComponents": 3,
+						"type": 5126,
+						"normalize": false
+					},
+					"a_texcoord": {
+						"buffer": {},
+						"numComponents": 2,
+						"type": 5126,
+						"normalize": false
+					},
+					"a_normal": {
+						"buffer": {},
+						"numComponents": 3,
+						"type": 5126,
+						"normalize": false
+					},
+					"a_color": {
+						"value": [
+							1,
+							1,
+							1,
+							1
+						]
+					},
+					"a_tangent": {
+						"buffer": {},
+						"numComponents": 3,
+						"type": 5126,
+						"normalize": false
+					}
+				},
+				"numElements": 1656
+			}
+		},
+		{
+			"material": {
+				"diffuse": [
+					0.5,
+					0.5,
+					0.5
+				],
+				"diffuseMap": {},
+				"normalMap": {},
+				"ambient": [
+					1,
+					1,
+					1
+				],
+				"specular": [
+					0.5,
+					0.5,
+					0.5
+				],
+				"specularMap": {},
+				"shininess": 323.999994,
+				"opacity": 1,
+				"emissive": [
+					0,
+					0,
+					0
+				],
+				"opticalDensity": 1,
+				"illum": 2
+			},
+			"bufferInfo": {
+				"attribs": {
+					"a_position": {
+						"buffer": {},
+						"numComponents": 3,
+						"type": 5126,
+						"normalize": false
+					},
+					"a_texcoord": {
+						"buffer": {},
+						"numComponents": 2,
+						"type": 5126,
+						"normalize": false
+					},
+					"a_normal": {
+						"buffer": {},
+						"numComponents": 3,
+						"type": 5126,
+						"normalize": false
+					},
+					"a_color": {
+						"value": [
+							1,
+							1,
+							1,
+							1
+						]
+					},
+					"a_tangent": {
+						"buffer": {},
+						"numComponents": 3,
+						"type": 5126,
+						"normalize": false
+					}
+				},
+				"numElements": 1872
+			}
+		},
+		{
+			"material": {
+				"diffuse": [
+					0.5,
+					0.5,
+					0.5
+				],
+				"diffuseMap": {},
+				"normalMap": {},
+				"ambient": [
+					1,
+					1,
+					1
+				],
+				"specular": [
+					0.5,
+					0.5,
+					0.5
+				],
+				"specularMap": {},
+				"shininess": 323.999994,
+				"opacity": 1,
+				"emissive": [
+					0,
+					0,
+					0
+				],
+				"opticalDensity": 1,
+				"illum": 2
+			},
+			"bufferInfo": {
+				"attribs": {
+					"a_position": {
+						"buffer": {},
+						"numComponents": 3,
+						"type": 5126,
+						"normalize": false
+					},
+					"a_texcoord": {
+						"buffer": {},
+						"numComponents": 2,
+						"type": 5126,
+						"normalize": false
+					},
+					"a_normal": {
+						"buffer": {},
+						"numComponents": 3,
+						"type": 5126,
+						"normalize": false
+					},
+					"a_color": {
+						"value": [
+							1,
+							1,
+							1,
+							1
+						]
+					},
+					"a_tangent": {
+						"buffer": {},
+						"numComponents": 3,
+						"type": 5126,
+						"normalize": false
+					}
+				},
+				"numElements": 480
+			}
+		},
+		{
+			"material": {
+				"diffuse": [
+					0.02,
+					0.02,
+					0.02
+				],
+				"diffuseMap": {},
+				"normalMap": {},
+				"ambient": [
+					1,
+					1,
+					1
+				],
+				"specular": [
+					0.5,
+					0.5,
+					0.5
+				],
+				"specularMap": {},
+				"shininess": 323.999994,
+				"opacity": 1,
+				"emissive": [
+					0,
+					0,
+					0
+				],
+				"opticalDensity": 1,
+				"illum": 2
+			},
+			"bufferInfo": {
+				"attribs": {
+					"a_position": {
+						"buffer": {},
+						"numComponents": 3,
+						"type": 5126,
+						"normalize": false
+					},
+					"a_texcoord": {
+						"buffer": {},
+						"numComponents": 2,
+						"type": 5126,
+						"normalize": false
+					},
+					"a_normal": {
+						"buffer": {},
+						"numComponents": 3,
+						"type": 5126,
+						"normalize": false
+					},
+					"a_color": {
+						"value": [
+							1,
+							1,
+							1,
+							1
+						]
+					},
+					"a_tangent": {
+						"buffer": {},
+						"numComponents": 3,
+						"type": 5126,
+						"normalize": false
+					}
+				},
+				"numElements": 6924
+			}
+		},
+		{
+			"material": {
+				"diffuse": [
+					0.07,
+					0.58,
+					0.64
+				],
+				"diffuseMap": {},
+				"normalMap": {},
+				"ambient": [
+					1,
+					1,
+					1
+				],
+				"specular": [
+					0.5,
+					0.5,
+					0.5
+				],
+				"specularMap": {},
+				"shininess": 323.999994,
+				"opacity": 1,
+				"emissive": [
+					0,
+					0,
+					0
+				],
+				"opticalDensity": 1,
+				"illum": 2
+			},
+			"bufferInfo": {
+				"attribs": {
+					"a_position": {
+						"buffer": {},
+						"numComponents": 3,
+						"type": 5126,
+						"normalize": false
+					},
+					"a_texcoord": {
+						"buffer": {},
+						"numComponents": 2,
+						"type": 5126,
+						"normalize": false
+					},
+					"a_normal": {
+						"buffer": {},
+						"numComponents": 3,
+						"type": 5126,
+						"normalize": false
+					},
+					"a_color": {
+						"value": [
+							1,
+							1,
+							1,
+							1
+						]
+					},
+					"a_tangent": {
+						"buffer": {},
+						"numComponents": 3,
+						"type": 5126,
+						"normalize": false
+					}
+				},
+				"numElements": 10950
+			}
+		}
+	]
+}
