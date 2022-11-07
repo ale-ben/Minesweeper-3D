@@ -103,6 +103,7 @@ export class Environment {
 		this.objList = [];
 
 		this.camera = new Camera(this.gl.canvas);
+		Camera.setCameraControls(this.gl.canvas, this.camera);
 	}
 
 	async addObject(obj) {
@@ -124,6 +125,8 @@ export class Environment {
 		webglUtils.resizeCanvasToDisplaySize(this.gl.canvas);
 		this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
 		this.gl.enable(this.gl.DEPTH_TEST);
+		// Re evaluate camera position
+		this.camera.moveCamera();
 
 		this.objList.forEach(obj => { obj.render(this.gl, this.programInfo, this.camera.getSharedUniforms(), time) });
 	}
