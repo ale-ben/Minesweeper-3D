@@ -1,3 +1,6 @@
+
+import { Camera } from "./Camera.js";
+
 export class Environment {
 
 	static vs = `
@@ -98,6 +101,8 @@ export class Environment {
 		this.programInfo = webglUtils.createProgramInfo(this.gl, [Environment.vs, Environment.fs]);
 
 		this.objList = [];
+
+		this.camera = new Camera(this.gl.canvas);
 	}
 
 	async addObject(obj) {
@@ -120,6 +125,6 @@ export class Environment {
 		this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
 		this.gl.enable(this.gl.DEPTH_TEST);
 
-		this.objList.forEach(obj => { obj.render(this.gl, this.programInfo, time) });
+		this.objList.forEach(obj => { obj.render(this.gl, this.programInfo, this.camera.getSharedUniforms(), time) });
 	}
 }

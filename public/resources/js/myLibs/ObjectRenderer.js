@@ -122,40 +122,13 @@ export class ObjectRenderer {
 		console.log("Loaded mesh for " + this.name + ". ", this);
 	}
 
-	render(gl, meshProgramInfo, time) {
-		const cameraTarget = [0, 0, 0];
-		const cameraPosition = [15, 15, 15];
-		const zNear = 0.1;
-		const zFar = 50;
-
-		function degToRad(deg) {
-			return deg * Math.PI / 180;
-		}
-
-		const fieldOfViewRadians = degToRad(60);
-		const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
-		const projection = m4.perspective(fieldOfViewRadians, aspect, zNear, zFar);
-
-		const up = [0, 1, 0];
-		// Compute the camera's matrix using look at.
-		const camera = m4.lookAt(cameraPosition, cameraTarget, up);
-
-		// Make a view matrix from the camera matrix.
-		const view = m4.inverse(camera);
-
-		const sharedUniforms = {
-			u_lightDirection: m4.normalize([-1, 3, 5]),
-			u_view: view,
-			u_projection: projection,
-			u_viewWorldPosition: cameraPosition,
-		};
-
+	render(gl, meshProgramInfo, sharedUniforms, time) {
 		gl.useProgram(meshProgramInfo.program);
 
 		// calls gl.uniform
 		webglUtils.setUniforms(meshProgramInfo, sharedUniforms);
 
-		// compute the world matrix once since all parts
+		// compute the world matrix
 		// are at the same space.
 		let u_world = m4.identity();
 
