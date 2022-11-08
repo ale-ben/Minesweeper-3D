@@ -8,6 +8,18 @@ export class Camera {
 		this.far = 1000;
 		this.radius = 24;
 		this.aspect = canvas.clientWidth / canvas.clientHeight;
+		this.movement = {
+			delta: {
+				x: 0,
+				y: 0
+			},
+			angle: {
+				xy: degToRad(45),
+				xz: degToRad(45)
+			},
+			dragging: false,
+			updateCamera: false
+		};
 	}
 
 	setAspect(canvas) {
@@ -15,11 +27,11 @@ export class Camera {
 	}
 
 	setFov(fovDeg) {
-		this.fovRad = fovDeg * Math.PI / 180;
+		this.fovRad = degToRad(fovDeg);
 	}
 
 	getFov() {
-		return this.fovRad * 180 / Math.PI;
+		return radToDeg(this.fovRad);
 	}
 
 	getSharedUniforms = () => {
@@ -39,10 +51,11 @@ export class Camera {
 	};
 
 	moveCamera() {
-		if (this.movement) {
-			this.position[0] = this.radius * Math.cos(this.movement.angleY) * Math.cos(this.movement.angleX);
-			this.position[1] = this.radius * Math.cos(this.movement.angleY) * Math.sin(this.movement.angleX);
-			this.position[2] = this.radius * Math.sin(this.movement.angleY);
+		if (this.movement.updateCamera) {
+			this.position[0] = this.radius * Math.cos(this.movement.angle.xz) * Math.cos(this.movement.angle.xy);
+			//this.position[1] = this.radius * Math.cos(this.movement.angle.xz) * Math.sin(this.movement.angle.xy);
+			this.position[2] = this.radius * Math.sin(this.movement.angle.xz);
+			this.movement.updateCamera = false;
 		}
 	}
 
@@ -51,31 +64,42 @@ export class Camera {
 	
 		canvas.addEventListener("mousedown", function (event) {
 			console.log("mousedown");
-			camera.movement = {
-				oldX: event.pageX,
-				oldY: event.pageY,
-				angleX: 0,
-				angleY: 0,
+			camera.movement.old = {
+				x: event.pageX,
+				y: event.pageY
 			};
-			return false;
+			camera.movement.dragging = true;
 		});
 	
 		canvas.addEventListener("mouseup", function (event) {
 			console.log("mouseup");
 			camera.moveCamera();
-			camera.movement = null;
+			camera.movement.dragging = false;
 		});
 	
 		canvas.addEventListener("mousemove", function (event) {
-			if (!camera.movement) return false;
+			if (!camera.movement.dragging) return;
 			console.log("mousemove", camera.movement);
 			let movement = camera.movement;
-			let deltaY = (-(event.pageY - movement.oldY) * 2 * Math.PI) / canvas.height;
-			let deltaX = (-(event.pageX - movement.oldX) * 2 * Math.PI) / canvas.width;
-			movement.angleX += deltaX;
-			movement.angleY -= deltaY;
-			movement.oldX = event.pageX;
-			movement.oldY = event.pageY;
+
+			let deltaY = (-(event.pageY - movement.old.y) * 2 * Math.PI) / canvas.height;
+			let deltaX = (-(event.pageX - movement.old.x) * 2 * Math.PI) / canvas.width;
+
+			movement.angle.xy += deltaX;
+			movement.angle.xz += deltaY;
+			
+			movement.old.x = event.pageX;
+			movement.old.y = event.pageY;
+
+			movement.updateCamera = true;
 		});
 	}
+}
+
+function degToRad(d) {
+	return d * Math.PI / 180;
+}
+
+function radToDeg(r) {
+	return r * 180 / Math.PI;
 }
