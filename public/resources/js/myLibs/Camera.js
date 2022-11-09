@@ -82,14 +82,14 @@ export class Camera {
 			console.log("mousemove", camera.movement);
 			let movement = camera.movement;
 
-			let deltaY = (-(event.pageY - movement.old.y) * 2 * Math.PI) / canvas.height;
+			//let deltaY = (-(event.pageY - movement.old.y) * 2 * Math.PI) / canvas.height;
 			let deltaX = (-(event.pageX - movement.old.x) * 2 * Math.PI) / canvas.width;
 
 			movement.angle.xy += deltaX;
-			movement.angle.xz += deltaY;
+			//movement.angle.xz += deltaY;
 			
 			movement.old.x = event.pageX;
-			movement.old.y = event.pageY;
+			//movement.old.y = event.pageY;
 
 			movement.updateCamera = true;
 		});
