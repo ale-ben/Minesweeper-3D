@@ -1,11 +1,11 @@
 export class Camera {
 	constructor(canvas) {
 		this.target = [0, 0, 0];
-		this.position = [15, 15, 15];
-		this.up = [0, 1, 0];
-		this.fovRad = 45;
-		this.near = 0.1;
-		this.far = 1000;
+		this.position = [0, 0, 0];
+		this.up = [0, 0, 1];
+		this.fovRad = 70;
+		this.near = 1;
+		this.far = 2000;
 		this.radius = 24;
 		this.aspect = canvas.clientWidth / canvas.clientHeight;
 		this.movement = {
@@ -53,7 +53,7 @@ export class Camera {
 	moveCamera() {
 		if (this.movement.updateCamera) {
 			this.position[0] = this.radius * Math.cos(this.movement.angle.xz) * Math.cos(this.movement.angle.xy);
-			//this.position[1] = this.radius * Math.cos(this.movement.angle.xz) * Math.sin(this.movement.angle.xy);
+			this.position[1] = this.radius * Math.cos(this.movement.angle.xz) * Math.sin(this.movement.angle.xy);
 			this.position[2] = this.radius * Math.sin(this.movement.angle.xz);
 			this.movement.updateCamera = false;
 		}
@@ -79,17 +79,33 @@ export class Camera {
 	
 		canvas.addEventListener("mousemove", function (event) {
 			if (!camera.movement.dragging) return;
-			console.log("mousemove", camera.movement);
+
+			function minimizeAngle(angle) {
+				const piRad = degToRad(180);
+				if (angle > piRad) return (angle%piRad)-piRad;
+				if (angle < -piRad) return (angle%piRad)+piRad;
+				return angle;
+			}
+
+			function lockAngle(angle, maxDeg) {
+				const maxRad = degToRad(maxDeg);
+				if (angle > maxRad) return maxRad;
+				if (angle < -maxRad) return -maxRad;
+				return angle;
+			}
+
+			console.log("mousemove", radToDeg(camera.movement.angle.xy), radToDeg(camera.movement.angle.xz));
 			let movement = camera.movement;
 
-			//let deltaY = (-(event.pageY - movement.old.y) * 2 * Math.PI) / canvas.height;
+			let deltaY = (-(event.pageY - movement.old.y) * 2 * Math.PI) / canvas.height;
 			let deltaX = (-(event.pageX - movement.old.x) * 2 * Math.PI) / canvas.width;
 
-			movement.angle.xy += deltaX;
-			//movement.angle.xz += deltaY;
+			movement.angle.xy = minimizeAngle(movement.angle.xy + deltaX);
+
+			movement.angle.xz = lockAngle(movement.angle.xz + deltaY, 89);
 			
 			movement.old.x = event.pageX;
-			//movement.old.y = event.pageY;
+			movement.old.y = event.pageY;
 
 			movement.updateCamera = true;
 		});
