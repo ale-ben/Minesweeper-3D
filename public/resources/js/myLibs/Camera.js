@@ -18,7 +18,7 @@ export class Camera {
 				xz: degToRad(45)
 			},
 			dragging: false,
-			updateCamera: false
+			updateCamera: true
 		};
 	}
 
