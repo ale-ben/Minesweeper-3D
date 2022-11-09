@@ -9,8 +9,8 @@ export class Camera {
 		this.radius = 30;
 		this.aspect = canvas.clientWidth / canvas.clientHeight;
 		this.defaultAngle = {
-			xy: degToRad(45),
-			xz: degToRad(45)
+			xy: degToRad(10),
+			xz: degToRad(30)
 		},
 		this.movement = {
 			delta: {
