@@ -1,9 +1,9 @@
-import { MeshLoader } from "./MeshLoader.js";
+import { MeshLoader } from "./WebGL_obj_loader/MeshLoader.js";
 
 export class ObjectRenderer {
 
 	constructor(name, filePath, center = { x: 0, y: 0, z: 0 }, mtlPath = null) {
-		console.log("Generated object renderer for " + name + " from " + filePath);
+		if (debug == true) console.log("Generated object renderer for " + name + " from " + filePath);
 		this.name = name;
 		this.filePath = filePath;
 		this.center = center;
@@ -11,7 +11,7 @@ export class ObjectRenderer {
 	}
 
 	async loadMesh(gl) {
-		console.log("Loading mesh " + this.name + " from " + this.filePath + (this.mtlPath ? " with MTL file " + this.mtlPath : ""));
+		if (debug == true) console.log("Loading mesh " + this.name + " from " + this.filePath + (this.mtlPath ? " with MTL file " + this.mtlPath : ""));
 		// Load OBJ file
 		const objResponse = await fetch(this.filePath);
 		const objText = await objResponse.text();
@@ -28,7 +28,7 @@ export class ObjectRenderer {
 			}));
 			materials = MeshLoader.parseMTL(matTexts.join('\n'));
 		} else {
-			console.log("Loading manually defined MTL file " + this.mtlPath);
+			if (debug == true) console.log("Loading manually defined MTL file " + this.mtlPath);
 			const mtlResponse = await fetch(this.mtlPath);
 			const mtlText = await mtlResponse.text();
 			materials = MeshLoader.parseMTL(mtlText);
@@ -119,43 +119,16 @@ export class ObjectRenderer {
 			};
 		});
 
-		console.log("Loaded mesh for " + this.name + ". ", this);
+		if (debug == true) console.log("Loaded mesh for " + this.name + ". ", this);
 	}
 
-	render(gl, meshProgramInfo, time) {
-		const cameraTarget = [0, 0, 0];
-		const cameraPosition = [15, 15, 15];
-		const zNear = 0.1;
-		const zFar = 50;
-
-		function degToRad(deg) {
-			return deg * Math.PI / 180;
-		}
-
-		const fieldOfViewRadians = degToRad(60);
-		const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
-		const projection = m4.perspective(fieldOfViewRadians, aspect, zNear, zFar);
-
-		const up = [0, 1, 0];
-		// Compute the camera's matrix using look at.
-		const camera = m4.lookAt(cameraPosition, cameraTarget, up);
-
-		// Make a view matrix from the camera matrix.
-		const view = m4.inverse(camera);
-
-		const sharedUniforms = {
-			u_lightDirection: m4.normalize([-1, 3, 5]),
-			u_view: view,
-			u_projection: projection,
-			u_viewWorldPosition: cameraPosition,
-		};
-
+	render(gl, meshProgramInfo, sharedUniforms, time) {
 		gl.useProgram(meshProgramInfo.program);
 
 		// calls gl.uniform
 		webglUtils.setUniforms(meshProgramInfo, sharedUniforms);
 
-		// compute the world matrix once since all parts
+		// compute the world matrix
 		// are at the same space.
 		let u_world = m4.identity();
 
