@@ -3,7 +3,7 @@ import { MeshLoader } from "./WebGL_obj_loader/MeshLoader.js";
 export class ObjectRenderer {
 
 	constructor(name, filePath, center = { x: 0, y: 0, z: 0 }, mtlPath = null) {
-		if (env == "dev") console.log("Generated object renderer for " + name + " from " + filePath);
+		if (debug == true) console.log("Generated object renderer for " + name + " from " + filePath);
 		this.name = name;
 		this.filePath = filePath;
 		this.center = center;
@@ -11,7 +11,7 @@ export class ObjectRenderer {
 	}
 
 	async loadMesh(gl) {
-		if (env == "dev") console.log("Loading mesh " + this.name + " from " + this.filePath + (this.mtlPath ? " with MTL file " + this.mtlPath : ""));
+		if (debug == true) console.log("Loading mesh " + this.name + " from " + this.filePath + (this.mtlPath ? " with MTL file " + this.mtlPath : ""));
 		// Load OBJ file
 		const objResponse = await fetch(this.filePath);
 		const objText = await objResponse.text();
@@ -28,7 +28,7 @@ export class ObjectRenderer {
 			}));
 			materials = MeshLoader.parseMTL(matTexts.join('\n'));
 		} else {
-			if (env == "dev") console.log("Loading manually defined MTL file " + this.mtlPath);
+			if (debug == true) console.log("Loading manually defined MTL file " + this.mtlPath);
 			const mtlResponse = await fetch(this.mtlPath);
 			const mtlText = await mtlResponse.text();
 			materials = MeshLoader.parseMTL(mtlText);
@@ -119,7 +119,7 @@ export class ObjectRenderer {
 			};
 		});
 
-		if (env == "dev") console.log("Loaded mesh for " + this.name + ". ", this);
+		if (debug == true) console.log("Loaded mesh for " + this.name + ". ", this);
 	}
 
 	render(gl, meshProgramInfo, sharedUniforms, time) {

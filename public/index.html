@@ -11,6 +11,7 @@
 <body>
 	<h2 class="text-2xl font-semibold sm:text-6xl">Minesweeper 3D</h2>
 	<canvas id="canvas" width="1280" height="720"></canvas>
+	Debug Mode: <input id="debugToggle" type="checkbox" />
 </body>
 <!--
 This sample uses TWGL (Tiny WebGL) to hide the clutter.
@@ -18,13 +19,20 @@ Otherwise the sample would be full of code not related to the point of the sampl
 For more info see https://webgl2fundamentals.org/webgl/lessons/webgl-less-code-more-fun.html
 -->
 
-<script src="./resources/js/lessonLibs/m4.js"></script>
-<script src="./resources/js/lessonLibs/webgl-utils.js"></script>
-
 <script>
-const env = "dev";
+	var debug = false;
+	
+	document.getElementById('debugToggle').addEventListener('change', (event) => {
+		if (event.currentTarget.checked) {
+			debug = true;
+		} else {
+			debug = false;
+		}
+	})
 </script>
 
+<script src="./resources/js/lessonLibs/m4.js"></script>
+<script src="./resources/js/lessonLibs/webgl-utils.js"></script>
 <script type="module" src="./resources/js/main.js"></script>
 
 </html>
