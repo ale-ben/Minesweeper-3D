@@ -60,30 +60,29 @@ export class Camera {
 	}
 
 	static setCameraControls(canvas, camera) {
-		// Mouse camera controls.
-	
+
 		canvas.addEventListener("mousedown", function (event) {
-			console.log("mousedown");
+			if (env == "dev") console.log("mousedown");
 			camera.movement.old = {
 				x: event.pageX,
 				y: event.pageY
 			};
 			camera.movement.dragging = true;
 		});
-	
+
 		canvas.addEventListener("mouseup", function (event) {
-			console.log("mouseup");
+			if (env == "dev") console.log("mouseup");
 			camera.moveCamera();
 			camera.movement.dragging = false;
 		});
-	
+
 		canvas.addEventListener("mousemove", function (event) {
 			if (!camera.movement.dragging) return;
 
 			function minimizeAngle(angle) {
 				const piRad = degToRad(180);
-				if (angle > piRad) return (angle%piRad)-piRad;
-				if (angle < -piRad) return (angle%piRad)+piRad;
+				if (angle > piRad) return (angle % piRad) - piRad;
+				if (angle < -piRad) return (angle % piRad) + piRad;
 				return angle;
 			}
 
@@ -94,7 +93,7 @@ export class Camera {
 				return angle;
 			}
 
-			console.log("mousemove", radToDeg(camera.movement.angle.xy), radToDeg(camera.movement.angle.xz));
+			if (env == "dev") console.log("mousemove", camera.movement);
 			let movement = camera.movement;
 
 			let deltaY = (-(event.pageY - movement.old.y) * 2 * Math.PI) / canvas.height;
@@ -103,7 +102,7 @@ export class Camera {
 			movement.angle.xy = minimizeAngle(movement.angle.xy + deltaX);
 
 			movement.angle.xz = lockAngle(movement.angle.xz + deltaY, 89);
-			
+
 			movement.old.x = event.pageX;
 			movement.old.y = event.pageY;
 
