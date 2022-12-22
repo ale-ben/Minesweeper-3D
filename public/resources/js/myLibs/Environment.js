@@ -1,5 +1,7 @@
 
 import { Camera } from "./Camera.js";
+import { RenderEngine } from "./WebGL_helper_functions/RenderEngine.js";
+import { MeshLoader } from "./WebGL_helper_functions/MeshLoader.js";
 
 export class Environment {
 
@@ -104,11 +106,13 @@ export class Environment {
 
 		this.camera = new Camera(this.gl.canvas);
 		Camera.setCameraControls(this.gl.canvas, this.camera);
+
+		this.renderEngine = new RenderEngine(this.gl, this.objList);
 	}
 
 	async addObject(obj) {
 		this.objList.push(obj)
-		await obj.loadMesh(this.gl);
+		await MeshLoader.LoadOBJAndMesh(this.gl, obj);
 	};
 
 	removeObject(objName) {
@@ -117,17 +121,16 @@ export class Environment {
 
 	async reloadMeshes() {
 		for (let obj of this.objList) {
-			await obj.loadMesh(this.gl);
+			await MeshLoader.LoadOBJAndMesh(this.gl, obj);
 		}
 	}
 
-	render(time) {
-		webglUtils.resizeCanvasToDisplaySize(this.gl.canvas);
-		this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
-		this.gl.enable(this.gl.DEPTH_TEST);
+	renderEnvironment(time) {
 		// Re evaluate camera position
 		this.camera.moveCamera();
 
-		this.objList.forEach(obj => { obj.render(this.gl, this.programInfo, this.camera.getSharedUniforms(), time) });
+		this.objList.forEach(obj => obj.updateObject(time));
+		
+		this.renderEngine.render(this.camera.getSharedUniforms(), this.programInfo, this.objList);
 	}
 }
