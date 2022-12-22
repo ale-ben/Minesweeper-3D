@@ -1,6 +1,7 @@
 
 import { Camera } from "./Camera.js";
 import { RenderEngine } from "./WebGL_helper_functions/RenderEngine.js";
+import { MeshLoader } from "./WebGL_helper_functions/MeshLoader.js";
 
 export class Environment {
 
@@ -111,7 +112,7 @@ export class Environment {
 
 	async addObject(obj) {
 		this.objList.push(obj)
-		await obj.loadMesh(this.gl);
+		await MeshLoader.LoadOBJAndMesh(this.gl, obj);
 	};
 
 	removeObject(objName) {
@@ -120,7 +121,7 @@ export class Environment {
 
 	async reloadMeshes() {
 		for (let obj of this.objList) {
-			await obj.loadMesh(this.gl);
+			await MeshLoader.LoadOBJAndMesh(this.gl, obj);
 		}
 	}
 
