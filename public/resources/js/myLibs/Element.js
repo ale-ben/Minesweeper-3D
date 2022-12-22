@@ -1,12 +1,13 @@
 import { MeshLoader } from "./WebGL_obj_loader/MeshLoader.js";
 
-export class ObjectRenderer {
+export class Element {
 
-	constructor(name, filePath, center = { x: 0, y: 0, z: 0 }, mtlPath = null) {
+	constructor(name, filePath, center = { x: 0, y: 0, z: 0 }, rotation = { x: 0, y: 0, z: 0 }, mtlPath = null) {
 		if (debug == true) console.log("Generated object renderer for " + name + " from " + filePath);
 		this.name = name;
 		this.filePath = filePath;
 		this.center = center;
+		this.rotation = rotation;
 		if (mtlPath) this.mtlPath = mtlPath;
 	}
 
@@ -122,45 +123,7 @@ export class ObjectRenderer {
 		if (debug == true) console.log("Loaded mesh for " + this.name + ". ", this);
 	}
 
-	render(gl, meshProgramInfo, sharedUniforms, time) {
-		gl.useProgram(meshProgramInfo.program);
-
-		// calls gl.uniform
-		webglUtils.setUniforms(meshProgramInfo, sharedUniforms);
-
-		// compute the world matrix
-		// are at the same space.
-		let u_world = m4.identity();
-
-		// Handle object translation
-		if (this.center.x != 0 || this.center.y != 0 || this.center.z != 0) {
-			u_world = m4.translate(u_world, this.center.x, this.center.y, this.center.z);
-		}
-
-		// Handle object rotation
-		//u_world = m4.xRotate(u_world, time);
-		//u_world = m4.yRotate(u_world, time);
-		//u_world = m4.zRotate(u_world, time);
-		/*
-		if (this.name === "Cube") {
-			if (this.center.y != 0) u_world = m4.yRotate(u_world, time);
-			if (this.center.z != 0) u_world = m4.zRotate(u_world, time);
-		}
-		*/
-
-		for (const { bufferInfo, material } of this.parts) {
-
-			// calls gl.bindBuffer, gl.enableVertexAttribArray, gl.vertexAttribPointer
-			webglUtils.setBuffersAndAttributes(gl, meshProgramInfo, bufferInfo);
-
-			// calls gl.uniform
-			webglUtils.setUniforms(meshProgramInfo, {
-				u_world,
-			}, material);
-
-			// calls gl.drawArrays or gl.drawElements
-			webglUtils.drawBufferInfo(gl, bufferInfo);
-		}
-
+	updateObject(time) {
+		
 	}
 }
