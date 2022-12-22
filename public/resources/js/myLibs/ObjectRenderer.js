@@ -132,15 +132,21 @@ export class ObjectRenderer {
 		// are at the same space.
 		let u_world = m4.identity();
 
-		// Handle object rotation
-		//u_world = m4.xRotate(u_world, time);
-		//u_world = m4.yRotate(u_world, time);
-		//u_world = m4.zRotate(u_world, time);
-
 		// Handle object translation
 		if (this.center.x != 0 || this.center.y != 0 || this.center.z != 0) {
 			u_world = m4.translate(u_world, this.center.x, this.center.y, this.center.z);
 		}
+
+		// Handle object rotation
+		//u_world = m4.xRotate(u_world, time);
+		//u_world = m4.yRotate(u_world, time);
+		//u_world = m4.zRotate(u_world, time);
+		/*
+		if (this.name === "Cube") {
+			if (this.center.y != 0) u_world = m4.yRotate(u_world, time);
+			if (this.center.z != 0) u_world = m4.zRotate(u_world, time);
+		}
+		*/
 
 		for (const { bufferInfo, material } of this.parts) {
 
