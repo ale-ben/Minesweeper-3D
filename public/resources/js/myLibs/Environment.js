@@ -1,6 +1,6 @@
 
 import { Camera } from "./Camera.js";
-import { RenderEngine } from "./WebGL_obj_loader/RenderEngine.js";
+import { RenderEngine } from "./WebGL_helper_functions/RenderEngine.js";
 
 export class Environment {
 
