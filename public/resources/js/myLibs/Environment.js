@@ -1,11 +1,15 @@
-
-import { Camera } from "./Camera.js";
-import { RenderEngine } from "./WebGL_helper_functions/RenderEngine.js";
-import { MeshLoader } from "./WebGL_helper_functions/MeshLoader.js";
+import {
+    Camera
+} from "./Camera.js";
+import {
+    RenderEngine
+} from "./WebGL_helper_functions/RenderEngine.js";
+import {
+    MeshLoader
+} from "./WebGL_helper_functions/MeshLoader.js";
 
 export class Environment {
-
-	static vs = `
+    static vs = `
 	attribute vec4 a_position;
 	attribute vec3 a_normal;
 	attribute vec3 a_tangent;
@@ -36,7 +40,7 @@ export class Environment {
 	}
 	`;
 
-	static fs = `
+    static fs = `
 	precision highp float;
   
 	varying vec3 v_normal;
@@ -87,50 +91,50 @@ export class Environment {
 	}
 	`;
 
-	constructor(canvasName) {
-		const canvas = document.querySelector(canvasName);
-		if (!canvas) {
-			console.error("Unable to find canvas " + canvasName);
-			return;
-		}
-		this.gl = canvas.getContext("webgl2");
-		if (!this.gl) {
-			console.error("Unable to initialize WebGL2 on canvas " + canvasName);
-			return;
-		}
+    constructor(canvasName) {
+        const canvas = document.querySelector(canvasName);
+        if (!canvas) {
+            console.error("Unable to find canvas " + canvasName);
+            return;
+        }
+        this.gl = canvas.getContext("webgl2");
+        if (!this.gl) {
+            console.error("Unable to initialize WebGL2 on canvas " + canvasName);
+            return;
+        }
 
-		// compiles and links the shaders, looks up attribute and uniform locations
-		this.programInfo = webglUtils.createProgramInfo(this.gl, [Environment.vs, Environment.fs]);
+        // compiles and links the shaders, looks up attribute and uniform locations
+        this.programInfo = webglUtils.createProgramInfo(this.gl, [Environment.vs, Environment.fs]);
 
-		this.objList = [];
+        this.objList = [];
 
-		this.camera = new Camera(this.gl.canvas);
-		Camera.setCameraControls(this.gl.canvas, this.camera);
+        this.camera = new Camera(this.gl.canvas);
+        Camera.setCameraControls(this.gl.canvas, this.camera);
 
-		this.renderEngine = new RenderEngine(this.gl, this.objList);
-	}
+        this.renderEngine = new RenderEngine(this.gl, this.objList);
+    }
 
-	async addObject(obj) {
-		this.objList.push(obj)
-		await MeshLoader.LoadOBJAndMesh(this.gl, obj);
-	};
+    async addObject(obj) {
+        this.objList.push(obj);
+        await MeshLoader.LoadOBJAndMesh(this.gl, obj);
+    }
 
-	removeObject(objName) {
-		this.objList = this.objList.filter(obj => obj.name != objName);
-	}
+    removeObject(objName) {
+        this.objList = this.objList.filter(obj => obj.name != objName);
+    }
 
-	async reloadMeshes() {
-		for (let obj of this.objList) {
-			await MeshLoader.LoadOBJAndMesh(this.gl, obj);
-		}
-	}
+    async reloadMeshes() {
+        for (let obj of this.objList) {
+            await MeshLoader.LoadOBJAndMesh(this.gl, obj);
+        }
+    }
 
-	renderEnvironment(time) {
-		// Re evaluate camera position
-		this.camera.moveCamera();
+    renderEnvironment(time) {
+        // Re evaluate camera position
+        this.camera.moveCamera();
 
-		this.objList.forEach(obj => obj.updateObject(time));
-		
-		this.renderEngine.render(this.camera.getSharedUniforms(), this.programInfo, this.objList);
-	}
+        this.objList.forEach(obj => obj.updateObject(time));
+
+        this.renderEngine.render(this.camera.getSharedUniforms(), this.programInfo, this.objList);
+    }
 }
