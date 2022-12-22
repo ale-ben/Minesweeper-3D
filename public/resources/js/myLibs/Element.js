@@ -1,7 +1,3 @@
-import {
-    MeshLoader
-} from "./WebGL_helper_functions/MeshLoader.js";
-
 export class Element {
     constructor(name, filePath, center = {
         x: 0,
