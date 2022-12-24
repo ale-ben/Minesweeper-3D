@@ -13,28 +13,26 @@
     </div>
     <canvas id="canvas" width="1024" height="768"></canvas>
 
-    <script src="resources/webgl-utils.js"></script>
-    <script src="resources/m4.js"></script>
-    <script src="resources/primitives.js"></script>
     <!-- vertex shader -->
-    <script id="vertex-shader-3d" type="x-shader/x-vertex">
+    <script id="3d-vertex-shader" type="x-shader/x-vertex">
         attribute vec4 a_position;
             attribute vec4 a_color;
 
-            uniform mat4 u_matrix;
+            uniform mat4 u_viewProjection;
+            uniform mat4 u_world;
 
             varying vec4 v_color;
 
             void main() {
-                // Multiply the position by the matrix.
-                gl_Position = u_matrix * a_position;
+                // Multiply the position by the matrices
+                gl_Position = u_viewProjection * u_world * a_position;
 
                 // Pass the color to the fragment shader.
                 v_color = a_color;
             }
         </script>
     <!-- fragment shader -->
-    <script id="fragment-shader-3d" type="x-shader/x-fragment">
+    <script id="3d-fragment-shader" type="x-shader/x-fragment">
         precision mediump float;
 
             // Passed in from the vertex shader.
@@ -46,17 +44,17 @@
                 gl_FragColor = v_color * u_colorMult;
             }
         </script>
-    <script type="module" src="./main.js"></script>
 
     <!-- vertex shader -->
     <script id="pick-vertex-shader" type="x-shader/x-vertex">
         attribute vec4 a_position;
 
-            uniform mat4 u_matrix;
+            uniform mat4 u_viewProjection;
+            uniform mat4 u_world;
 
             void main() {
-                // Multiply the position by the matrix.
-                gl_Position = u_matrix * a_position;
+                // Multiply the position by the matrices
+                gl_Position = u_viewProjection * u_world * a_position;
             }
         </script>
     <!-- fragment shader -->
@@ -68,7 +66,12 @@
             void main() {
                 gl_FragColor = u_id;
             }
-	</script>
+        </script>
+
+    <script src="resources/webgl-utils.js"></script>
+    <script src="resources/m4.js"></script>
+    <script src="resources/primitives.js"></script>
+    <script type="module" src="./main.js"></script>
 
 </body>
 <!-- for most samples webgl-utils only provides shader compiling/linking and canvas resizing because why clutter the examples with code that's the same in every sample. See https://webglfundamentals.org/webgl/lessons/webgl-boilerplate.html and https://webglfundamentals.org/webgl/lessons/webgl-resizing-the-canvas.html for webgl-utils, m3, m4, and webgl-lessons-ui. -->
