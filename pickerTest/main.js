@@ -27,8 +27,6 @@ function main() {
     }
 
     const fieldOfViewRadians = degToRad(60);
-    const near = 1;
-    const far = 2000;
 
     const objectsToDraw = [];
     const objects = [];
@@ -135,12 +133,10 @@ function main() {
     // mouseX and mouseY are in CSS display space relative to canvas
     let mouseX = -1;
     let mouseY = -1;
-    let frameCount = 0;
 
     // Draw the scene.
     function drawScene(time) {
         time *= 0.0005;
-        ++frameCount;
 
         if (webglUtils.resizeCanvasToDisplaySize(gl.canvas)) {
             // the canvas was resized, make the framebuffer attachments match
