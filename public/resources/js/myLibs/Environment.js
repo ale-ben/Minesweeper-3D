@@ -91,6 +91,27 @@ export class Environment {
 	}
 	`;
 
+	// Picker shaders
+	static pvs = `
+	attribute vec4 a_position;
+
+	uniform mat4 u_viewProjection;
+	uniform mat4 u_world;
+
+	void main() {
+		// Multiply the position by the matrices
+		gl_Position = u_viewProjection * u_world * a_position;
+	}
+	`;
+    static pfs = `
+	precision mediump float;
+	uniform vec4 u_id;
+
+	void main() {
+		gl_FragColor = u_id;
+	}
+	`;
+
     constructor(canvasName) {
         const canvas = document.querySelector(canvasName);
         if (!canvas) {
@@ -105,6 +126,7 @@ export class Environment {
 
         // compiles and links the shaders, looks up attribute and uniform locations
         this.programInfo = webglUtils.createProgramInfo(this.gl, [Environment.vs, Environment.fs]);
+		this.pickerProgramInfo = webglUtils.createProgramInfo(this.gl, [Environment.pvs, Environment.pfs]);
 
         this.objList = [];
 
@@ -135,6 +157,6 @@ export class Environment {
 
         this.objList.forEach(obj => obj.updateObject(time));
 
-        this.renderEngine.render(this.camera.getSharedUniforms(), this.programInfo, this.objList);
+        this.renderEngine.render(this.camera.getSharedUniforms(), this.programInfo, this.objList, this.pickerProgramInfo);
     }
 }
