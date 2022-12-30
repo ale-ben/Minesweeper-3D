@@ -137,12 +137,10 @@ function main() {
     let mouseY = -1;
     let oldPickNdx = -1;
     let oldPickColor;
-    let frameCount = 0;
 
     // Draw the scene.
     function drawScene(time) {
         time *= 0.0005;
-        ++frameCount;
 
         webglUtils.resizeCanvasToDisplaySize(gl.canvas);
 
@@ -212,22 +210,9 @@ function main() {
             data); // typed array to hold result
         const id = data[0] + (data[1] << 8) + (data[2] << 16) + (data[3] << 24);
 
-        // restore the object's color
-        if (oldPickNdx >= 0) {
-            const object = objects[oldPickNdx];
-            object.uniforms.u_colorMult = oldPickColor;
-            oldPickNdx = -1;
-        }
-
         // highlight object under mouse
         if (id > 0) {
-            const pickNdx = id - 1;
-            oldPickNdx = pickNdx;
-            const object = objects[pickNdx];
-            oldPickColor = object.uniforms.u_colorMult;
-            object.uniforms.u_colorMult = frameCount & 0x8 ?
-                [1, 0, 0, 1] :
-                [1, 1, 0, 1];
+			console.log("Hovering object with id: " + id);
         }
 
         // ------ Draw the objects to the canvas
