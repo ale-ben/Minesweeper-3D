@@ -93,7 +93,6 @@ function main() {
         gl.bindRenderbuffer(gl.RENDERBUFFER, depthBuffer);
         gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, width, height);
     }
-    setFramebufferAttachmentSizes(1, 1);
 
     // Create and bind the framebuffer
     const fb = gl.createFramebuffer();
@@ -107,8 +106,8 @@ function main() {
     // make a depth buffer and the same size as the targetTexture
     gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, depthBuffer);
 
-    function computeMatrix(translation, xRotation, yRotation) {
-        let matrix = m4.translation(translation[0], translation[1], translation[2]);
+    function computeMatrix(viewProjectionMatrix, translation, xRotation, yRotation) {
+        let matrix = m4.translate(viewProjectionMatrix, translation[0], translation[1], translation[2]);
         matrix = m4.xRotate(matrix, xRotation);
         return m4.yRotate(matrix, yRotation);
     }
@@ -133,16 +132,24 @@ function main() {
         });
     }
 
+    // mouseX and mouseY are in CSS display space relative to canvas
     let mouseX = -1;
     let mouseY = -1;
-    let oldPickNdx = -1;
-    let oldPickColor;
+    let frameCount = 0;
 
     // Draw the scene.
     function drawScene(time) {
         time *= 0.0005;
+        ++frameCount;
 
-        webglUtils.resizeCanvasToDisplaySize(gl.canvas);
+        if (webglUtils.resizeCanvasToDisplaySize(gl.canvas)) {
+            // the canvas was resized, make the framebuffer attachments match
+            setFramebufferAttachmentSizes(gl.canvas.width, gl.canvas.height);
+        }
+
+        // Compute the projection matrix
+        const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
+        const projectionMatrix = m4.perspective(fieldOfViewRadians, aspect, 1, 2000);
 
         // Compute the camera's matrix using look at.
         const cameraPosition = [0, 0, 100];
@@ -153,43 +160,17 @@ function main() {
         // Make a view matrix from the camera matrix.
         const viewMatrix = m4.inverse(cameraMatrix);
 
+        const viewProjectionMatrix = m4.multiply(projectionMatrix, viewMatrix);
+
         // Compute the matrices for each object.
         objects.forEach(function(object) {
-            object.uniforms.u_world = computeMatrix(object.translation, object.xRotationSpeed * time, object.yRotationSpeed * time);
+            object.uniforms.u_matrix = computeMatrix(viewProjectionMatrix, object.translation, object.xRotationSpeed * time, object.yRotationSpeed * time);
         });
 
         // ------ Draw the objects to the texture --------
 
-        // Figure out what pixel is under the mouse and setup
-        // a frustum to render just that pixel
-
-        {
-            // compute the rectangle the near plane of our frustum covers
-            const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
-            const top = Math.tan(fieldOfViewRadians * 0.5) * near;
-            const bottom = -top;
-            const left = aspect * bottom;
-            const right = aspect * top;
-            const width = Math.abs(right - left);
-            const height = Math.abs(top - bottom);
-
-            // compute the portion of the near plane covers the 1 pixel
-            // under the mouse.
-            const pixelX = (mouseX * gl.canvas.width) / gl.canvas.clientWidth;
-            const pixelY = gl.canvas.height - (mouseY * gl.canvas.height) / gl.canvas.clientHeight - 1;
-
-            const subLeft = left + (pixelX * width) / gl.canvas.width;
-            const subBottom = bottom + (pixelY * height) / gl.canvas.height;
-            const subWidth = width / gl.canvas.width;
-            const subHeight = height / gl.canvas.height;
-
-            // make a frustum for that 1 pixel
-            const projectionMatrix = m4.frustum(subLeft, subLeft + subWidth, subBottom, subBottom + subHeight, near, far);
-            m4.multiply(projectionMatrix, viewMatrix, viewProjectionMatrix);
-        }
-
         gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
-        gl.viewport(0, 0, 1, 1);
+        gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 
         gl.enable(gl.CULL_FACE);
         gl.enable(gl.DEPTH_TEST);
@@ -199,31 +180,24 @@ function main() {
 
         drawObjects(objectsToDraw, pickingProgramInfo);
 
-        // read the 1 pixel
+        // ------ Figure out what pixel is under the mouse and read it
+
+        const pixelX = (mouseX * gl.canvas.width) / gl.canvas.clientWidth;
+        const pixelY = gl.canvas.height - (mouseY * gl.canvas.height) / gl.canvas.clientHeight - 1;
         const data = new Uint8Array(4);
-        gl.readPixels(0, // x
-            0, // y
+        gl.readPixels(pixelX, // x
+            pixelY, // y
             1, // width
             1, // height
             gl.RGBA, // format
             gl.UNSIGNED_BYTE, // type
             data); // typed array to hold result
         const id = data[0] + (data[1] << 8) + (data[2] << 16) + (data[3] << 24);
-
-        // highlight object under mouse
-        if (id > 0) {
-			console.log("Hovering object with id: " + id);
-        }
+		if (id !== 0) {
+			console.log("id", id);
+		}
 
         // ------ Draw the objects to the canvas
-
-        {
-            // Compute the projection matrix
-            const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
-            const projectionMatrix = m4.perspective(fieldOfViewRadians, aspect, near, far);
-
-            m4.multiply(projectionMatrix, viewMatrix, viewProjectionMatrix);
-        }
 
         gl.bindFramebuffer(gl.FRAMEBUFFER, null);
         gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
@@ -233,7 +207,7 @@ function main() {
         requestAnimationFrame(drawScene);
     }
 
-    gl.canvas.addEventListener("mousemove", e => {
+    gl.canvas.addEventListener("mouseup", e => {
         const rect = canvas.getBoundingClientRect();
         mouseX = e.clientX - rect.left;
         mouseY = e.clientY - rect.top;
