@@ -1,29 +1,29 @@
 export class Element {
     static next_id = 1;
-    constructor(name, filePath, center = null, rotation = null, detectClick = false, mtlPath = null) {
+    constructor(name, filePath, options = {}) {
         if (debug && debug == true)
             console.log("Generated object renderer for " + name + " from " + filePath);
         this.name = name;
         this.filePath = filePath;
 
-		if (center)
-			this.center = center;
+		if (options.center)
+			this.center = options.center;
 		else 
 			this.center = {x: 0, y: 0, z: 0};
 
-		if (rotation)
-		    this.rotation = rotation;
+		if (options.rotation)
+		    this.rotation = options.rotation;
 		else
 			this.rotation = {x: 0, y: 0, z: 0};
 
-		if (mtlPath)
-            this.mtlPath = mtlPath;
+		if (options.mtlPath)
+            this.mtlPath = options.mtlPath;
 
 		this.uniforms = {
 			u_world: m4.identity(),
 		};
 
-		if (detectClick) {
+		if (options.detectClick) {
             this.setID(Element.next_id++);
         } else {
             this.setID(0);

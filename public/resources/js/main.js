@@ -8,14 +8,19 @@ import {
 async function main() {
     const env = new Environment("#canvas");
 
-
     await env.addObject(new Element("Axes", "./resources/models/axes.obj"));
 
-    await env.addObject(new Element("Cube", "./resources/models/cube.obj", null, null, true, "./resources/models/cubeTextured.mtl"));
     await env.addObject(new Element("Cube", "./resources/models/cube.obj", {
-        x: 0,
-        y: 0,
-        z: 2
+        detectClick: true,
+        mtlPath: "./resources/models/cubeTextured.mtl"
+    }));
+    await env.addObject(new Element("Cube", "./resources/models/cube.obj", {
+        center: {
+            x: 0,
+            y: 0,
+            z: 2
+        }
+    }));
     }));
 
     function render(time) {
