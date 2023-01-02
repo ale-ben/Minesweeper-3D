@@ -5,7 +5,7 @@ export class Element {
             console.log("Generated object renderer for " + name + " from " + filePath);
         this.name = name;
         this.filePath = filePath;
-		
+
 		if (center)
 			this.center = center;
 		else 
@@ -19,23 +19,26 @@ export class Element {
 		if (mtlPath)
             this.mtlPath = mtlPath;
 
-        if (detectClick) {
-            this.id = [
-                ((Element.next_id >> 0) & 0xff) / 0xff,
-                ((Element.next_id >> 8) & 0xff) / 0xff,
-                ((Element.next_id >> 16) & 0xff) / 0xff,
-                ((Element.next_id >> 24) & 0xff) / 0xff
-            ];
-			Element.next_id++;
-        } else {
-            this.id = [0, 0, 0, 0];
-        }
-
 		this.uniforms = {
 			u_world: m4.identity(),
-			u_id: this.id
 		};
+
+		if (detectClick) {
+            this.setID(Element.next_id++);
+        } else {
+            this.setID(0);
+        }
     }
+
+	setID(id) {
+		this.id = id;
+		this.uniforms.u_id = [
+			((this.id >> 0) & 0xff) / 0xff,
+			((this.id >> 8) & 0xff) / 0xff,
+			((this.id >> 16) & 0xff) / 0xff,
+			((this.id >> 24) & 0xff) / 0xff
+		];
+	}
 
     updateObject(time) {}
 }
