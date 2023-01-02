@@ -30,7 +30,7 @@ export class Environment {
         this.camera = new Camera(this.gl.canvas);
         Camera.setCameraControls(this.gl.canvas, this.camera);
 
-        this.renderEngine = new RenderEngine(this.gl, true);
+        this.renderEngine = new RenderEngine(this.gl, {enablePicker: true, enableTransparency: true});
 
 		this.gl.canvas.addEventListener("mouseup", e => {
 			const rect = canvas.getBoundingClientRect();
