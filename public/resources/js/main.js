@@ -9,12 +9,12 @@ import {
 } from "./myLibs/gameLogic/CubeRepresentation.js";
 
 async function main() {
-	const cube = new CubeRepresentation(3);
+	const cube = new CubeRepresentation(5);
 	cube.addBombs(2);
 
     const env = new Environment("#canvas");
 
-    //await env.addObject(new Element("Axes", "./resources/models/axes.obj"));
+    await env.addObject(new Element("Axes", "./resources/models/axes.obj"));
 
 	
 	for (let i = 0; i < cube.size; i++) {
@@ -56,7 +56,7 @@ function addCube(x, y, z, size, value) {
             z: z-offset
         },
 		detectClick: true,
-		mtlPath: ("./resources/models/cube"+value+".mtl")
+		value: value
     });
 }
 
