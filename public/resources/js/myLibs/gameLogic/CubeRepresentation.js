@@ -3,22 +3,36 @@ export class CubeRepresentation {
         this.cube = [];
         this.size = size;
 
-        this.cube = new Array(size*size).fill(0);
+        this.cube = new Array(size * size * size).fill(0);
     }
 
-    setCellValue(x, y, value) {
-        if (this.getCellValue(x, y) != 9)
-            this.cube[x * this.size + y] = value;
+    setCellValue(x, y, z, value) {
+        if (this.getCellValue(x, y, z) != 9)
+            this.cube[x * this.size * this.size + y * this.size + z] = value;
     }
 
-    getCellValue(x, y) {
-        return this.cube[x * this.size + y];
+    getCellValue(x, y, z) {
+        return this.cube[x * this.size * this.size + y * this.size + z];
     }
 
-    addBomb(x, y) {
-        this.setCellValue(x, y, 9);
+    addBomb(x, y, z) {
+        this.setCellValue(x, y, z, 9);
 
         // ------ Update the surrounding cells
+/*
+		if (x > 0) {
+			this.setCellValue(x - 1, y, z, this.getCellValue(x - 1, y, z) + 1);
+			if (y > 0)
+				this.setCellValue(x - 1, y - 1, z, this.getCellValue(x - 1, y - 1, z) + 1);
+			if (y < this.size - 1)
+				this.setCellValue(x - 1, y + 1, z, this.getCellValue(x - 1, y + 1, z) + 1);
+		}
+
+
+
+
+
+
 
         if (x > 0) {
             this.setCellValue(x - 1, y, this.getCellValue(x - 1, y) + 1);
@@ -36,32 +50,67 @@ export class CubeRepresentation {
                 this.setCellValue(x + 1, y + 1, this.getCellValue(x + 1, y + 1) + 1);
         }
 
-		if (y > 0)
-			this.setCellValue(x, y - 1, this.getCellValue(x, y - 1) + 1);
-		if (y < this.size - 1)
-			this.setCellValue(x, y + 1, this.getCellValue(x, y + 1) + 1);
+        if (y > 0)
+            this.setCellValue(x, y - 1, this.getCellValue(x, y - 1) + 1);
+        if (y < this.size - 1)
+            this.setCellValue(x, y + 1, this.getCellValue(x, y + 1) + 1);
+
+			*/
     }
 
-	addBombs(amount) {
-		let bombs = 0;
-		while (bombs < amount) {
-			let x = Math.floor(Math.random() * this.size);
-			let y = Math.floor(Math.random() * this.size);
-			if (this.getCellValue(x, y) != 9) {
-				this.addBomb(x, y);
-				bombs++;
-			}
-		}
-	}
+    addBombs(amount) {
+        let bombs = 0;
+        while (bombs < amount) {
+            let coords = this.getRandomCell();
+            if (this.getCellValue(coords[0], coords[1], coords[2]) != 9) {
+                this.addBomb(coords[0], coords[1], coords[2]);
+                bombs++;
+            }
+        }
+    }
 
-	toString() {
-		let str = "";
-		for (let i = 0; i < this.size; i++) {
-			for (let j = 0; j < this.size; j++) {
-				str += this.getCellValue(i, j) + ", ";
-			}
-			str += "\n";
-		}
-		return str;
-	}
+    getRandomCell() {
+        /*
+		 I need to generate 2 random coordinates between 0 and this.size and 1 random coordinate that can be either 0 or this.size - 1.
+		 To do this i will populate an array with 3 random numbers, 2 of them between 0 and this.size and 1 that can be either 0 or this.size - 1 and then i will randomly pick from this array to assign coordinates.
+		*/
+        let coordValues = [];
+        coordValues.push(Math.floor(Math.random() * this.size));
+        coordValues.push(Math.floor(Math.random() * this.size));
+        // Random int between 0 and 1
+        let tmp = Math.floor(Math.random() * 2);
+        if (tmp == 0)
+            coordValues.push(0);
+        else
+            coordValues.push(this.size - 1);
+
+        // Random selection of coordinates
+        let coords = [];
+
+        var i = Math.floor(Math.random() * coordValues.length);
+        coords.push(coordValues[i]);
+        coordValues.splice(i, 1);
+
+        i = Math.floor(Math.random() * coordValues.length);
+        coords.push(coordValues[i]);
+        coordValues.splice(i, 1);
+
+        coords.push(coordValues[0]);
+
+        return coords;
+    }
+
+    toString() {
+        let str = "";
+        for (let i = 0; i < this.size; i++) {
+            for (let j = 0; j < this.size; j++) {
+                for (let k = 0; k < this.size; k++) {
+                    str += this.getCellValue(i, j, k) + ", ";
+                }
+				str += "\n";
+            }
+            str += "----\n";
+        }
+        return str;
+    }
 }
