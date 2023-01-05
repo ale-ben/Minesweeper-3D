@@ -27,6 +27,7 @@ export class Camera {
                 zoom: 1
             },
             dragging: false,
+            forceDrag: false,
             updateCamera: true
         });
     }
@@ -74,8 +75,49 @@ export class Camera {
         if (debug == true)
             console.log("Reset camera");
         this.movement.dragging = false;
+        this.movement.forceDrag = false;
         this.movement.angle.xy = this.defaultAngle.xy;
         this.movement.angle.xz = this.defaultAngle.xz;
+        this.movement.updateCamera = true;
+        this.moveCamera();
+    }
+
+    zoomIn() {
+        if (this.radius > 5) {
+            this.radius -= this.movement.step.zoom;
+            this.movement.updateCamera = true;
+            this.moveCamera();
+        }
+    }
+
+    zoomOut() {
+        if (this.radius < 30) {
+            this.radius += this.movement.step.zoom;
+            this.movement.updateCamera = true;
+            this.moveCamera();
+        }
+    }
+
+    moveLeft() {
+        this.movement.angle.xy = minimizeAngle(this.movement.angle.xy - this.movement.step.xy);
+        this.movement.updateCamera = true;
+        this.moveCamera();
+    }
+
+    moveRight() {
+        this.movement.angle.xy = minimizeAngle(this.movement.angle.xy + this.movement.step.xy);
+        this.movement.updateCamera = true;
+        this.moveCamera();
+    }
+
+    moveUp() {
+        this.movement.angle.xz = lockAngle(this.movement.angle.xz + this.movement.step.xz, Math.PI / 2 - 0.001);
+        this.movement.updateCamera = true;
+        this.moveCamera();
+    }
+
+    moveDown() {
+        this.movement.angle.xz = lockAngle(this.movement.angle.xz - this.movement.step.xz, Math.PI / 2 - 0.001);
         this.movement.updateCamera = true;
         this.moveCamera();
     }
@@ -90,103 +132,103 @@ export class Camera {
          * On mouse down, set dragging to true and save starting position
          */
         canvas.addEventListener("mousedown", function(event) {
-            if (debug == true)
-                console.log("mousedown");
-            camera.movement.old = {
-                x: event.pageX,
-                y: event.pageY
-            };
-            camera.movement.dragging = true;
+            if (event.button == 1) {
+                if (debug == true)
+                    console.log("mousedown");
+                event.preventDefault();
+                camera.movement.old = null;
+                camera.movement.dragging = true;
+            }
         });
 
         /**
          * On mouse up, set dragging to false and update camera position
          */
         canvas.addEventListener("mouseup", function(event) {
-            if (debug == true)
-                console.log("mouseup");
-            camera.moveCamera();
-            camera.movement.dragging = false;
+            if (event.button == 1) {
+                event.preventDefault();
+                if (debug == true)
+                    console.log("mouseup");
+                camera.moveCamera();
+                camera.movement.dragging = false;
+            }
         });
 
         /**
          * On mouse move, update camera position angle if dragging
          */
         canvas.addEventListener("mousemove", function(event) {
-            if (!camera.movement.dragging)
+            event.preventDefault();
+            if (!camera.movement.dragging && !camera.movement.forceDrag)
                 return;
-
-            /**
-             * Make sure that the angle is between -PI and PI. If outside map it to the equivalent angle inside the range.
-             * @param {*} angle
-             * @returns
-             */
-            function minimizeAngle(angle) {
-                if (angle > Math.PI)
-                    return (angle % Math.PI) - Math.PI;
-                if (angle < -Math.PI)
-                    return (angle % Math.PI) + Math.PI;
-                return angle;
-            }
-
-            /**
-             * Force an angle to be in an interval between -maxRad and maxRad
-             * @param {*} angle
-             * @param {*} maxRad
-             * @returns
-             */
-            function lockAngle(angle, maxRad) {
-                if (angle > maxRad)
-                    return maxRad;
-                if (angle < -maxRad)
-                    return -maxRad;
-                return angle;
-            }
 
             if (debug == true)
                 console.log("mousemove", camera.movement);
 
-            // Compute drag delta
-            let deltaY = (-(event.pageY - camera.movement.old.y) * 2 * Math.PI) / canvas.height;
-            let deltaX = (-(event.pageX - camera.movement.old.x) * 2 * Math.PI) / canvas.width;
+            if (camera.movement.old) {
+                // Compute drag delta
+                let deltaY = (-(event.pageY - camera.movement.old.y) * 2 * Math.PI) / canvas.height;
+                let deltaX = (-(event.pageX - camera.movement.old.x) * 2 * Math.PI) / canvas.width;
 
-            // Update camera angle
-            camera.movement.angle.xy = minimizeAngle(camera.movement.angle.xy + deltaX);
-            camera.movement.angle.xz = lockAngle(camera.movement.angle.xz - deltaY, Math.PI / 2 - 0.001);
+                // Update camera angle
+                camera.movement.angle.xy = minimizeAngle(camera.movement.angle.xy + deltaX);
+                camera.movement.angle.xz = lockAngle(camera.movement.angle.xz - deltaY, Math.PI / 2 - 0.001);
+            }
 
             // Save current mouse position
-            camera.movement.old.x = event.pageX;
-            camera.movement.old.y = event.pageY;
+            camera.movement.old = {
+                x: event.pageX,
+                y: event.pageY
+            };
 
             camera.movement.updateCamera = true;
         });
 
         window.addEventListener("keydown", function(event) {
+            event.preventDefault();
             switch (event.key) {
                 case "r":
                     camera.resetCamera();
                     break;
                 case "e":
-                    camera.radius -= camera.movement.step.zoom;
+                    camera.zoomIn();
                     break;
                 case "q":
-                    camera.radius += camera.movement.step.zoom;
+                    camera.zoomOut();
                     break;
                 case "w":
-                    camera.movement.angle.xz += camera.movement.step.xz;
+                    camera.moveUp();
                     break;
                 case "s":
-                    camera.movement.angle.xz -= camera.movement.step.xz;
+                    camera.moveDown();
                     break;
                 case "a":
-                    camera.movement.angle.xy -= camera.movement.step.xy;
+                    camera.moveLeft();
                     break;
                 case "d":
-                    camera.movement.angle.xy += camera.movement.step.xy;
+                    camera.moveRight();
+                    break;
+                case "Shift":
+                    camera.movement.forceDrag = true;
+                    camera.movement.old = null;
                     break;
             }
+        });
 
-            camera.movement.updateCamera = true;
+        window.addEventListener("keyup", function(event) {
+            event.preventDefault();
+            switch (event.key) {
+                case "Shift":
+                    camera.movement.forceDrag = false;
+            }
+        });
+
+        window.addEventListener("wheel", event => {
+            const delta = Math.sign(event.deltaY);
+            if (delta > 0)
+                camera.zoomIn();
+            else
+                camera.zoomOut();
         });
     }
 }
@@ -197,4 +239,31 @@ function degToRad(d) {
 
 function radToDeg(r) {
     return (r * 180) / Math.PI;
+}
+
+/**
+ * Make sure that the angle is between -PI and PI. If outside map it to the equivalent angle inside the range.
+ * @param {*} angle
+ * @returns
+ */
+function minimizeAngle(angle) {
+    if (angle > Math.PI)
+        return (angle % Math.PI) - Math.PI;
+    if (angle < -Math.PI)
+        return (angle % Math.PI) + Math.PI;
+    return angle;
+}
+
+/**
+ * Force an angle to be in an interval between -maxRad and maxRad
+ * @param {*} angle
+ * @param {*} maxRad
+ * @returns
+ */
+function lockAngle(angle, maxRad) {
+    if (angle > maxRad)
+        return maxRad;
+    if (angle < -maxRad)
+        return -maxRad;
+    return angle;
 }
