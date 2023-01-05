@@ -6,7 +6,7 @@ export class Camera {
         this.fovRad = 70;
         this.near = 1;
         this.far = 2000;
-        this.radius = 30;
+        this.radius = 15;
         this.aspect = canvas.clientWidth / canvas.clientHeight;
         (this.defaultAngle = {
             xy: degToRad(10),
