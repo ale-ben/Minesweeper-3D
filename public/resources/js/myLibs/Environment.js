@@ -35,17 +35,22 @@ export class Environment {
             enableTransparency: true
         });
 
-        this.gl.canvas.addEventListener("mouseup", e => {
-            const rect = canvas.getBoundingClientRect();
-            const mouseX = e.clientX - rect.left;
-            const mouseY = e.clientY - rect.top;
-            const objID = this.renderEngine.detectObject(mouseX, mouseY);
-            console.log("Click at " + mouseX + ", " + mouseY + (
-                objID != 0 ?
-                ". Object id detected: " + objID :
-                ". No object detected"));
-            if (objID != 0)
-                this.handleObjectClick(objID);
+        this.gl.canvas.addEventListener("mouseup", event => {
+            if (event.button == 0) {
+                event.preventDefault();
+                if (this.camera.movement.dragging == false && this.camera.movement.forceDrag == false) {
+                    const rect = canvas.getBoundingClientRect();
+                    const mouseX = event.clientX - rect.left;
+                    const mouseY = event.clientY - rect.top;
+                    const objID = this.renderEngine.detectObject(mouseX, mouseY);
+                    console.log("Click at " + mouseX + ", " + mouseY + (
+                        objID != 0 ?
+                        ". Object id detected: " + objID :
+                        ". No object detected"));
+                    if (objID != 0)
+                        this.handleObjectClick(objID);
+                }
+            }
         });
     }
 
