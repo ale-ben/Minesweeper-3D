@@ -7,6 +7,7 @@ export class Camera {
         this.near = 1;
         this.far = 2000;
         this.radius = 15;
+        this.lightPosition = [2, 2, 2];
         this.aspect = canvas.clientWidth / canvas.clientHeight;
         (this.defaultAngle = {
             xy: degToRad(10),
@@ -52,7 +53,7 @@ export class Camera {
         const projection = m4.perspective(this.fovRad, this.aspect, this.near, this.far);
 
         return {
-            u_lightDirection: m4.normalize([-1, 3, 5]), //TODO
+            u_lightDirection: m4.normalize(this.lightPosition),
             u_view: view,
             u_projection: projection,
             u_viewWorldPosition: this.position
@@ -67,6 +68,11 @@ export class Camera {
             this.position[0] = this.radius * Math.cos(this.movement.angle.xz) * Math.cos(this.movement.angle.xy);
             this.position[1] = this.radius * Math.cos(this.movement.angle.xz) * Math.sin(this.movement.angle.xy);
             this.position[2] = this.radius * Math.sin(this.movement.angle.xz);
+            if (syncLight == true) {
+                this.lightPosition[0] = this.position[0];
+                this.lightPosition[1] = this.position[1];
+                this.lightPosition[2] = this.position[2];
+            }
             this.movement.updateCamera = false;
         }
     }

@@ -10,16 +10,21 @@
 
 <body>
     <h2 class="text-2xl font-semibold sm:text-6xl">Minesweeper 3D</h2>
-    <canvas id="canvas" width="1280" height="720"></canvas>
+    <canvas id="canvas" width="1280" height="720" style="background-color: lightblue;"></canvas>
     <p>
         Debug Mode:
         <input id="debugToggle" type="checkbox" />
+    </p>
+    <p>
+        Sync light with camera:
+        <input id="syncLightToggle" type="checkbox" checked="true" />
     </p>
 </body>
 <!-- This sample uses TWGL (Tiny WebGL) to hide the clutter. Otherwise the sample would be full of code not related to the point of the sample. For more info see https://webgl2fundamentals.org/webgl/lessons/webgl-less-code-more-fun.html -->
 
 <script>
     var debug = false;
+    var syncLight = true;
 
     document
         .getElementById('debugToggle')
@@ -28,6 +33,16 @@
                 debug = true;
             } else {
                 debug = false;
+            }
+        })
+
+    document
+        .getElementById('syncLightToggle')
+        .addEventListener('change', (event) => {
+            if (event.currentTarget.checked) {
+                syncLight = true;
+            } else {
+                syncLight = false;
             }
         })
 
