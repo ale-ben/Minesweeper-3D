@@ -90,7 +90,7 @@ export class Camera {
         }
     }
 
-	zoomOut() {
+    zoomOut() {
         if (this.radius < 30) {
             this.radius += this.movement.step.zoom;
             this.movement.updateCamera = true;
@@ -98,30 +98,29 @@ export class Camera {
         }
     }
 
-	moveLeft() {
-		this.movement.angle.xy = minimizeAngle(this.movement.angle.xy - this.movement.step.xy);
-		this.movement.updateCamera = true;
-		this.moveCamera();
-	}
+    moveLeft() {
+        this.movement.angle.xy = minimizeAngle(this.movement.angle.xy - this.movement.step.xy);
+        this.movement.updateCamera = true;
+        this.moveCamera();
+    }
 
-	moveRight() {
-		this.movement.angle.xy = minimizeAngle(this.movement.angle.xy + this.movement.step.xy);
-		this.movement.updateCamera = true;
-		this.moveCamera();
-	}
+    moveRight() {
+        this.movement.angle.xy = minimizeAngle(this.movement.angle.xy + this.movement.step.xy);
+        this.movement.updateCamera = true;
+        this.moveCamera();
+    }
 
-	moveUp() {
-		this.movement.angle.xz = lockAngle(this.movement.angle.xz + this.movement.step.xz, Math.PI / 2 - 0.001);
-		this.movement.updateCamera = true;
-		this.moveCamera();
-	}
+    moveUp() {
+        this.movement.angle.xz = lockAngle(this.movement.angle.xz + this.movement.step.xz, Math.PI / 2 - 0.001);
+        this.movement.updateCamera = true;
+        this.moveCamera();
+    }
 
-	moveDown() {
-		this.movement.angle.xz = lockAngle(this.movement.angle.xz - this.movement.step.xz, Math.PI / 2 - 0.001);
-		this.movement.updateCamera = true;
-		this.moveCamera();
-	}
-
+    moveDown() {
+        this.movement.angle.xz = lockAngle(this.movement.angle.xz - this.movement.step.xz, Math.PI / 2 - 0.001);
+        this.movement.updateCamera = true;
+        this.moveCamera();
+    }
 
     /**
      * Set camera drag movement event listeners
@@ -192,22 +191,22 @@ export class Camera {
                     camera.resetCamera();
                     break;
                 case "e":
-					camera.zoomIn();
+                    camera.zoomIn();
                     break;
                 case "q":
-					camera.zoomOut();
+                    camera.zoomOut();
                     break;
                 case "w":
-					camera.moveUp();
+                    camera.moveUp();
                     break;
                 case "s":
-					camera.moveDown();
+                    camera.moveDown();
                     break;
                 case "a":
-					camera.moveLeft();
+                    camera.moveLeft();
                     break;
                 case "d":
-					camera.moveRight();
+                    camera.moveRight();
                     break;
                 case "Shift":
                     camera.movement.forceDrag = true;
@@ -227,7 +226,7 @@ export class Camera {
         window.addEventListener("wheel", event => {
             const delta = Math.sign(event.deltaY);
             if (delta > 0)
-				camera.zoomIn();
+                camera.zoomIn();
             else
                 camera.zoomOut();
         });
@@ -242,18 +241,17 @@ function radToDeg(r) {
     return (r * 180) / Math.PI;
 }
 
-
 /**
-             * Make sure that the angle is between -PI and PI. If outside map it to the equivalent angle inside the range.
-             * @param {*} angle
-             * @returns
-             */
+ * Make sure that the angle is between -PI and PI. If outside map it to the equivalent angle inside the range.
+ * @param {*} angle
+ * @returns
+ */
 function minimizeAngle(angle) {
-	if (angle > Math.PI)
-		return (angle % Math.PI) - Math.PI;
-	if (angle < -Math.PI)
-		return (angle % Math.PI) + Math.PI;
-	return angle;
+    if (angle > Math.PI)
+        return (angle % Math.PI) - Math.PI;
+    if (angle < -Math.PI)
+        return (angle % Math.PI) + Math.PI;
+    return angle;
 }
 
 /**
@@ -263,9 +261,9 @@ function minimizeAngle(angle) {
  * @returns
  */
 function lockAngle(angle, maxRad) {
-	if (angle > maxRad)
-		return maxRad;
-	if (angle < -maxRad)
-		return -maxRad;
-	return angle;
+    if (angle > maxRad)
+        return maxRad;
+    if (angle < -maxRad)
+        return -maxRad;
+    return angle;
 }
