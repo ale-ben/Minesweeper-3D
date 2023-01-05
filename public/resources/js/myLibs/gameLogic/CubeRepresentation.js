@@ -32,68 +32,67 @@ export class CubeRepresentation {
         if (borders == 3) {
             // The cell is in a corner
 
-			if (x == this.size-1) {
-				this.setCellValue(x-1, y, z, this.getCellValue(x-1, y, z) + 1);
+            if (x == this.size - 1) {
+                this.setCellValue(x - 1, y, z, this.getCellValue(x - 1, y, z) + 1);
 
-				if (y == this.size -1) {
-					this.setCellValue(x, y-1, z, this.getCellValue(x, y-1, z) + 1);
-					this.setCellValue(x-1, y-1, z, this.getCellValue(x-1, y-1, z) + 1);
+                if (y == this.size - 1) {
+                    this.setCellValue(x, y - 1, z, this.getCellValue(x, y - 1, z) + 1);
+                    this.setCellValue(x - 1, y - 1, z, this.getCellValue(x - 1, y - 1, z) + 1);
 
-					if (z == this.size -1) {
-						this.setCellValue(x, y-1, z-1, this.getCellValue(x, y-1, z-1) + 1);
-						this.setCellValue(x, y, z-1, this.getCellValue(x, y, z-1) + 1);
-						this.setCellValue(x-1, y, z-1, this.getCellValue(x-1, y, z-1) + 1);
-					} else if (z == 0) {
-						this.setCellValue(x, y-1, z+1, this.getCellValue(x, y-1, z+1) + 1);
-						this.setCellValue(x, y, z+1, this.getCellValue(x, y, z+1) + 1);
-						this.setCellValue(x-1, y, z+1, this.getCellValue(x-1, y, z+1) + 1);
-					}
-				} else if (y == 0) {
-					this.setCellValue(x, y+1, z, this.getCellValue(x, y+1, z) + 1);
-					this.setCellValue(x-1, y+1, z, this.getCellValue(x-1, y+1, z) + 1);
+                    if (z == this.size - 1) {
+                        this.setCellValue(x, y - 1, z - 1, this.getCellValue(x, y - 1, z - 1) + 1);
+                        this.setCellValue(x, y, z - 1, this.getCellValue(x, y, z - 1) + 1);
+                        this.setCellValue(x - 1, y, z - 1, this.getCellValue(x - 1, y, z - 1) + 1);
+                    } else if (z == 0) {
+                        this.setCellValue(x, y - 1, z + 1, this.getCellValue(x, y - 1, z + 1) + 1);
+                        this.setCellValue(x, y, z + 1, this.getCellValue(x, y, z + 1) + 1);
+                        this.setCellValue(x - 1, y, z + 1, this.getCellValue(x - 1, y, z + 1) + 1);
+                    }
+                } else if (y == 0) {
+                    this.setCellValue(x, y + 1, z, this.getCellValue(x, y + 1, z) + 1);
+                    this.setCellValue(x - 1, y + 1, z, this.getCellValue(x - 1, y + 1, z) + 1);
 
-					if (z == this.size -1) {
-						this.setCellValue(x, y+1, z-1, this.getCellValue(x, y+1, z-1) + 1);
-						this.setCellValue(x, y, z-1, this.getCellValue(x, y, z-1) + 1);
-						this.setCellValue(x-1, y, z-1, this.getCellValue(x-1, y, z-1) + 1);
-					} else if (z == 0) {
-						this.setCellValue(x, y+1, z+1, this.getCellValue(x, y+1, z+1) + 1);
-						this.setCellValue(x, y, z+1, this.getCellValue(x, y, z+1) + 1);
-						this.setCellValue(x-1, y, z+1, this.getCellValue(x-1, y, z+1) + 1);
-					}
-				}
-			} else if (x == 0) {
-				this.setCellValue(x+1, y, z, this.getCellValue(x+1, y, z) + 1);
+                    if (z == this.size - 1) {
+                        this.setCellValue(x, y + 1, z - 1, this.getCellValue(x, y + 1, z - 1) + 1);
+                        this.setCellValue(x, y, z - 1, this.getCellValue(x, y, z - 1) + 1);
+                        this.setCellValue(x - 1, y, z - 1, this.getCellValue(x - 1, y, z - 1) + 1);
+                    } else if (z == 0) {
+                        this.setCellValue(x, y + 1, z + 1, this.getCellValue(x, y + 1, z + 1) + 1);
+                        this.setCellValue(x, y, z + 1, this.getCellValue(x, y, z + 1) + 1);
+                        this.setCellValue(x - 1, y, z + 1, this.getCellValue(x - 1, y, z + 1) + 1);
+                    }
+                }
+            } else if (x == 0) {
+                this.setCellValue(x + 1, y, z, this.getCellValue(x + 1, y, z) + 1);
 
-				if (y == this.size -1) {
-					this.setCellValue(x, y-1, z, this.getCellValue(x, y-1, z) + 1);
-					this.setCellValue(x+1, y-1, z, this.getCellValue(x+1, y-1, z) + 1);
+                if (y == this.size - 1) {
+                    this.setCellValue(x, y - 1, z, this.getCellValue(x, y - 1, z) + 1);
+                    this.setCellValue(x + 1, y - 1, z, this.getCellValue(x + 1, y - 1, z) + 1);
 
-					if (z == this.size -1) {
-						this.setCellValue(x, y-1, z-1, this.getCellValue(x, y-1, z-1) + 1);
-						this.setCellValue(x, y, z-1, this.getCellValue(x, y, z-1) + 1);
-						this.setCellValue(x+1, y, z-1, this.getCellValue(x+1, y, z-1) + 1);
-					} else if (z == 0) {
-						this.setCellValue(x, y-1, z+1, this.getCellValue(x, y-1, z+1) + 1);
-						this.setCellValue(x, y, z+1, this.getCellValue(x, y, z+1) + 1);
-						this.setCellValue(x+1, y, z+1, this.getCellValue(x+1, y, z+1) + 1);
-					}
-				} else if (y == 0) {
-					this.setCellValue(x, y+1, z, this.getCellValue(x, y+1, z) + 1);
-					this.setCellValue(x+1, y+1, z, this.getCellValue(x+1, y+1, z) + 1);
+                    if (z == this.size - 1) {
+                        this.setCellValue(x, y - 1, z - 1, this.getCellValue(x, y - 1, z - 1) + 1);
+                        this.setCellValue(x, y, z - 1, this.getCellValue(x, y, z - 1) + 1);
+                        this.setCellValue(x + 1, y, z - 1, this.getCellValue(x + 1, y, z - 1) + 1);
+                    } else if (z == 0) {
+                        this.setCellValue(x, y - 1, z + 1, this.getCellValue(x, y - 1, z + 1) + 1);
+                        this.setCellValue(x, y, z + 1, this.getCellValue(x, y, z + 1) + 1);
+                        this.setCellValue(x + 1, y, z + 1, this.getCellValue(x + 1, y, z + 1) + 1);
+                    }
+                } else if (y == 0) {
+                    this.setCellValue(x, y + 1, z, this.getCellValue(x, y + 1, z) + 1);
+                    this.setCellValue(x + 1, y + 1, z, this.getCellValue(x + 1, y + 1, z) + 1);
 
-					if (z == this.size -1) {
-						this.setCellValue(x, y+1, z-1, this.getCellValue(x, y+1, z-1) + 1);
-						this.setCellValue(x, y, z-1, this.getCellValue(x, y, z-1) + 1);
-						this.setCellValue(x+1, y, z-1, this.getCellValue(x+1, y, z-1) + 1);
-					} else if (z == 0) {
-						this.setCellValue(x, y+1, z+1, this.getCellValue(x, y+1, z+1) + 1);
-						this.setCellValue(x, y, z+1, this.getCellValue(x, y, z+1) + 1);
-						this.setCellValue(x+1, y, z+1, this.getCellValue(x+1, y, z+1) + 1);
-					}
-				}
-			}
-
+                    if (z == this.size - 1) {
+                        this.setCellValue(x, y + 1, z - 1, this.getCellValue(x, y + 1, z - 1) + 1);
+                        this.setCellValue(x, y, z - 1, this.getCellValue(x, y, z - 1) + 1);
+                        this.setCellValue(x + 1, y, z - 1, this.getCellValue(x + 1, y, z - 1) + 1);
+                    } else if (z == 0) {
+                        this.setCellValue(x, y + 1, z + 1, this.getCellValue(x, y + 1, z + 1) + 1);
+                        this.setCellValue(x, y, z + 1, this.getCellValue(x, y, z + 1) + 1);
+                        this.setCellValue(x + 1, y, z + 1, this.getCellValue(x + 1, y, z + 1) + 1);
+                    }
+                }
+            }
         } else if (borders == 2) {
             // The cell is in a border
 
