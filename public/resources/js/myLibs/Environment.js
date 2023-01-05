@@ -23,24 +23,30 @@ export class Environment {
 
         // compiles and links the shaders, looks up attribute and uniform locations
         this.programInfo = webglUtils.createProgramInfo(this.gl, [RenderEngine.defaultShaders.vs, RenderEngine.defaultShaders.fs]);
-		this.pickerProgramInfo = webglUtils.createProgramInfo(this.gl, [RenderEngine.pickerShaders.vs, RenderEngine.pickerShaders.fs]);
+        this.pickerProgramInfo = webglUtils.createProgramInfo(this.gl, [RenderEngine.pickerShaders.vs, RenderEngine.pickerShaders.fs]);
 
         this.objList = [];
 
         this.camera = new Camera(this.gl.canvas);
         Camera.setCameraControls(this.gl.canvas, this.camera);
 
-        this.renderEngine = new RenderEngine(this.gl, {enablePicker: true, enableTransparency: true});
+        this.renderEngine = new RenderEngine(this.gl, {
+            enablePicker: true,
+            enableTransparency: true
+        });
 
-		this.gl.canvas.addEventListener("mouseup", e => {
-			const rect = canvas.getBoundingClientRect();
-			const mouseX = e.clientX - rect.left;
-			const mouseY = e.clientY - rect.top;
-			const objID = this.renderEngine.detectObject(mouseX, mouseY);
-			console.log("Click at " + mouseX + ", " + mouseY + (objID != 0 ? ". Object id detected: " + objID : ". No object detected"));
-			if (objID != 0) 
-				this.handleObjectClick(objID);
-		});
+        this.gl.canvas.addEventListener("mouseup", e => {
+            const rect = canvas.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+            const objID = this.renderEngine.detectObject(mouseX, mouseY);
+            console.log("Click at " + mouseX + ", " + mouseY + (
+                objID != 0 ?
+                ". Object id detected: " + objID :
+                ". No object detected"));
+            if (objID != 0)
+                this.handleObjectClick(objID);
+        });
     }
 
     async addObject(obj) {
@@ -67,13 +73,13 @@ export class Environment {
         this.renderEngine.render(this.camera.getSharedUniforms(), this.programInfo, this.objList, this.pickerProgramInfo);
     }
 
-	handleObjectClick(objID) {
-		for (let obj of this.objList) {
-			if (obj.id == objID) {
-				obj.onClick();
-				MeshLoader.LoadOBJAndMesh(this.gl, obj);
-				break;
-			}
-		}
-	}
+    handleObjectClick(objID) {
+        for (let obj of this.objList) {
+            if (obj.id == objID) {
+                obj.onClick();
+                MeshLoader.LoadOBJAndMesh(this.gl, obj);
+                break;
+            }
+        }
+    }
 }
