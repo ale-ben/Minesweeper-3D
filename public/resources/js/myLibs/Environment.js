@@ -38,6 +38,8 @@ export class Environment {
 			const mouseY = e.clientY - rect.top;
 			const objID = this.renderEngine.detectObject(mouseX, mouseY);
 			console.log("Click at " + mouseX + ", " + mouseY + (objID != 0 ? ". Object id detected: " + objID : ". No object detected"));
+			if (objID != 0) 
+				this.handleObjectClick(objID);
 		});
     }
 
@@ -64,4 +66,14 @@ export class Environment {
 
         this.renderEngine.render(this.camera.getSharedUniforms(), this.programInfo, this.objList, this.pickerProgramInfo);
     }
+
+	handleObjectClick(objID) {
+		for (let obj of this.objList) {
+			if (obj.id == objID) {
+				obj.onClick();
+				MeshLoader.LoadOBJAndMesh(this.gl, obj);
+				break;
+			}
+		}
+	}
 }
