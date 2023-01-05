@@ -53,10 +53,10 @@ export class Camera {
         const projection = m4.perspective(this.fovRad, this.aspect, this.near, this.far);
 
         return {
-            u_lightDirection: m4.normalize(this.lightPosition), //TODO
+            u_lightDirection: m4.normalize(this.lightPosition),
             u_view: view,
             u_projection: projection,
-            u_viewWorldPosition: this.position
+            u_viewWorldPosition: this.position,
         };
     };
 
