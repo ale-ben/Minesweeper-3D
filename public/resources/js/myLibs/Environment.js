@@ -26,6 +26,7 @@ export class Environment {
         this.pickerProgramInfo = webglUtils.createProgramInfo(this.gl, [RenderEngine.pickerShaders.vs, RenderEngine.pickerShaders.fs]);
 
         this.objList = [];
+        this.pickableMap = new Map();
 
         this.camera = new Camera(this.gl.canvas);
         Camera.setCameraControls(this.gl.canvas, this.camera);
@@ -42,13 +43,7 @@ export class Environment {
                     const rect = canvas.getBoundingClientRect();
                     const mouseX = event.clientX - rect.left;
                     const mouseY = event.clientY - rect.top;
-                    const objID = this.renderEngine.detectObject(mouseX, mouseY);
-                    console.log("Click at " + mouseX + ", " + mouseY + (
-                        objID != 0 ?
-                        ". Object id detected: " + objID :
-                        ". No object detected"));
-                    if (objID != 0)
-                        this.handleObjectClick(objID);
+                    this.handleObjectClick(mouseX, mouseY);
                 }
             }
         });
@@ -56,11 +51,14 @@ export class Environment {
 
     async addObject(obj) {
         this.objList.push(obj);
+        this.pickableMap.set(obj.id, obj);
+
         await MeshLoader.LoadOBJAndMesh(this.gl, obj);
     }
 
-    removeObject(objName) {
-        this.objList = this.objList.filter(obj => obj.name != objName);
+    removeObjectByID(objID) {
+        this.objList = this.objList.filter(obj => obj.id != objID);
+		this.pickableMap.delete(objID);
     }
 
     async reloadMeshes() {
@@ -78,13 +76,19 @@ export class Environment {
         this.renderEngine.render(this.camera.getSharedUniforms(), this.programInfo, this.objList, this.pickerProgramInfo);
     }
 
-    handleObjectClick(objID) {
-        for (let obj of this.objList) {
-            if (obj.id == objID) {
+    handleObjectClick(mouseX, mouseY) {
+        const objID = this.renderEngine.detectObject(mouseX, mouseY);
+        console.log("Click at " + mouseX + ", " + mouseY + (
+            objID != 0 ?
+            ". Object id detected: " + objID :
+            ". No object detected"));
+        if (objID != 0) {
+            let obj = this.pickableMap.get(objID);
+            if (obj && !obj.clicked) {
                 obj.onClick();
                 MeshLoader.LoadOBJAndMesh(this.gl, obj);
-                break;
             }
+			// TODO: Check for game state
         }
     }
 }
