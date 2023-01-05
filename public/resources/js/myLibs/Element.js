@@ -63,5 +63,6 @@ export class Element {
         console.log("Clicked on " + this.name + " with value " + this.value);
         if (this.value || this.value == 0)
             this.mtlPath = "./resources/models/cube" + this.value + ".mtl";
+		this.clicked = true;
     }
 }
