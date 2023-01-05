@@ -58,7 +58,7 @@ export class Environment {
 
     removeObjectByID(objID) {
         this.objList = this.objList.filter(obj => obj.id != objID);
-		this.pickableMap.delete(objID);
+        this.pickableMap.delete(objID);
     }
 
     async reloadMeshes() {
@@ -88,7 +88,7 @@ export class Environment {
                 obj.onClick();
                 MeshLoader.LoadOBJAndMesh(this.gl, obj);
             }
-			// TODO: Check for game state
+            // TODO: Check for game state
         }
     }
 }
