@@ -21,6 +21,11 @@ export class Camera {
                 xy: this.defaultAngle.xy,
                 xz: this.defaultAngle.xz
             },
+			step: {
+				xy: degToRad(10),
+				xz: degToRad(2),
+				zoom: 1
+			},
             dragging: false,
             updateCamera: true
         });
@@ -161,8 +166,30 @@ export class Camera {
                 case "r":
                     camera.resetCamera();
                     break;
+				case "e":
+					camera.radius -= camera.movement.step.zoom;
+					break;
+				case "q":
+					camera.radius += camera.movement.step.zoom;
+					break;
+				case "w":
+					camera.movement.angle.xz += camera.movement.step.xz;
+					break;
+				case "s":
+					camera.movement.angle.xz -= camera.movement.step.xz;
+					break;
+				case "a":
+					camera.movement.angle.xy -= camera.movement.step.xy;
+					break;
+				case "d":
+					camera.movement.angle.xy += camera.movement.step.xy;
+					break;
             }
+
+			camera.movement.updateCamera = true;
         });
+
+		
     }
 }
 
