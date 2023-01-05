@@ -50,7 +50,7 @@ function addCube(x, y, z, size, value) {
         },
         detectClick: true,
         value: value,
-		mtlPath: "./resources/models/cube" + value + ".mtl"
+		showCompleted: true
     });
 }
 

@@ -37,8 +37,11 @@ export class Element {
             this.setID(0);
         }
 
-        if (options.value || options.value == 0)
+        if (options.value || options.value == 0) {
             this.value = options.value;
+            if (options.showCompleted)
+                this.mtlPath = "./resources/models/cube" + this.value + ".mtl";
+        }
     }
 
     setID(id) {
@@ -54,7 +57,7 @@ export class Element {
     updateObject(time) {}
 
     onClick() {
-		console.log("Clicked on " + this.name + " with value " + this.value);
+        console.log("Clicked on " + this.name + " with value " + this.value);
         if (this.value || this.value == 0)
             this.mtlPath = "./resources/models/cube" + this.value + ".mtl";
     }
