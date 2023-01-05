@@ -6,6 +6,9 @@ export class Element {
         this.name = name;
         this.filePath = filePath;
 
+		if (options.hidden)
+			this.hidden = true;
+
         if (options.center)
             this.center = options.center;
         else

@@ -16,7 +16,9 @@ async function main() {
 
     const env = new Environment("#canvas");
 
-    await env.addObject(new Element("Axes", "./resources/models/axes.obj"));
+    await env.addObject(new Element("Axes", "./resources/models/axes.obj", {
+        hidden: true
+    }));
 
     for (let x = 0; x < cube.size; x++) {
         for (let y = 0; y < cube.size; y++) {
@@ -28,6 +30,16 @@ async function main() {
             }
         }
     }
+
+    document.getElementById("enableAxesToggle").addEventListener("change", event => {
+        console.log("Axes enabled: " + event.target.checked);
+        for (let elem of env.objList) {
+            if (elem.name == "Axes") {
+                elem.hidden = !event.target.checked;
+                break;
+            }
+        }
+    });
 
     function render(time) {
         time *= 0.001; // convert to seconds
