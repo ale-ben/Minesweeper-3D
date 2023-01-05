@@ -62,7 +62,7 @@ function addCube(x, y, z, size, value) {
         },
         detectClick: true,
         value: value,
-        showCompleted: true
+        //showCompleted: true
     });
 }
 
