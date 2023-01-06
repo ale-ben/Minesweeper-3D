@@ -271,6 +271,262 @@ export class CubeRepresentation {
         }
     }
 
+    getNeighbours(x, y, z) {
+        let neighbours = [];
+
+        let borders = 0;
+
+        if (x == 0 || x == this.size - 1)
+            borders++;
+        if (y == 0 || y == this.size - 1)
+            borders++;
+        if (z == 0 || z == this.size - 1)
+            borders++;
+
+        if (borders == 3) {
+            // The cell is in a corner
+
+            if (x == this.size - 1) {
+                neighbours.push({cell: {x: x-1, y: y, z: z}, value: this.getCellValue(x - 1, y, z)});
+
+                if (y == this.size - 1) {
+                    neighbours.push({cell: {x: x, y: y-1, z: z}, value: this.getCellValue(x, y - 1, z)});
+                    neighbours.push({cell: {x: x-1, y: y-1, z: z}, value: this.getCellValue(x - 1, y - 1, z)});
+
+                    if (z == this.size - 1) {
+                        neighbours.push({cell: {x: x, y: y-1, z: z-1}, value: this.getCellValue(x, y - 1, z - 1)});
+                        neighbours.push({cell: {x: x, y: y, z: z-1}, value: this.getCellValue(x, y, z - 1)});
+                        neighbours.push({cell: {x: x-1, y: y, z: z-1}, value: this.getCellValue(x - 1, y, z - 1)});
+                    } else if (z == 0) {
+                        neighbours.push({cell: {x: x, y: y-1, z: z+1}, value: this.getCellValue(x, y - 1, z + 1)});
+                        neighbours.push({cell: {x: x, y: y, z: z+1}, value: this.getCellValue(x, y, z + 1)});
+                        neighbours.push({cell: {x: x-1, y: y, z: z+1}, value: this.getCellValue(x - 1, y, z + 1)});
+                    }
+                } else if (y == 0) {
+                    neighbours.push({cell: {x: x, y: y+1, z: z}, value: this.getCellValue(x, y + 1, z)});
+                    neighbours.push({cell: {x: x-1, y: y+1, z: z}, value: this.getCellValue(x - 1, y + 1, z)});
+
+                    if (z == this.size - 1) {
+                        neighbours.push({cell: {x: x, y: y+1, z: z-1}, value: this.getCellValue(x, y + 1, z - 1)});
+                        neighbours.push({cell: {x: x, y: y, z: z-1}, value: this.getCellValue(x, y, z - 1)});
+                        neighbours.push({cell: {x: x-1, y: y, z: z-1}, value: this.getCellValue(x - 1, y, z - 1)});
+                    } else if (z == 0) {
+                        neighbours.push({cell: {x: x, y: y+1, z: z+1}, value: this.getCellValue(x, y + 1, z + 1)});
+                        neighbours.push({cell: {x: x, y: y, z: z+1}, value: this.getCellValue(x, y, z + 1)});
+                        neighbours.push({cell: {x: x-1, y: y, z: z+1}, value: this.getCellValue(x - 1, y, z + 1)});
+                    }
+                }
+            } else if (x == 0) {
+                neighbours.push({cell: {x: x+1, y: y, z: z}, value: this.getCellValue(x + 1, y, z)});
+
+                if (y == this.size - 1) {
+                    neighbours.push({cell: {x: x, y: y-1, z: z}, value: this.getCellValue(x, y - 1, z)});
+                    neighbours.push({cell: {x: x+1, y: y-1, z: z}, value: this.getCellValue(x + 1, y - 1, z)});
+
+                    if (z == this.size - 1) {
+                        neighbours.push({cell: {x: x, y: y-1, z: z-1}, value: this.getCellValue(x, y - 1, z - 1)});
+                        neighbours.push({cell: {x: x, y: y, z: z-1}, value: this.getCellValue(x, y, z - 1)});
+                        neighbours.push({cell: {x: x+1, y: y, z: z-1}, value: this.getCellValue(x + 1, y, z - 1)});
+                    } else if (z == 0) {
+                        neighbours.push({cell: {x: x, y: y-1, z: z+1}, value: this.getCellValue(x, y - 1, z + 1)});
+                        neighbours.push({cell: {x: x, y: y, z: z+1}, value: this.getCellValue(x, y, z + 1)});
+                        neighbours.push({cell: {x: x+1, y: y, z: z+1}, value: this.getCellValue(x + 1, y, z + 1)});
+                    }
+                } else if (y == 0) {
+                    neighbours.push({cell: {x: x, y: y+1, z: z}, value: this.getCellValue(x, y + 1, z)});
+                    neighbours.push({cell: {x: x+1, y: y+1, z: z}, value: this.getCellValue(x + 1, y + 1, z)});
+
+                    if (z == this.size - 1) {
+                        neighbours.push({cell: {x: x, y: y+1, z: z-1}, value: this.getCellValue(x, y + 1, z - 1)});
+                        neighbours.push({cell: {x: x, y: y, z: z-1}, value: this.getCellValue(x, y, z - 1)});
+                        neighbours.push({cell: {x: x+1, y: y, z: z-1}, value: this.getCellValue(x + 1, y, z - 1)});
+                    } else if (z == 0) {
+                        neighbours.push({cell: {x: x, y: y+1, z: z+1}, value: this.getCellValue(x, y + 1, z + 1)});
+                        neighbours.push({cell: {x: x, y: y, z: z+1}, value: this.getCellValue(x, y, z + 1)});
+                        neighbours.push({cell: {x: x+1, y: y, z: z+1}, value: this.getCellValue(x + 1, y, z + 1)});
+                    }
+                }
+            }
+        } else if (borders == 2) {
+            // The cell is in a border
+
+            if (x == this.size - 1) {
+                neighbours.push({cell: {x: x-1, y: y, z: z}, value: this.getCellValue(x - 1, y, z)});
+
+                if (z == this.size - 1) {
+                    neighbours.push({cell: {x: x, y: y, z: z-1}, value: this.getCellValue(x, y, z - 1)});
+
+                    neighbours.push({cell: {x: x, y: y+1, z: z}, value: this.getCellValue(x, y + 1, z)});
+                    neighbours.push({cell: {x: x, y: y-1, z: z}, value: this.getCellValue(x, y - 1, z)});
+
+                    neighbours.push({cell: {x: x, y: y+1, z: z-1}, value: this.getCellValue(x, y + 1, z - 1)});
+                    neighbours.push({cell: {x: x, y: y-1, z: z-1}, value: this.getCellValue(x, y - 1, z - 1)});
+
+                    neighbours.push({cell: {x: x-1, y: y+1, z: z}, value: this.getCellValue(x - 1, y + 1, z)});
+                    neighbours.push({cell: {x: x-1, y: y-1, z: z}, value: this.getCellValue(x - 1, y - 1, z)});
+                } else if (z == 0) {
+                    neighbours.push({cell: {x: x, y: y, z: z+1}, value: this.getCellValue(x, y, z + 1)});
+
+                    neighbours.push({cell: {x: x, y: y+1, z: z}, value: this.getCellValue(x, y + 1, z)});
+                    neighbours.push({cell: {x: x, y: y-1, z: z}, value: this.getCellValue(x, y - 1, z)});
+
+                    neighbours.push({cell: {x: x, y: y+1, z: z+1}, value: this.getCellValue(x, y + 1, z + 1)});
+                    neighbours.push({cell: {x: x, y: y-1, z: z+1}, value: this.getCellValue(x, y - 1, z + 1)});
+
+                    neighbours.push({cell: {x: x-1, y: y+1, z: z}, value: this.getCellValue(x - 1, y + 1, z)});
+                    neighbours.push({cell: {x: x-1, y: y-1, z: z}, value: this.getCellValue(x - 1, y - 1, z)});
+                }
+
+                if (y == this.size - 1) {
+                    neighbours.push({cell: {x: x, y: y-1, z: z}, value: this.getCellValue(x, y - 1, z)});
+
+                    neighbours.push({cell: {x: x, y: y, z: z+1}, value: this.getCellValue(x, y, z + 1)});
+                    neighbours.push({cell: {x: x, y: y, z: z-1}, value: this.getCellValue(x, y, z - 1)});
+
+                    neighbours.push({cell: {x: x, y: y-1, z: z+1}, value: this.getCellValue(x, y - 1, z + 1)});
+                    neighbours.push({cell: {x: x, y: y-1, z: z-1}, value: this.getCellValue(x, y - 1, z - 1)});
+
+                    neighbours.push({cell: {x: x-1, y: y, z: z+1}, value: this.getCellValue(x - 1, y, z + 1)});
+                    neighbours.push({cell: {x: x-1, y: y, z: z-1}, value: this.getCellValue(x - 1, y, z - 1)});
+                } else if (y == 0) {
+                    neighbours.push({cell: {x: x, y: y+1, z: z}, value: this.getCellValue(x, y + 1, z)});
+
+                    neighbours.push({cell: {x: x, y: y, z: z+1}, value: this.getCellValue(x, y, z + 1)});
+                    neighbours.push({cell: {x: x, y: y, z: z-1}, value: this.getCellValue(x, y, z - 1)});
+
+                    neighbours.push({cell: {x: x, y: y+1, z: z+1}, value: this.getCellValue(x, y + 1, z + 1)});
+                    neighbours.push({cell: {x: x, y: y+1, z: z-1}, value: this.getCellValue(x, y + 1, z - 1)});
+
+                    neighbours.push({cell: {x: x-1, y: y, z: z+1}, value: this.getCellValue(x - 1, y, z + 1)});
+                    neighbours.push({cell: {x: x-1, y: y, z: z-1}, value: this.getCellValue(x - 1, y, z - 1)});
+                }
+            } else if (x == 0) {
+                neighbours.push({cell: {x: x+1, y: y, z: z}, value: this.getCellValue(x + 1, y, z)});
+
+                if (z == this.size - 1) {
+                    neighbours.push({cell: {x: x, y: y, z: z-1}, value: this.getCellValue(x, y, z - 1)});
+
+                    neighbours.push({cell: {x: x, y: y+1, z: z}, value: this.getCellValue(x, y + 1, z)});
+                    neighbours.push({cell: {x: x, y: y-1, z: z}, value: this.getCellValue(x, y - 1, z)});
+
+                    neighbours.push({cell: {x: x, y: y+1, z: z-1}, value: this.getCellValue(x, y + 1, z - 1)});
+                    neighbours.push({cell: {x: x, y: y-1, z: z-1}, value: this.getCellValue(x, y - 1, z - 1)});
+
+                    neighbours.push({cell: {x: x+1, y: y+1, z: z}, value: this.getCellValue(x + 1, y + 1, z)});
+                    neighbours.push({cell: {x: x+1, y: y-1, z: z}, value: this.getCellValue(x + 1, y - 1, z)});
+                } else if (z == 0) {
+                    neighbours.push({cell: {x: x, y: y, z: z+1}, value: this.getCellValue(x, y, z + 1)});
+
+                    neighbours.push({cell: {x: x, y: y+1, z: z}, value: this.getCellValue(x, y + 1, z)});
+                    neighbours.push({cell: {x: x, y: y-1, z: z}, value: this.getCellValue(x, y - 1, z)});
+
+                    neighbours.push({cell: {x: x, y: y+1, z: z+1}, value: this.getCellValue(x, y + 1, z + 1)});
+                    neighbours.push({cell: {x: x, y: y-1, z: z+1}, value: this.getCellValue(x, y - 1, z + 1)});
+
+                    neighbours.push({cell: {x: x+1, y: y+1, z: z}, value: this.getCellValue(x + 1, y + 1, z)});
+                    neighbours.push({cell: {x: x+1, y: y-1, z: z}, value: this.getCellValue(x + 1, y - 1, z)});
+                }
+
+                if (y == this.size - 1) {
+                    neighbours.push({cell: {x: x, y: y-1, z: z}, value: this.getCellValue(x, y - 1, z)});
+
+                    neighbours.push({cell: {x: x, y: y, z: z+1}, value: this.getCellValue(x, y, z + 1)});
+                    neighbours.push({cell: {x: x, y: y, z: z-1}, value: this.getCellValue(x, y, z - 1)});
+
+                    neighbours.push({cell: {x: x, y: y-1, z: z+1}, value: this.getCellValue(x, y - 1, z + 1)});
+                    neighbours.push({cell: {x: x, y: y-1, z: z-1}, value: this.getCellValue(x, y - 1, z - 1)});
+
+                    neighbours.push({cell: {x: x+1, y: y, z: z+1}, value: this.getCellValue(x + 1, y, z + 1)});
+                    neighbours.push({cell: {x: x+1, y: y, z: z-1}, value: this.getCellValue(x + 1, y, z - 1)});
+                } else if (y == 0) {
+                    neighbours.push({cell: {x: x, y: y+1, z: z}, value: this.getCellValue(x, y + 1, z)});
+
+                    neighbours.push({cell: {x: x, y: y, z: z+1}, value: this.getCellValue(x, y, z + 1)});
+                    neighbours.push({cell: {x: x, y: y, z: z-1}, value: this.getCellValue(x, y, z - 1)});
+
+                    neighbours.push({cell: {x: x, y: y+1, z: z+1}, value: this.getCellValue(x, y + 1, z + 1)});
+                    neighbours.push({cell: {x: x, y: y+1, z: z-1}, value: this.getCellValue(x, y + 1, z - 1)});
+
+                    neighbours.push({cell: {x: x+1, y: y, z: z+1}, value: this.getCellValue(x + 1, y, z + 1)});
+                    neighbours.push({cell: {x: x+1, y: y, z: z-1}, value: this.getCellValue(x + 1, y, z - 1)});
+                }
+            } else if (z == this.size - 1) {
+                neighbours.push({cell: {x: x, y: y, z: z-1}, value: this.getCellValue(x, y, z - 1)});
+
+                neighbours.push({cell: {x: x-1, y: y, z: z}, value: this.getCellValue(x - 1, y, z)});
+                neighbours.push({cell: {x: x+1, y: y, z: z}, value: this.getCellValue(x + 1, y, z)});
+
+                neighbours.push({cell: {x: x-1, y: y, z: z-1}, value: this.getCellValue(x - 1, y, z - 1)});
+                neighbours.push({cell: {x: x+1, y: y, z: z-1}, value: this.getCellValue(x + 1, y, z - 1)});
+
+                if (y == this.size - 1) {
+                    neighbours.push({cell: {x: x, y: y-1, z: z}, value: this.getCellValue(x, y - 1, z)});
+
+                    neighbours.push({cell: {x: x+1, y: y-1, z: z}, value: this.getCellValue(x + 1, y - 1, z)});
+                    neighbours.push({cell: {x: x-1, y: y-1, z: z}, value: this.getCellValue(x - 1, y - 1, z)});
+                } else if (y == 0) {
+                    neighbours.push({cell: {x: x, y: y+1, z: z}, value: this.getCellValue(x, y + 1, z)});
+
+                    neighbours.push({cell: {x: x+1, y: y+1, z: z}, value: this.getCellValue(x + 1, y + 1, z)});
+                    neighbours.push({cell: {x: x-1, y: y+1, z: z}, value: this.getCellValue(x - 1, y + 1, z)});
+                }
+            } else if (z == 0) {
+                neighbours.push({cell: {x: x, y: y, z: z+1}, value: this.getCellValue(x, y, z + 1)});
+
+                neighbours.push({cell: {x: x-1, y: y, z: z}, value: this.getCellValue(x - 1, y, z)});
+                neighbours.push({cell: {x: x+1, y: y, z: z}, value: this.getCellValue(x + 1, y, z)});
+
+                neighbours.push({cell: {x: x-1, y: y, z: z+1}, value: this.getCellValue(x - 1, y, z + 1)});
+                neighbours.push({cell: {x: x+1, y: y, z: z+1}, value: this.getCellValue(x + 1, y, z + 1)});
+
+                if (y == this.size - 1) {
+                    neighbours.push({cell: {x: x, y: y-1, z: z}, value: this.getCellValue(x, y - 1, z)});
+
+                    neighbours.push({cell: {x: x+1, y: y-1, z: z}, value: this.getCellValue(x + 1, y - 1, z)});
+                    neighbours.push({cell: {x: x-1, y: y-1, z: z}, value: this.getCellValue(x - 1, y - 1, z)});
+                } else if (y == 0) {
+                    neighbours.push({cell: {x: x, y: y+1, z: z}, value: this.getCellValue(x, y + 1, z)});
+
+                    neighbours.push({cell: {x: x+1, y: y+1, z: z}, value: this.getCellValue(x + 1, y + 1, z)});
+                    neighbours.push({cell: {x: x-1, y: y+1, z: z}, value: this.getCellValue(x - 1, y + 1, z)});
+                }
+            }
+        } else {
+            // The cell is in the middle
+
+            if (x == 0 || x == this.size - 1) {
+                neighbours.push({cell: {x: x, y: y+1, z: z}, value: this.getCellValue(x, y + 1, z)});
+                neighbours.push({cell: {x: x, y: y-1, z: z}, value: this.getCellValue(x, y - 1, z)});
+                neighbours.push({cell: {x: x, y: y, z: z+1}, value: this.getCellValue(x, y, z + 1)});
+                neighbours.push({cell: {x: x, y: y, z: z-1}, value: this.getCellValue(x, y, z - 1)});
+                neighbours.push({cell: {x: x, y: y+1, z: z+1}, value: this.getCellValue(x, y + 1, z + 1)});
+                neighbours.push({cell: {x: x, y: y-1, z: z-1}, value: this.getCellValue(x, y - 1, z - 1)});
+                neighbours.push({cell: {x: x, y: y-1, z: z+1}, value: this.getCellValue(x, y - 1, z + 1)});
+                neighbours.push({cell: {x: x, y: y+1, z: z-1}, value: this.getCellValue(x, y + 1, z - 1)});
+            } else if (y == 0 || y == this.size - 1) {
+                neighbours.push({cell: {x: x+1, y: y, z: z}, value: this.getCellValue(x + 1, y, z)});
+                neighbours.push({cell: {x: x-1, y: y, z: z}, value: this.getCellValue(x - 1, y, z)});
+                neighbours.push({cell: {x: x, y: y, z: z+1}, value: this.getCellValue(x, y, z + 1)});
+                neighbours.push({cell: {x: x, y: y, z: z-1}, value: this.getCellValue(x, y, z - 1)});
+                neighbours.push({cell: {x: x+1, y: y, z: z+1}, value: this.getCellValue(x + 1, y, z + 1)});
+                neighbours.push({cell: {x: x-1, y: y, z: z-1}, value: this.getCellValue(x - 1, y, z - 1)});
+                neighbours.push({cell: {x: x-1, y: y, z: z+1}, value: this.getCellValue(x - 1, y, z + 1)});
+                neighbours.push({cell: {x: x+1, y: y, z: z-1}, value: this.getCellValue(x + 1, y, z - 1)});
+            } else if (z == 0 || z == this.size - 1) {
+                neighbours.push({cell: {x: x+1, y: y, z: z}, value: this.getCellValue(x + 1, y, z)});
+                neighbours.push({cell: {x: x-1, y: y, z: z}, value: this.getCellValue(x - 1, y, z)});
+                neighbours.push({cell: {x: x, y: y+1, z: z}, value: this.getCellValue(x, y + 1, z)});
+                neighbours.push({cell: {x: x, y: y-1, z: z}, value: this.getCellValue(x, y - 1, z)});
+                neighbours.push({cell: {x: x+1, y: y+1, z: z}, value: this.getCellValue(x + 1, y + 1, z)});
+                neighbours.push({cell: {x: x-1, y: y-1, z: z}, value: this.getCellValue(x - 1, y - 1, z)});
+                neighbours.push({cell: {x: x-1, y: y+1, z: z}, value: this.getCellValue(x - 1, y + 1, z)});
+                neighbours.push({cell: {x: x+1, y: y-1, z: z}, value: this.getCellValue(x + 1, y - 1, z)});
+            }
+        }
+
+		return neighbours;
+    }
+
     addBombs(amount) {
         let bombs = 0;
         while (bombs < amount) {
