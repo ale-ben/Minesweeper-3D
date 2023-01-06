@@ -77,7 +77,7 @@ export class Element {
     updateObject(time) {
     }
 
-    onClick(gl) {
+    onClick(params) {
         console.log("Clicked on " + this.name + " with id " + this.id);
         this.clicked = true;
     }

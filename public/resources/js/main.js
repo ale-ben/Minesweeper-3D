@@ -35,6 +35,8 @@ async function main() {
 		console.log("Number of bombs: " + numBombsRange.value);
 
 		let cube = new CubeRepresentation(cubeSizeRange.value);
+		env.cube = cube;
+		
 		cube.addBombs(numBombsRange.value);
 
 		// Only clickable element is the start button
@@ -85,13 +87,13 @@ async function main() {
 }
 
 function addCube(x, y, z, size, value) {
-    let offset = Math.trunc(size / 2);
-    let cubeDistance = 1.2;
-    return new CubeElement("./resources/models/cube.obj", {
+	const cubeDistance = 1.2;
+    const offset = Math.trunc(size / 2);
+    return new CubeElement("./resources/models/cube.obj", offset, cubeDistance, {
         center: {
-            x: (x - offset) * cubeDistance,
-            y: (y - offset) * cubeDistance,
-            z: (z - offset) * cubeDistance
+            x: x,
+            y: y,
+            z: z,
         },
         value: value,
         //showCompleted: true
