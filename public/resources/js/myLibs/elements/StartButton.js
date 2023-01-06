@@ -10,6 +10,10 @@ export class StartButton extends Element {
 		this.startHandler = startHandler;
 	}
 
+	updateObject(time) {
+		this.rotation.onSelf.z += 0.01;
+    }
+
 	onClick() {
 		this.startHandler();
 	}
