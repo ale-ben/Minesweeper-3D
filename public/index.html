@@ -23,6 +23,10 @@
         Show axes:
         <input id="enableAxesToggle" type="checkbox" />
     </p>
+	<p>
+        Enable transparency:
+        <input id="enableTransparencyToggle" type="checkbox" checked="true"/>
+    </p>
     <p>
 		Cube size:
         <input type="range" value="3" min="3" max="7" step="2" oninput="this.nextElementSibling.value = this.value" id="cubeSizeRange">
@@ -33,6 +37,9 @@
         <input type="range" value="5" min="1" max="20" step="1" oninput="this.nextElementSibling.value = this.value" id="numBombsRange">
         <output>5</output>
     </p>
+	<p>
+		<button onClick="window.location.reload();">Reset</button>
+	</p>	
 </body>
 <!-- This sample uses TWGL (Tiny WebGL) to hide the clutter. Otherwise the sample would be full of code not related to the point of the sample. For more info see https://webgl2fundamentals.org/webgl/lessons/webgl-less-code-more-fun.html -->
 
