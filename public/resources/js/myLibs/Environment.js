@@ -61,6 +61,21 @@ export class Environment {
         this.pickableMap.delete(objID);
     }
 
+    removeObjectByName(objName) {
+        let obj = this.objList.find(obj => obj.name == objName);
+        if (obj) {
+            this.objList = this.objList.filter(obj => obj.name != objName);
+            if (obj.id != 0)
+                this.pickableMap.delete(obj.id);
+        }
+    }
+
+    removeObject(obj) {
+        this.objList = this.objList.filter(o => o != obj);
+        if (obj.id != 0)
+            this.pickableMap.delete(obj.id);
+    }
+
     async reloadMeshes() {
         for (let obj of this.objList) {
             await MeshLoader.LoadOBJAndMesh(this.gl, obj);

@@ -35,8 +35,8 @@ async function main() {
 		cube.addBombs(numBombsRange.value);
 
 		// Only clickable element is the start button
-		env.removeObjectByID(1);
-
+		env.removeObjectByName("Start");
+		
 		// Add the cube
 		for (let x = 0; x < cube.size; x++) {
 			for (let y = 0; y < cube.size; y++) {
