@@ -1,9 +1,12 @@
 import {
     Element
-} from "./myLibs/Element.js";
+} from "./myLibs/elements/Element.js";
 import {
     StartButton
-} from "./myLibs/StartButton.js";
+} from "./myLibs/elements/StartButton.js";
+import {
+    CubeElement
+} from "./myLibs/elements/CubeElement.js";
 import {
     Environment
 } from "./myLibs/Environment.js";
@@ -36,7 +39,7 @@ async function main() {
 
 		// Only clickable element is the start button
 		env.removeObjectByName("Start");
-		
+
 		// Add the cube
 		for (let x = 0; x < cube.size; x++) {
 			for (let y = 0; y < cube.size; y++) {
@@ -84,13 +87,12 @@ async function main() {
 function addCube(x, y, z, size, value) {
     let offset = Math.trunc(size / 2);
     let cubeDistance = 1.2;
-    return new Element("cube", "./resources/models/cube.obj", {
+    return new CubeElement("./resources/models/cube.obj", {
         center: {
             x: (x - offset) * cubeDistance,
             y: (y - offset) * cubeDistance,
             z: (z - offset) * cubeDistance
         },
-        detectClick: true,
         value: value,
         //showCompleted: true
     });
