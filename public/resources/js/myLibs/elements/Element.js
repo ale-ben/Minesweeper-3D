@@ -62,12 +62,6 @@ export class Element {
         } else {
             this.setID(0);
         }
-
-        if (options.value || options.value == 0) {
-            this.value = options.value;
-            if (options.showCompleted)
-                this.mtlPath = "./resources/models/cube" + this.value + ".mtl";
-        }
     }
 
     setID(id) {
@@ -81,22 +75,10 @@ export class Element {
     }
 
     updateObject(time) {
-		if (this.name == "Start")
-			this.rotation.onSelf.z += 0.01;
-		/*
-        if (this.name == "cube") {
-            //this.rotation.onSelf.x += 0.01;
-            //this.rotation.onSelf.y += 0.01;
-            this.rotation.onSelf.z += 0.01;
-
-			//this.rotation.onAxes.x -= 0.01;
-			//this.rotation.onAxes.y -= 0.01;
-			this.rotation.onAxes.z -= 0.01;
-		}*/
     }
 
-    onClick() {
-        console.log("Clicked on " + this.name + " with value " + this.value);
+    onClick(gl) {
+        console.log("Clicked on " + this.name + " with id " + this.id);
         this.clicked = true;
     }
 }

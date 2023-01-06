@@ -100,8 +100,7 @@ export class Environment {
         if (objID != 0) {
             let obj = this.pickableMap.get(objID);
             if (obj && !obj.clicked) {
-                obj.onClick();
-                MeshLoader.LoadOBJAndMesh(this.gl, obj);
+                obj.onClick(this.gl);
             }
             // TODO: Check for game state
         }
