@@ -76,6 +76,11 @@ export class Environment {
             this.pickableMap.delete(obj.id);
     }
 
+	findByCenter(center) {
+		console.debug("Finding object with center: " + center.x + ", " + center.y + ", " + center.z);
+		return this.objList.find(obj => obj.center.x == center.x && obj.center.y == center.y && obj.center.z == center.z);
+	}
+
     async reloadMeshes() {
         for (let obj of this.objList) {
             await MeshLoader.LoadOBJAndMesh(this.gl, obj);
@@ -100,7 +105,7 @@ export class Environment {
         if (objID != 0) {
             let obj = this.pickableMap.get(objID);
             if (obj && !obj.clicked) {
-                obj.onClick(this.gl);
+                obj.onClick({gl: this.gl, env: this});
             }
             // TODO: Check for game state
         }
