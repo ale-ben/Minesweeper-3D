@@ -18,13 +18,36 @@ export class Element {
                 z: 0
             };
 
-        if (options.rotation)
-            this.rotation = options.rotation;
-        else
+        if (options.rotation) {
+            this.rotation = {};
+            if (options.rotation.onAxes)
+                this.rotation.onAxes = options.rotation.onAxes;
+            else
+                this.rotation.onAxes = {
+                    x: 0,
+                    y: 0,
+                    z: 0
+                };
+            if (options.rotation.onSelf)
+                this.rotation.onSelf = options.rotation.onSelf;
+            else
+                this.rotation.onSelf = {
+                    x: 0,
+                    y: 0,
+                    z: 0
+                };
+        } else
             this.rotation = {
-                x: 0,
-                y: 0,
-                z: 0
+                onAxes: {
+                    x: 0,
+                    y: 0,
+                    z: 0
+                },
+                onSelf: {
+                    x: 0,
+                    y: 0,
+                    z: 0
+                }
             };
 
         if (options.mtlPath)
@@ -57,7 +80,20 @@ export class Element {
         ];
     }
 
-    updateObject(time) {}
+    updateObject(time) {
+		if (this.name == "Start")
+			this.rotation.onSelf.z += 0.01;
+		/*
+        if (this.name == "cube") {
+            //this.rotation.onSelf.x += 0.01;
+            //this.rotation.onSelf.y += 0.01;
+            this.rotation.onSelf.z += 0.01;
+
+			//this.rotation.onAxes.x -= 0.01;
+			//this.rotation.onAxes.y -= 0.01;
+			this.rotation.onAxes.z -= 0.01;
+		}*/
+    }
 
     onClick() {
         console.log("Clicked on " + this.name + " with value " + this.value);
