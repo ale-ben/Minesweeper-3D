@@ -31,8 +31,8 @@ export class CubeElement extends Element {
             console.log("Clicked on cube with id " + this.id + " and value " + this.value);
             if (params && params.isLeftClick) {
                 this.mtlPath = "./resources/models/cube" + this.value + ".mtl";
-				params.env.pickableMap.delete(this.id);
-				this.detectClick = false;
+                params.env.pickableMap.delete(this.id);
+                this.detectClick = false;
                 if (params && params.gl)
                     MeshLoader.LoadOBJAndMesh(params.gl, this);
                 else
@@ -55,9 +55,9 @@ export class CubeElement extends Element {
                         if (obj instanceof CubeElement) {
                             obj.clicked = true;
                             obj.mtlPath = "./resources/models/cube" + obj.value + ".mtl";
-                        } 
+                        }
                     }
-					params.env.setGameOver();
+                    params.env.setGameOver();
                     params.env.reloadMeshes();
                 }
             } else if (params) {
@@ -78,9 +78,9 @@ export class CubeElement extends Element {
             else
                 console.warn("No gl context provided to CubeElement onClick function.");
         }
-		if (params && params.env) {
-			console.log("Won? " + params.env.checkWinCondition());
-		}
+        if (params && params.env) {
+            console.log("Won? " + params.env.checkWinCondition());
+        }
     }
 }
 
