@@ -5,8 +5,8 @@ import {
     MeshLoader
 } from "../WebGL_helper_functions/MeshLoader.js";
 import {
-    GameOver
-} from "./GameOver.js";
+    TextElement
+} from "./TextElement.js";
 
 export class CubeElement extends Element {
     constructor(filePath, offset, cubeDistance, options = {}) {
@@ -55,10 +55,9 @@ export class CubeElement extends Element {
                         if (obj instanceof CubeElement) {
                             obj.clicked = true;
                             obj.mtlPath = "./resources/models/cube" + obj.value + ".mtl";
-                        } else if (obj instanceof GameOver) {
-                            obj.hidden = false;
-                        }
+                        } 
                     }
+					params.env.setGameOver();
                     params.env.reloadMeshes();
                 }
             } else if (params) {

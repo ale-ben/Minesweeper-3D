@@ -5,8 +5,8 @@ import {
     StartButton
 } from "./myLibs/elements/StartButton.js";
 import {
-    GameOver
-} from "./myLibs/elements/GameOver.js";
+    TextElement
+} from "./myLibs/elements/TextElement.js";
 import {
     CubeElement
 } from "./myLibs/elements/CubeElement.js";
@@ -43,7 +43,12 @@ async function main() {
         // Only clickable element is the start button
         env.removeObjectByName("Start");
 
-		env.addObject(new GameOver(cubeSizeRange.value));
+		env.addObject(new TextElement(
+			"GameOver",
+			{x: 0, y:0, z: cubeSizeRange.value},
+			"./resources/models/gameOver.obj",
+			true
+		));
 
         // Add the cube
         for (let x = 0; x < cube.size; x++) {
