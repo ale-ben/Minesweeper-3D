@@ -3,8 +3,13 @@ import {
 } from "./Element.js";
 
 export class GameOver extends Element {
-    constructor() {
+    constructor(cubeSize) {
         super("GameOver", "./resources/models/gameOver.obj", {
+			center : {
+				x: 0,
+				y: 0,
+				z: cubeSize
+			},
             hidden: true
         });
     }

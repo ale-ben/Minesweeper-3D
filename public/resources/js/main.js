@@ -43,6 +43,8 @@ async function main() {
         // Only clickable element is the start button
         env.removeObjectByName("Start");
 
+		env.addObject(new GameOver(cubeSizeRange.value));
+
         // Add the cube
         for (let x = 0; x < cube.size; x++) {
             for (let y = 0; y < cube.size; y++) {
@@ -59,8 +61,6 @@ async function main() {
     env.addObject(new Element("Axes", "./resources/models/axes.obj", {
         hidden: true
     }));
-
-    env.addObject(new GameOver());
 
     env.addObject(new StartButton(startHandler));
 

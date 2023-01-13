@@ -55,25 +55,6 @@ export class CubeElement extends Element {
                         if (obj instanceof CubeElement) {
                             obj.clicked = true;
                             obj.mtlPath = "./resources/models/cube" + obj.value + ".mtl";
-                            let center = obj.center;
-                            if (center.x > 0) {
-                                obj.center.x += 5;
-                            }
-                            if (center.x < 0) {
-                                obj.center.x -= 5;
-                            }
-                            if (center.y > 0) {
-                                obj.center.y += 5;
-                            }
-                            if (center.y < 0) {
-                                obj.center.y -= 5;
-                            }
-                            if (center.z > 0) {
-                                obj.center.z += 5;
-                            }
-                            if (center.z < 0) {
-                                obj.center.z -= 5;
-                            }
                         } else if (obj instanceof GameOver) {
                             obj.hidden = false;
                         }
