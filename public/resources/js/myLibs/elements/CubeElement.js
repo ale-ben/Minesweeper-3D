@@ -31,6 +31,8 @@ export class CubeElement extends Element {
             console.log("Clicked on cube with id " + this.id + " and value " + this.value);
             if (params && params.isLeftClick) {
                 this.mtlPath = "./resources/models/cube" + this.value + ".mtl";
+				params.env.pickableMap.delete(this.id);
+				this.detectClick = false;
                 if (params && params.gl)
                     MeshLoader.LoadOBJAndMesh(params.gl, this);
                 else
