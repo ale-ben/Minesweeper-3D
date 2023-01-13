@@ -25,7 +25,8 @@ export class Camera {
             step: {
                 xy: degToRad(10),
                 xz: degToRad(2),
-                zoom: 1
+                zoom: 1,
+				touchZoon: 0.2
             },
             dragging: false,
             forceDrag: false,
@@ -88,17 +89,17 @@ export class Camera {
         this.moveCamera();
     }
 
-    zoomIn() {
+    zoomIn(step=null) {
         if (this.radius > 5) {
-            this.radius -= this.movement.step.zoom;
+            this.radius -= (step ? step : this.movement.step.zoom);
             this.movement.updateCamera = true;
             this.moveCamera();
         }
     }
 
-    zoomOut() {
+    zoomOut(step=null) {
         if (this.radius < 30) {
-            this.radius += this.movement.step.zoom;
+            this.radius += (step ? step : this.movement.step.zoom);
             this.movement.updateCamera = true;
             this.moveCamera();
         }
@@ -128,6 +129,12 @@ export class Camera {
         this.moveCamera();
     }
 
+    getTouchDist(e) {
+        var zw = e.touches[0].pageX - e.touches[1].pageX,
+            zh = e.touches[0].pageY - e.touches[1].pageY;
+        return Math.sqrt(zw * zw + zh * zh);
+    }
+
     /**
      * Set camera drag movement event listeners
      * @param {*} canvas
@@ -148,10 +155,14 @@ export class Camera {
         });
 
         canvas.addEventListener("touchstart", function(event) {
-            // TODO: mode selector, camera / click
             if (debug == true)
                 console.log("touchstart");
             event.preventDefault();
+            if (event.touches.length > 1) {
+                camera.touch = {
+                    baseDist: camera.getTouchDist(event)
+                };
+            }
             camera.movement.old = null;
             camera.movement.dragging = true;
         });
@@ -183,6 +194,7 @@ export class Camera {
          */
         canvas.addEventListener("mousemove", function(event) {
             event.preventDefault();
+
             if (!camera.movement.dragging && !camera.movement.forceDrag)
                 return;
 
@@ -217,7 +229,18 @@ export class Camera {
             if (debug == true)
                 console.log("touchmove", camera.movement);
 
-			let touch = event.touches[0];
+            if (event.touches.length > 1) {
+                //get the ratio
+				const currentDist = camera.getTouchDist(event)
+				const rf = currentDist - camera.touch.baseDist;
+				if (rf>0) 
+					camera.zoomIn(camera.movement.step.touchZoon);
+				else
+					camera.zoomOut(camera.movement.step.touchZoon);
+				camera.touch.baseDist = currentDist;
+				return;
+            }
+            let touch = event.touches[0];
 
             if (camera.movement.old) {
                 // Compute drag delta
@@ -237,8 +260,6 @@ export class Camera {
 
             camera.movement.updateCamera = true;
         });
-
-        canvas.addEventListener("touchcancel", function(event) {});
 
         window.addEventListener("keydown", function(event) {
             event.preventDefault();
@@ -277,6 +298,14 @@ export class Camera {
                 case "Shift":
                     camera.movement.forceDrag = false;
             }
+        });
+
+        window.addEventListener("wheel", event => {
+            const delta = Math.sign(event.deltaY);
+            if (delta > 0)
+                camera.zoomIn();
+            else
+                camera.zoomOut();
         });
 
         window.addEventListener("wheel", event => {
