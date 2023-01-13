@@ -16,7 +16,7 @@ export class CubeElement extends Element {
 
         this.offset = offset;
         this.cubeDistance = cubeDistance;
-		this.hasFlag = false;
+        this.hasFlag = false;
 
         if (options.value || options.value == 0) {
             this.value = options.value;
@@ -79,23 +79,23 @@ export class CubeElement extends Element {
                     params.env.reloadMeshes();
                 }
             } else if (params) {
-				this.mtlPath = "./resources/models/cubeFlag.mtl";
-				this.hasFlag = true;
+                this.mtlPath = "./resources/models/cubeFlag.mtl";
+                this.hasFlag = true;
                 if (params && params.gl)
                     MeshLoader.LoadOBJAndMesh(params.gl, this);
                 else
                     console.warn("No gl context provided to CubeElement onClick function.");
-			}
+            }
         } else if (this.clicked && this.hasFlag && params && !params.isLeftClick) {
-			console.log("Ajeje")
-			this.mtlPath = "./resources/models/cubeBase.mtl";
-			this.hasFlag = false;
-			this.clicked = false;
-			if (params && params.gl)
-                    MeshLoader.LoadOBJAndMesh(params.gl, this);
-                else
-                    console.warn("No gl context provided to CubeElement onClick function.");
-		}
+            console.log("Ajeje");
+            this.mtlPath = "./resources/models/cubeBase.mtl";
+            this.hasFlag = false;
+            this.clicked = false;
+            if (params && params.gl)
+                MeshLoader.LoadOBJAndMesh(params.gl, this);
+            else
+                console.warn("No gl context provided to CubeElement onClick function.");
+        }
     }
 }
 
