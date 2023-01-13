@@ -42,6 +42,17 @@ export class Environment {
             enableTransparency: true
         });
 
+        this.dashboard = {
+            timer: {
+                startTime: 0,
+                outputSpan: document.getElementById("timeElapsed")
+            },
+			bombsLeft: {
+				value: 0,
+				outputSpan: document.getElementById("minesRemaining")
+			}
+        };
+
         this.gl.canvas.addEventListener("mousedown", event => {
             // Button 0 is the left mouse button
             // Button 1 is the middle mouse button
@@ -133,16 +144,50 @@ export class Environment {
             }
         }
         this.objList.filter(obj => obj instanceof TextElement && obj.name == "Victory")[0].hidden = false;
+        this.dashboard.timer.run = false;
         return true;
     }
 
     setGameOver() {
         this.objList.filter(obj => obj instanceof TextElement && obj.name == "GameOver")[0].hidden = false;
+        this.dashboard.timer.run = false;
     }
+
+    updateTimer() {
+        if (this.dashboard.timer.run) {
+            if (this.dashboard.timer.startTime == 0) {
+                this.dashboard.timer.startTime = new Date().getTime();
+            }
+            let timeElapsed = new Date().getTime() - this.dashboard.timer.startTime;
+            let seconds = Math.floor(timeElapsed / 1000);
+            let minutes = Math.floor(seconds / 60);
+            seconds = seconds % 60;
+            let timeString = (
+                minutes < 10 ?
+                "0" :
+                "") + minutes + ":" + (
+                seconds < 10 ?
+                "0" :
+                "") + seconds;
+            this.dashboard.timer.outputSpan.innerHTML = timeString;
+        }
+    }
+
+	bombFlagged() {
+		this.dashboard.bombsLeft.value--;
+		this.dashboard.bombsLeft.outputSpan.innerHTML = this.dashboard.bombsLeft.value;
+	}
+
+	bombUnflagged() {
+		this.dashboard.bombsLeft.value++;
+		this.dashboard.bombsLeft.outputSpan.innerHTML = this.dashboard.bombsLeft.value;
+	}
 
     renderEnvironment(time) {
         // Re evaluate camera position
         this.camera.moveCamera();
+
+        this.updateTimer();
 
         this.objList.forEach(obj => obj.updateObject(time));
 

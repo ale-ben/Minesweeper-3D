@@ -6,40 +6,74 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minesweeper 3D</title>
+    <link href="./style.css" rel="stylesheet">
 </head>
 
 <body>
-    <h2 class="text-2xl font-semibold sm:text-6xl">Minesweeper 3D</h2>
-    <canvas id="canvas" width="1280" height="720" style="background-color: lightblue;"></canvas>
-    <p>
-        Debug Mode:
-        <input id="debugToggle" type="checkbox" />
-    </p>
-    <p>
-        Sync light with camera:
-        <input id="syncLightToggle" type="checkbox" checked="true" />
-    </p>
-    <p>
-        Show axes:
-        <input id="enableAxesToggle" type="checkbox" />
-    </p>
-    <p>
-        Enable transparency:
-        <input id="enableTransparencyToggle" type="checkbox" checked="true" />
-    </p>
-    <p>
-        Cube size:
-        <input type="range" value="3" min="3" max="7" step="2" oninput="this.nextElementSibling.value = this.value" id="cubeSizeRange">
-        <output>3</output>
-    </p>
-    <p>
-        Number of bombs:
-        <input type="range" value="5" min="1" max="20" step="1" oninput="this.nextElementSibling.value = this.value" id="numBombsRange">
-        <output>5</output>
-    </p>
-    <p>
-        <button onclick="window.location.reload();">Reset</button>
-    </p>
+    <div>
+        <h2 class="flex items-center justify-center text-2xl font-semibold mb-8 sm:text-6xl">Minesweeper 3D</h2>
+        <div class="flex items-center justify-center">
+            <canvas id="canvas" width="1280" height="720" class="bg-cyan-200"></canvas>
+            <div class="pl-6">
+                <div class="pb-6">
+                    <p class="font-semibold text-3xl">Scoreboard</p>
+                    <p class="text-1xl ">
+                        Mines remaining:
+                        <span id="minesRemaining" class="text-2xl">-</span>
+                    </p>
+					<p class="text-1xl ">
+                        Time elapsed:
+                        <span id="timeElapsed" class="text-2xl">--:--</span>
+                    </p>
+
+                </div>
+                <div>
+                    <p class="font-semibold text-3xl pb-3">Controls</p>
+
+                    <label class="relative inline-flex items-center mb-5 cursor-pointer">
+                        <input id="debugToggle" type="checkbox" value="" class="sr-only peer">
+                        <div class="w-9 h-5 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                        <span class="ml-3 text-sm font-medium">Debug model</span>
+                    </label>
+                    <br>
+
+                    <label class="relative inline-flex items-center mb-5 cursor-pointer">
+                        <input id="syncLightToggle" type="checkbox" value="" class="sr-only peer" checked="checked">
+                        <div class="w-9 h-5 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                        <span class="ml-3 text-sm font-medium">Sync light source position with camera</span>
+                    </label>
+                    <br>
+
+                    <label class="relative inline-flex items-center mb-5 cursor-pointer">
+                        <input id="enableAxesToggle" type="checkbox" value="" class="sr-only peer">
+                        <div class="w-9 h-5 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                        <span class="ml-3 text-sm font-medium">Show axes</span>
+                    </label>
+                    <br>
+
+                    <label class="relative inline-flex items-center mb-5 cursor-pointer">
+                        <input id="enableTransparencyToggle" type="checkbox" value="" class="sr-only peer" checked="checked">
+                        <div class="w-9 h-5 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                        <span class="ml-3 text-sm font-medium">Transparency</span>
+                    </label>
+                    <br>
+
+                    <p>
+                        Cube size:
+						<output>3</output>
+						<input id="cubeSizeRange" type="range" value="3" min="3" max="7" step="2" oninput="this.previousElementSibling.value = this.value" class="w-full h-1 mb-6 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700">
+                    </p>
+                    <p>
+                        Number of bombs:						
+                        <output>5</output>
+						<input id="numBombsRange" type="range" value="5" min="1" max="20" step="1" oninput="this.previousElementSibling.value = this.value" class="w-full h-1 mb-6 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700">
+                    </p>
+
+					<button onclick="window.location.reload();" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Reset</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 <!-- This sample uses TWGL (Tiny WebGL) to hide the clutter. Otherwise the sample would be full of code not related to the point of the sample. For more info see https://webgl2fundamentals.org/webgl/lessons/webgl-less-code-more-fun.html -->
 
