@@ -26,7 +26,7 @@ export class Camera {
                 xy: degToRad(10),
                 xz: degToRad(2),
                 zoom: 1,
-				touchZoon: 0.2
+                touchZoon: 0.2
             },
             dragging: false,
             forceDrag: false,
@@ -89,17 +89,21 @@ export class Camera {
         this.moveCamera();
     }
 
-    zoomIn(step=null) {
+    zoomIn(step = null) {
         if (this.radius > 5) {
-            this.radius -= (step ? step : this.movement.step.zoom);
+            this.radius -= step ?
+                step :
+                this.movement.step.zoom;
             this.movement.updateCamera = true;
             this.moveCamera();
         }
     }
 
-    zoomOut(step=null) {
+    zoomOut(step = null) {
         if (this.radius < 30) {
-            this.radius += (step ? step : this.movement.step.zoom);
+            this.radius += step ?
+                step :
+                this.movement.step.zoom;
             this.movement.updateCamera = true;
             this.moveCamera();
         }
@@ -231,14 +235,14 @@ export class Camera {
 
             if (event.touches.length > 1) {
                 //get the ratio
-				const currentDist = camera.getTouchDist(event)
-				const rf = currentDist - camera.touch.baseDist;
-				if (rf>0) 
-					camera.zoomIn(camera.movement.step.touchZoon);
-				else
-					camera.zoomOut(camera.movement.step.touchZoon);
-				camera.touch.baseDist = currentDist;
-				return;
+                const currentDist = camera.getTouchDist(event);
+                const rf = currentDist - camera.touch.baseDist;
+                if (rf > 0)
+                    camera.zoomIn(camera.movement.step.touchZoon);
+                else
+                    camera.zoomOut(camera.movement.step.touchZoon);
+                camera.touch.baseDist = currentDist;
+                return;
             }
             let touch = event.touches[0];
 
