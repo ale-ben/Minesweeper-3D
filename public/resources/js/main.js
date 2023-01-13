@@ -43,19 +43,17 @@ async function main() {
         // Only clickable element is the start button
         env.removeObjectByName("Start");
 
-		env.addObject(new TextElement(
-			"GameOver",
-			{x: 0, y:0, z: cubeSizeRange.value},
-			"./resources/models/gameOver.obj",
-			true
-		));
+        env.addObject(new TextElement("GameOver", {
+            x: 0,
+            y: 0,
+            z: cubeSizeRange.value
+        }, "./resources/models/gameOver.obj", true));
 
-		env.addObject(new TextElement(
-			"Victory",
-			{x: 0, y:0, z: cubeSizeRange.value},
-			"./resources/models/victory.obj",
-			true
-		));
+        env.addObject(new TextElement("Victory", {
+            x: 0,
+            y: 0,
+            z: cubeSizeRange.value
+        }, "./resources/models/victory.obj", true));
 
         // Add the cube
         for (let x = 0; x < cube.size; x++) {

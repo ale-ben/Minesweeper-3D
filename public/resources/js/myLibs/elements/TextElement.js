@@ -3,9 +3,9 @@ import {
 } from "./Element.js";
 
 export class TextElement extends Element {
-    constructor(name, center, mtlPath, hidden=false) {
+    constructor(name, center, mtlPath, hidden = false) {
         super(name, mtlPath, {
-			center : center,
+            center: center,
             hidden: hidden
         });
     }
