@@ -74,8 +74,7 @@ export class Element {
         ];
     }
 
-    updateObject(time) {
-    }
+    updateObject(time) {}
 
     onClick(params) {
         console.log("Clicked on " + this.name + " with id " + this.id);

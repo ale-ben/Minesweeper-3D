@@ -37,9 +37,9 @@ export class Environment {
         });
 
         this.gl.canvas.addEventListener("mousedown", event => {
-			// Button 0 is the left mouse button
-			// Button 1 is the middle mouse button
-			// Button 2 is the right mouse button
+            // Button 0 is the left mouse button
+            // Button 1 is the middle mouse button
+            // Button 2 is the right mouse button
             if (event.button == 0 || event.button == 2) {
                 event.preventDefault();
                 if (this.camera.movement.dragging == false && this.camera.movement.forceDrag == false) {
@@ -51,9 +51,9 @@ export class Environment {
             }
         });
 
-		this.gl.canvas.addEventListener("contextmenu", function (e) {
-			e.preventDefault(); 
-		});
+        this.gl.canvas.addEventListener("contextmenu", function(e) {
+            e.preventDefault();
+        });
     }
 
     async addObject(obj) {
@@ -83,10 +83,10 @@ export class Environment {
             this.pickableMap.delete(obj.id);
     }
 
-	findByCenter(center) {
-		console.debug("Finding object with center: " + center.x + ", " + center.y + ", " + center.z);
-		return this.objList.find(obj => obj.center.x == center.x && obj.center.y == center.y && obj.center.z == center.z);
-	}
+    findByCenter(center) {
+        console.debug("Finding object with center: " + center.x + ", " + center.y + ", " + center.z);
+        return this.objList.find(obj => obj.center.x == center.x && obj.center.y == center.y && obj.center.z == center.z);
+    }
 
     async reloadMeshes() {
         for (let obj of this.objList) {
@@ -112,7 +112,11 @@ export class Environment {
         if (objID != 0) {
             let obj = this.pickableMap.get(objID);
             if (obj) {
-                obj.onClick({gl: this.gl, env: this, isLeftClick: isLeftClick});
+                obj.onClick({
+                    gl: this.gl,
+                    env: this,
+                    isLeftClick: isLeftClick
+                });
             }
             // TODO: Check for game state
         }
