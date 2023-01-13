@@ -102,6 +102,7 @@ export class Environment {
 				return false;
 			}
 		}
+		this.objList.filter(obj => obj instanceof TextElement && obj.name == "Victory")[0].hidden = false;
 		return true;
 	}
 
