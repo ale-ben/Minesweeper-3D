@@ -135,7 +135,6 @@ export class Environment {
                     isLeftClick: isLeftClick
                 });
             }
-            // TODO: Check for game state
         }
     }
 }

@@ -50,6 +50,13 @@ async function main() {
 			true
 		));
 
+		env.addObject(new TextElement(
+			"Victory",
+			{x: 0, y:0, z: cubeSizeRange.value},
+			"./resources/models/victory.obj",
+			true
+		));
+
         // Add the cube
         for (let x = 0; x < cube.size; x++) {
             for (let y = 0; y < cube.size; y++) {
