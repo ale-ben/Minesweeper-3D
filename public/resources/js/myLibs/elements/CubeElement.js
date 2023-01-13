@@ -5,8 +5,8 @@ import {
     MeshLoader
 } from "../WebGL_helper_functions/MeshLoader.js";
 import {
-    GameOver
-} from "./GameOver.js";
+    TextElement
+} from "./TextElement.js";
 
 export class CubeElement extends Element {
     constructor(filePath, offset, cubeDistance, options = {}) {
@@ -31,6 +31,8 @@ export class CubeElement extends Element {
             console.log("Clicked on cube with id " + this.id + " and value " + this.value);
             if (params && params.isLeftClick) {
                 this.mtlPath = "./resources/models/cube" + this.value + ".mtl";
+                params.env.pickableMap.delete(this.id);
+                this.detectClick = false;
                 if (params && params.gl)
                     MeshLoader.LoadOBJAndMesh(params.gl, this);
                 else
@@ -53,29 +55,9 @@ export class CubeElement extends Element {
                         if (obj instanceof CubeElement) {
                             obj.clicked = true;
                             obj.mtlPath = "./resources/models/cube" + obj.value + ".mtl";
-                            let center = obj.center;
-                            if (center.x > 0) {
-                                obj.center.x += 5;
-                            }
-                            if (center.x < 0) {
-                                obj.center.x -= 5;
-                            }
-                            if (center.y > 0) {
-                                obj.center.y += 5;
-                            }
-                            if (center.y < 0) {
-                                obj.center.y -= 5;
-                            }
-                            if (center.z > 0) {
-                                obj.center.z += 5;
-                            }
-                            if (center.z < 0) {
-                                obj.center.z -= 5;
-                            }
-                        } else if (obj instanceof GameOver) {
-                            obj.hidden = false;
                         }
                     }
+                    params.env.setGameOver();
                     params.env.reloadMeshes();
                 }
             } else if (params) {
@@ -95,6 +77,9 @@ export class CubeElement extends Element {
                 MeshLoader.LoadOBJAndMesh(params.gl, this);
             else
                 console.warn("No gl context provided to CubeElement onClick function.");
+        }
+        if (params && params.env) {
+            console.log("Won? " + params.env.checkWinCondition());
         }
     }
 }

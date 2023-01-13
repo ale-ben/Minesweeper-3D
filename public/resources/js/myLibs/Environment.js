@@ -7,6 +7,12 @@ import {
 import {
     MeshLoader
 } from "./WebGL_helper_functions/MeshLoader.js";
+import {
+    CubeElement
+} from "./elements/CubeElement.js";
+import {
+    TextElement
+} from "./elements/TextElement.js";
 
 export class Environment {
     constructor(canvasName) {
@@ -58,7 +64,8 @@ export class Environment {
 
     async addObject(obj) {
         this.objList.push(obj);
-        this.pickableMap.set(obj.id, obj);
+        if (obj.id != 0)
+            this.pickableMap.set(obj.id, obj);
 
         await MeshLoader.LoadOBJAndMesh(this.gl, obj);
     }
@@ -94,6 +101,20 @@ export class Environment {
         }
     }
 
+    checkWinCondition() {
+        for (let [id, obj] of this.pickableMap) {
+            if (obj instanceof CubeElement && obj.value != 9) {
+                return false;
+            }
+        }
+        this.objList.filter(obj => obj instanceof TextElement && obj.name == "Victory")[0].hidden = false;
+        return true;
+    }
+
+    setGameOver() {
+        this.objList.filter(obj => obj instanceof TextElement && obj.name == "GameOver")[0].hidden = false;
+    }
+
     renderEnvironment(time) {
         // Re evaluate camera position
         this.camera.moveCamera();
@@ -118,7 +139,6 @@ export class Environment {
                     isLeftClick: isLeftClick
                 });
             }
-            // TODO: Check for game state
         }
     }
 }
