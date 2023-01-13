@@ -36,7 +36,7 @@ export class Environment {
             enableTransparency: true
         });
 
-        this.gl.canvas.addEventListener("mouseup", event => {
+        this.gl.canvas.addEventListener("mousedown", event => {
             if (event.button == 0) {
                 event.preventDefault();
                 if (this.camera.movement.dragging == false && this.camera.movement.forceDrag == false) {

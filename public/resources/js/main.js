@@ -5,6 +5,9 @@ import {
     StartButton
 } from "./myLibs/elements/StartButton.js";
 import {
+    GameOver
+} from "./myLibs/elements/GameOver.js";
+import {
     CubeElement
 } from "./myLibs/elements/CubeElement.js";
 import {
@@ -58,6 +61,8 @@ async function main() {
 	env.addObject(new Element("Axes", "./resources/models/axes.obj", {
         hidden: true
     }));
+
+	env.addObject(new GameOver());
 
 	env.addObject(new StartButton(startHandler));
 
