@@ -10,8 +10,8 @@ export class Camera {
         this.lightPosition = [2, 2, 2];
         this.aspect = canvas.clientWidth / canvas.clientHeight;
         (this.defaultAngle = {
-            xy: degToRad(10),
-            xz: degToRad(30)
+            xy: degToRad(0),
+            xz: degToRad(0)
         }),
         (this.movement = {
             delta: {

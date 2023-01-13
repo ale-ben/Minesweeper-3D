@@ -18,13 +18,36 @@ export class Element {
                 z: 0
             };
 
-        if (options.rotation)
-            this.rotation = options.rotation;
-        else
+        if (options.rotation) {
+            this.rotation = {};
+            if (options.rotation.onAxes)
+                this.rotation.onAxes = options.rotation.onAxes;
+            else
+                this.rotation.onAxes = {
+                    x: 0,
+                    y: 0,
+                    z: 0
+                };
+            if (options.rotation.onSelf)
+                this.rotation.onSelf = options.rotation.onSelf;
+            else
+                this.rotation.onSelf = {
+                    x: 0,
+                    y: 0,
+                    z: 0
+                };
+        } else
             this.rotation = {
-                x: 0,
-                y: 0,
-                z: 0
+                onAxes: {
+                    x: 0,
+                    y: 0,
+                    z: 0
+                },
+                onSelf: {
+                    x: 0,
+                    y: 0,
+                    z: 0
+                }
             };
 
         if (options.mtlPath)
@@ -38,12 +61,6 @@ export class Element {
             this.setID(Element.next_id++);
         } else {
             this.setID(0);
-        }
-
-        if (options.value || options.value == 0) {
-            this.value = options.value;
-            if (options.showCompleted)
-                this.mtlPath = "./resources/models/cube" + this.value + ".mtl";
         }
     }
 
@@ -59,10 +76,8 @@ export class Element {
 
     updateObject(time) {}
 
-    onClick() {
-        console.log("Clicked on " + this.name + " with value " + this.value);
-        if (this.value || this.value == 0)
-            this.mtlPath = "./resources/models/cube" + this.value + ".mtl";
+    onClick(params) {
+        console.log("Clicked on " + this.name + " with id " + this.id);
         this.clicked = true;
     }
 }

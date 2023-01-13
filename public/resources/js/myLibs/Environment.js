@@ -36,16 +36,23 @@ export class Environment {
             enableTransparency: true
         });
 
-        this.gl.canvas.addEventListener("mouseup", event => {
-            if (event.button == 0) {
+        this.gl.canvas.addEventListener("mousedown", event => {
+            // Button 0 is the left mouse button
+            // Button 1 is the middle mouse button
+            // Button 2 is the right mouse button
+            if (event.button == 0 || event.button == 2) {
                 event.preventDefault();
                 if (this.camera.movement.dragging == false && this.camera.movement.forceDrag == false) {
                     const rect = canvas.getBoundingClientRect();
                     const mouseX = event.clientX - rect.left;
                     const mouseY = event.clientY - rect.top;
-                    this.handleObjectClick(mouseX, mouseY);
+                    this.handleObjectClick(mouseX, mouseY, event.button == 0);
                 }
             }
+        });
+
+        this.gl.canvas.addEventListener("contextmenu", function(e) {
+            e.preventDefault();
         });
     }
 
@@ -59,6 +66,26 @@ export class Environment {
     removeObjectByID(objID) {
         this.objList = this.objList.filter(obj => obj.id != objID);
         this.pickableMap.delete(objID);
+    }
+
+    removeObjectByName(objName) {
+        let obj = this.objList.find(obj => obj.name == objName);
+        if (obj) {
+            this.objList = this.objList.filter(obj => obj.name != objName);
+            if (obj.id != 0)
+                this.pickableMap.delete(obj.id);
+        }
+    }
+
+    removeObject(obj) {
+        this.objList = this.objList.filter(o => o != obj);
+        if (obj.id != 0)
+            this.pickableMap.delete(obj.id);
+    }
+
+    findByCenter(center) {
+        console.debug("Finding object with center: " + center.x + ", " + center.y + ", " + center.z);
+        return this.objList.find(obj => obj.center.x == center.x && obj.center.y == center.y && obj.center.z == center.z);
     }
 
     async reloadMeshes() {
@@ -76,7 +103,7 @@ export class Environment {
         this.renderEngine.render(this.camera.getSharedUniforms(), this.programInfo, this.objList, this.pickerProgramInfo);
     }
 
-    handleObjectClick(mouseX, mouseY) {
+    handleObjectClick(mouseX, mouseY, isLeftClick) {
         const objID = this.renderEngine.detectObject(mouseX, mouseY);
         console.log("Click at " + mouseX + ", " + mouseY + (
             objID != 0 ?
@@ -84,9 +111,12 @@ export class Environment {
             ". No object detected"));
         if (objID != 0) {
             let obj = this.pickableMap.get(objID);
-            if (obj && !obj.clicked) {
-                obj.onClick();
-                MeshLoader.LoadOBJAndMesh(this.gl, obj);
+            if (obj) {
+                obj.onClick({
+                    gl: this.gl,
+                    env: this,
+                    isLeftClick: isLeftClick
+                });
             }
             // TODO: Check for game state
         }
