@@ -98,6 +98,9 @@ export class CubeElement extends Element {
             else
                 console.warn("No gl context provided to CubeElement onClick function.");
         }
+		if (params && params.env) {
+			console.log("Won? " + params.env.checkWinCondition());
+		}
     }
 }
 

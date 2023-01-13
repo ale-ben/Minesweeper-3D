@@ -7,6 +7,7 @@ import {
 import {
     MeshLoader
 } from "./WebGL_helper_functions/MeshLoader.js";
+import { CubeElement } from "./elements/CubeElement.js";
 
 export class Environment {
     constructor(canvasName) {
@@ -93,6 +94,15 @@ export class Environment {
             await MeshLoader.LoadOBJAndMesh(this.gl, obj);
         }
     }
+
+	checkWinCondition() {
+		for (let [id, obj] of this.pickableMap) {
+			if (obj instanceof CubeElement && obj.value != 9) {
+				return false;
+			}
+		}
+		return true;
+	}
 
     renderEnvironment(time) {
         // Re evaluate camera position
