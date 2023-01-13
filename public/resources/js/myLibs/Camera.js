@@ -147,6 +147,15 @@ export class Camera {
             }
         });
 
+        canvas.addEventListener("touchstart", function(event) {
+            // TODO: mode selector, camera / click
+            if (debug == true)
+                console.log("touchstart");
+            event.preventDefault();
+            camera.movement.old = null;
+            camera.movement.dragging = true;
+        });
+
         /**
          * On mouse up, set dragging to false and update camera position
          */
@@ -158,6 +167,15 @@ export class Camera {
                 camera.moveCamera();
                 camera.movement.dragging = false;
             }
+        });
+
+        canvas.addEventListener("touchend", function(event) {
+            // TODO: mode selector, camera / click
+            event.preventDefault();
+            if (debug == true)
+                console.log("touchend");
+            camera.moveCamera();
+            camera.movement.dragging = false;
         });
 
         /**
@@ -189,6 +207,38 @@ export class Camera {
 
             camera.movement.updateCamera = true;
         });
+
+        canvas.addEventListener("touchmove", function(event) {
+            event.preventDefault();
+
+            if (!camera.movement.dragging && !camera.movement.forceDrag)
+                return;
+
+            if (debug == true)
+                console.log("touchmove", camera.movement);
+
+			let touch = event.touches[0];
+
+            if (camera.movement.old) {
+                // Compute drag delta
+                let deltaY = (-(touch.pageY - camera.movement.old.y) * 2 * Math.PI) / canvas.height;
+                let deltaX = (-(touch.pageX - camera.movement.old.x) * 2 * Math.PI) / canvas.width;
+
+                // Update camera angle
+                camera.movement.angle.xy = minimizeAngle(camera.movement.angle.xy + deltaX);
+                camera.movement.angle.xz = lockAngle(camera.movement.angle.xz - deltaY, Math.PI / 2 - 0.001);
+            }
+
+            // Save current mouse position
+            camera.movement.old = {
+                x: touch.pageX,
+                y: touch.pageY
+            };
+
+            camera.movement.updateCamera = true;
+        });
+
+        canvas.addEventListener("touchcancel", function(event) {});
 
         window.addEventListener("keydown", function(event) {
             event.preventDefault();

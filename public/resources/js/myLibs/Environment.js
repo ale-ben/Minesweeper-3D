@@ -57,6 +57,23 @@ export class Environment {
             }
         });
 
+        this.gl.canvas.addEventListener("touchstart", event => {
+            this.touchStartX = event.touches[0].clientX;
+            this.touchStartY = event.touches[0].clientY;
+        });
+
+        this.gl.canvas.addEventListener("touchend", event => {
+			//TODO: Implementare controllo modalità bomba / flag
+			event.preventDefault();
+			const rect = canvas.getBoundingClientRect();
+			const touch = event.changedTouches[0]; 
+			const threshold = 5;
+			if (Math.abs(this.touchStartX - touch.clientX) > threshold || Math.abs(this.touchStartY - touch.clientY) > threshold) return;
+			const mouseX = touch.clientX - rect.left;
+			const mouseY = touch.clientY - rect.top;
+			this.handleObjectClick(mouseX, mouseY, true);
+        });
+
         this.gl.canvas.addEventListener("contextmenu", function(e) {
             e.preventDefault();
         });
