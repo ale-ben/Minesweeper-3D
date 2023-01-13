@@ -58,20 +58,26 @@ export class Environment {
         });
 
         this.gl.canvas.addEventListener("touchstart", event => {
-            this.touchStartX = event.touches[0].clientX;
-            this.touchStartY = event.touches[0].clientY;
+            this.touch = {
+                startX: event.touches[0].clientX,
+                startY: event.touches[0].clientY,
+                startTime: new Date().getTime()
+            };
         });
 
         this.gl.canvas.addEventListener("touchend", event => {
-			//TODO: Implementare controllo modalità bomba / flag
-			event.preventDefault();
-			const rect = canvas.getBoundingClientRect();
-			const touch = event.changedTouches[0]; 
-			const threshold = 5;
-			if (Math.abs(this.touchStartX - touch.clientX) > threshold || Math.abs(this.touchStartY - touch.clientY) > threshold) return;
-			const mouseX = touch.clientX - rect.left;
-			const mouseY = touch.clientY - rect.top;
-			this.handleObjectClick(mouseX, mouseY, true);
+            //TODO: Implementare controllo modalità bomba / flag
+            event.preventDefault();
+            const rect = canvas.getBoundingClientRect();
+            const touch = event.changedTouches[0];
+            const distanceThreshold = 5;
+			const timeThreshold = 500;
+            console.log(event.changedTouches);
+            if (Math.abs(this.touch.startX - touch.clientX) > distanceThreshold || Math.abs(this.touch.startY - touch.clientY) > distanceThreshold)
+                return;
+            const mouseX = touch.clientX - rect.left;
+            const mouseY = touch.clientY - rect.top;
+            this.handleObjectClick(mouseX, mouseY, new Date().getTime()-this.touch.startTime < timeThreshold);
         });
 
         this.gl.canvas.addEventListener("contextmenu", function(e) {
