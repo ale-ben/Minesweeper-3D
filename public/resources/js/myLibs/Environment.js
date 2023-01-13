@@ -57,6 +57,31 @@ export class Environment {
             }
         });
 
+        this.gl.canvas.addEventListener("touchstart", event => {
+            if (event.touches.length == 1) {
+                this.touch = {
+                    startX: event.touches[0].clientX,
+                    startY: event.touches[0].clientY,
+                    startTime: new Date().getTime()
+                };
+            }
+        });
+
+        this.gl.canvas.addEventListener("touchend", event => {
+            if (event.changedTouches.length == 1) {
+                event.preventDefault();
+                const rect = canvas.getBoundingClientRect();
+                const touch = event.changedTouches[0];
+                const distanceThreshold = 5;
+                const timeThreshold = 500;
+                if (Math.abs(this.touch.startX - touch.clientX) > distanceThreshold || Math.abs(this.touch.startY - touch.clientY) > distanceThreshold)
+                    return;
+                const mouseX = touch.clientX - rect.left;
+                const mouseY = touch.clientY - rect.top;
+                this.handleObjectClick(mouseX, mouseY, new Date().getTime() - this.touch.startTime < timeThreshold);
+            }
+        });
+
         this.gl.canvas.addEventListener("contextmenu", function(e) {
             e.preventDefault();
         });
