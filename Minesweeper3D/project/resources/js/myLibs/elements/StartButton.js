@@ -16,9 +16,8 @@ export class StartButton extends Element {
 	
 	setTransparency(status) {
 		this.parts.forEach(part => {
-			if (part.material.name == "CubeTransparent") {
+			if (part.material.name == "CubeTransparent" || part.material.name == "CubeTransparentFoto" || part.material.name == "CubeTransparentStart") {
 				part.material.opacity = (status ? 0 : 1);
-				return;
 			}
 		});
 	}
