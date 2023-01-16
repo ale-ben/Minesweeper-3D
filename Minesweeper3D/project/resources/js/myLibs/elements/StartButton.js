@@ -17,8 +17,7 @@ export class StartButton extends Element {
 	setTransparency(status) {
 		this.parts.forEach(part => {
 			if (part.material.name == "CubeTransparent") {
-				// When enabled can not set transparency to 0 or picker won't work.
-				part.material.opacity = (status ? 0.002 : 1);
+				part.material.opacity = (status ? 0 : 1);
 				return;
 			}
 		});

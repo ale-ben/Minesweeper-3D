@@ -85,6 +85,17 @@ export class CubeElement extends Element {
             console.debug("Victory: " + params.env.checkWinCondition());
         }
     }
+
+	setTransparency(status) {
+		if (this.value != 0) return;
+		this.parts.forEach(part => {
+			if (part.material.name == "Image") {
+				part.material.opacity = (status ? 0 : 1);
+			} else {
+				part.material.opacity = (status ? 0.3 : 1);
+			}
+		}); 
+	}
 }
 
 function getCellCoords(cubeCenter, offset, cubeDistance) {
