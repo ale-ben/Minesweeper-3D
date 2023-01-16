@@ -121,7 +121,7 @@ function addCube(x, y, z, size, value) {
             z: z
         },
         value: value,
-        showCompleted: true
+        //showCompleted: true
     });
 }
 
