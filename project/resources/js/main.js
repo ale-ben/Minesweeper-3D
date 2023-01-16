@@ -66,6 +66,10 @@ async function main() {
                 }
             }
         }
+
+        env.dashboard.bombsLeft.outputSpan.innerHTML = numBombsRange.value;
+        env.dashboard.bombsLeft.value = numBombsRange.value;
+        env.dashboard.timer.run = true;
     }
 
     env.addObject(new Element("Axes", "./resources/models/axes.obj", {

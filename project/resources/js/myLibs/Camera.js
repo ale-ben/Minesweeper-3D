@@ -26,7 +26,7 @@ export class Camera {
                 xy: degToRad(10),
                 xz: degToRad(2),
                 zoom: 1,
-                touchZoon: 0.2
+                touchZoon: 0.1
             },
             dragging: false,
             forceDrag: false,
