@@ -1,0 +1,3 @@
+[submodule "Minesweeper3D/project/resources/js/myLibs/WebGL_helper_functions"]
+	path = Minesweeper3D/project/resources/js/myLibs/WebGL_helper_functions
+	url = git@github.com:ale-ben/WebGL_helper_functions.git
