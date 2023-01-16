@@ -1,2 +1,2 @@
 #!/bin/zsh
-npx tailwindcss -i ./tailwind.css -o ./project/style.css --watch
+npx tailwindcss -i ./tailwind.css -o ./Minesweeper3D/style.css --watch

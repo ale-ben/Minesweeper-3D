@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     content: [
-        "./project/**/*.html", "./doc/**/*.html"
+        "./Minesweeper3D/**/*.html"
     ],
     theme: {
         extend: {}
