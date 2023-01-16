@@ -63,7 +63,8 @@ export class CubeElement extends Element {
             } else if (params) {
                 this.mtlPath = "./resources/models/cubeFlag.mtl";
                 this.hasFlag = true;
-				if (params && params.env) params.env.bombFlagged();
+                if (params && params.env)
+                    params.env.bombFlagged();
                 if (params && params.gl)
                     MeshLoader.LoadOBJAndMesh(params.gl, this);
                 else
@@ -77,7 +78,8 @@ export class CubeElement extends Element {
                 MeshLoader.LoadOBJAndMesh(params.gl, this);
             else
                 console.warn("No gl context provided to CubeElement onClick function.");
-			if (params && params.env) params.env.bombUnflagged();
+            if (params && params.env)
+                params.env.bombUnflagged();
         }
         if (params && params.env) {
             console.debug("Victory: " + params.env.checkWinCondition());

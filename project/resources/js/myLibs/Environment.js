@@ -47,10 +47,10 @@ export class Environment {
                 startTime: 0,
                 outputSpan: document.getElementById("timeElapsed")
             },
-			bombsLeft: {
-				value: 0,
-				outputSpan: document.getElementById("minesRemaining")
-			}
+            bombsLeft: {
+                value: 0,
+                outputSpan: document.getElementById("minesRemaining")
+            }
         };
 
         this.gl.canvas.addEventListener("mousedown", event => {
@@ -173,15 +173,15 @@ export class Environment {
         }
     }
 
-	bombFlagged() {
-		this.dashboard.bombsLeft.value--;
-		this.dashboard.bombsLeft.outputSpan.innerHTML = this.dashboard.bombsLeft.value;
-	}
+    bombFlagged() {
+        this.dashboard.bombsLeft.value--;
+        this.dashboard.bombsLeft.outputSpan.innerHTML = this.dashboard.bombsLeft.value;
+    }
 
-	bombUnflagged() {
-		this.dashboard.bombsLeft.value++;
-		this.dashboard.bombsLeft.outputSpan.innerHTML = this.dashboard.bombsLeft.value;
-	}
+    bombUnflagged() {
+        this.dashboard.bombsLeft.value++;
+        this.dashboard.bombsLeft.outputSpan.innerHTML = this.dashboard.bombsLeft.value;
+    }
 
     renderEnvironment(time) {
         // Re evaluate camera position
