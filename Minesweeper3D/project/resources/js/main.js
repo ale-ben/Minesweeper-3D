@@ -56,16 +56,24 @@ async function main() {
         }, "./resources/models/victory.obj", true));
 
         // Add the cube
+		// Since WebGL renders in the order of the objects added, we need to add the cubes with transparency last, so that they are rendered on top of the opaque cubes.
+		// Save the transparent cubes here and render them later.
+		let lateRender = [];
         for (let x = 0; x < cube.size; x++) {
             for (let y = 0; y < cube.size; y++) {
                 for (let z = 0; z < cube.size; z++) {
                     // Generate a renderable object only if the cell is on the border
                     if (x == 0 || x == cube.size - 1 || y == 0 || y == cube.size - 1 || z == 0 || z == cube.size - 1) {
-                        env.addObject(addCube(x, y, z, cube.size, cube.getCellValue(x, y, z)));
+						const val = cube.getCellValue(x, y, z)
+						if (val != 0) env.addObject(addCube(x, y, z, cube.size, val));
+						else lateRender.push(addCube(x, y, z, cube.size, val));
                     }
                 }
             }
         }
+
+		// Render the transparent cubes.
+		lateRender.forEach(elem => env.addObject(elem));
 
         env.dashboard.bombsLeft.outputSpan.innerHTML = numBombsRange.value;
         env.dashboard.bombsLeft.value = numBombsRange.value;
@@ -113,7 +121,7 @@ function addCube(x, y, z, size, value) {
             z: z
         },
         value: value,
-        //showCompleted: true
+        showCompleted: true
     });
 }
 
