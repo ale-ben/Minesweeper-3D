@@ -74,6 +74,8 @@ export class Element {
         ];
     }
 
+	setTransparency(status) {}
+
     updateObject(time) {}
 
     onClick(params) {
