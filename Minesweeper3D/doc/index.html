@@ -15,23 +15,28 @@
     <!-- Index -->
     <div class="flex flex-col space-y-4 my-8 justify-center items-center">
         <h2 class="text-2xl font-semibold sm:text-2xl border-b-[1px]" id="index">Index</h2>
-        <ul class="list-disc list-inside text-xl space-y-1">
-            <li class="hover:text-white">
+        <ul class="list-disc text-xl space-y-1">
+            <li class="hover:text-blue-700">
                 <a href="#GameDescription">Game Description</a>
             </li>
-            <li class="hover:text-white">
-                <a href="#StrutturaProgetto">Struttura progetto</a>
+			<ul class="list-disc list-inside text-xl space-y-1">
+				<li class="hover:text-blue-700">
+					<a href="#GameLogic">Game Logic</a>
+				</li>
+			</ul>
+            <li class="hover:text-blue-700">
+                <a href="#ProjectStructure">ProjectStructure</a>
             </li>
-            <li class="hover:text-white">
+            <li class="hover:text-blue-700">
                 <a href="#DescrizioneCore">Descrizione main</a>
             </li>
-            <li class="hover:text-white">
+            <li class="hover:text-blue-700">
                 <a href="#DescrizioneCore">Descrizione core system</a>
             </li>
-            <li class="hover:text-white">
+            <li class="hover:text-blue-700">
                 <a href="#DescrizioneAgent">Descrizione agent system</a>
             </li>
-            <li class="hover:text-white">
+            <li class="hover:text-blue-700">
                 <a href="#DescrizioneObject">Descrizione object behaviour system</a>
             </li>
         </ul>
@@ -53,7 +58,7 @@
                 The game is won by successfully identifying all of the mines without detonating any of them.
             </p>
             <div class="flex justify-center items-center pt-6 pb-6">
-                <h3 class="text-xl font-semibold">Game Logic</h3>
+                <h3 class="text-xl font-semibold" id="GameLogic">Game Logic</h3>
             </div>
             <p>
                 The game logic of Minesweeper 3D is similar to that of the classic version. The player is presented with a grid of squares, each of which may contain a mine or not. The player must use logic and deduction to determine which squares contain mines and which do not.
@@ -71,8 +76,11 @@
         </div>
         <div>
             <div class="flex justify-center items-center pt-6 pb-6">
-                <h2 class="text-2xl font-semibold pb-6">Struttura progetto</h2>
+                <h2 class="text-2xl font-semibold pb-6"  id="ProjectStructure">Project Structire</h2>
             </div>
+			<p>
+				
+			</p>
         </div>
         <div>
             <div class="flex justify-center items-center pt-6 pb-6">
@@ -115,7 +123,7 @@
     </main>
 
     <button id="back-to-project-button" onclick="location.href='../project/index.html';" title="Back to project" class="fixed z-90 top-8 left-8 border-0 w-[100px] h-10 rounded-full drop-shadow-md bg-blue-700 text-white text-l font-bold">&larr; Project</button>
-    <button id="to-top-button" onclick="goToTop()" title="Go To Top" class="fixed z-90 bottom-8 right-8 border-0 w-16 h-16 rounded-full drop-shadow-md bg-blue-700 text-white text-3xl font-bold">&uarr;</button>
+    <button id="to-top-button" onclick="goToTop()" title="Go To Top" class="hidden fixed z-90 bottom-8 right-8 border-0 w-16 h-16 rounded-full drop-shadow-md bg-blue-700 text-white text-3xl font-bold">&uarr;</button>
 
     <script>
         var toTopButton = document.getElementById("to-top-button");
