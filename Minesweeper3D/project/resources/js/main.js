@@ -101,7 +101,7 @@ async function main() {
     document.getElementById("enableTransparencyToggle").addEventListener("change", event => {
         console.log("Transparency enabled: " + event.target.checked);
         env.renderEngine.setTransparency(event.target.checked);
-		env.setTransparency(event.target.checked);
+        env.setTransparency(event.target.checked);
     });
 
     function render(time) {

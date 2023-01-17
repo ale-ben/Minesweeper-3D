@@ -13,14 +13,16 @@ export class StartButton extends Element {
     updateObject(time) {
         this.rotation.onSelf.z += 0.01;
     }
-	
-	setTransparency(status) {
-		this.parts.forEach(part => {
-			if (part.material.name == "CubeTransparent" || part.material.name == "CubeTransparentFoto" || part.material.name == "CubeTransparentStart") {
-				part.material.opacity = (status ? 0 : 1);
-			}
-		});
-	}
+
+    setTransparency(status) {
+        this.parts.forEach(part => {
+            if (part.material.name == "CubeTransparent" || part.material.name == "CubeTransparentFoto" || part.material.name == "CubeTransparentStart") {
+                part.material.opacity = status ?
+                    0 :
+                    1;
+            }
+        });
+    }
 
     onClick() {
         this.startHandler();

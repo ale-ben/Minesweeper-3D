@@ -74,7 +74,7 @@ export class Element {
         ];
     }
 
-	setTransparency(status) {}
+    setTransparency(status) {}
 
     updateObject(time) {}
 

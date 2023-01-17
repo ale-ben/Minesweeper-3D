@@ -13,7 +13,9 @@ import {
 import {
     TextElement
 } from "./elements/TextElement.js";
-import { StartButton } from "./elements/StartButton.js";
+import {
+    StartButton
+} from "./elements/StartButton.js";
 
 export class Environment {
     constructor(canvasName) {
@@ -184,12 +186,13 @@ export class Environment {
         this.dashboard.bombsLeft.outputSpan.innerHTML = this.dashboard.bombsLeft.value;
     }
 
-	setTransparency(status) {
-		console.log("Setting transparency to " + status)
-		this.objList.forEach(obj => {
-			if (obj instanceof CubeElement || obj instanceof StartButton) obj.setTransparency(status);
-		});
-	}
+    setTransparency(status) {
+        console.log("Setting transparency to " + status);
+        this.objList.forEach(obj => {
+            if (obj instanceof CubeElement || obj instanceof StartButton)
+                obj.setTransparency(status);
+        });
+    }
 
     renderEnvironment(time) {
         // Re evaluate camera position
