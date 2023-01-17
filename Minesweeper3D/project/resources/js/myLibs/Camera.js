@@ -304,15 +304,8 @@ export class Camera {
             }
         });
 
-        window.addEventListener("wheel", event => {
-            const delta = Math.sign(event.deltaY);
-            if (delta > 0)
-                camera.zoomIn();
-            else
-                camera.zoomOut();
-        });
-
-        window.addEventListener("wheel", event => {
+		canvas.addEventListener("wheel", event => {
+			event.preventDefault();
             const delta = Math.sign(event.deltaY);
             if (delta > 0)
                 camera.zoomIn();
