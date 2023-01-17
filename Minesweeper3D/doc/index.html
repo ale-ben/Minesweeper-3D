@@ -11,6 +11,100 @@
 
 <body>
     <h2 class="flex items-center justify-center text-2xl font-semibold mb-8 sm:text-6xl">Minesweeper 3D - Documentation</h2>
-    Go to project
-    <a href="../project/index.html">page</a>
+
+    <!-- Index -->
+    <div class="flex flex-col space-y-4 my-8 justify-center items-center">
+        <h2 class="text-2xl font-semibold sm:text-2xl border-b-[1px]" id="index">Index</h2>
+        <ul class="list-disc list-inside text-xl space-y-1">
+            <li class="hover:text-white">
+                <a href="#GameDescription">Game Description</a>
+            </li>
+            <li class="hover:text-white">
+                <a href="#Requirements">Requirements</a>
+            </li>
+            <ul class="list-disc list-inside ml-6">
+                <li class="hover:text-white">
+                    <a href="#StrutturaProgetto">Struttura progetto</a>
+                </li>
+                <li class="hover:text-white">
+                    <a href="#DescrizioneCore">Descrizione main</a>
+                </li>
+                <li class="hover:text-white">
+                    <a href="#DescrizioneCore">Descrizione core system</a>
+                </li>
+                <li class="hover:text-white">
+                    <a href="#DescrizioneAgent">Descrizione agent system</a>
+                </li>
+                <li class="hover:text-white">
+                    <a href="#DescrizioneObject">Descrizione object behaviour system</a>
+                </li>
+            </ul>
+        </ul>
+    </div>
+
+    <!-- Sections -->
+    <div class="pl-6 pr-6">
+        <div>
+            <h2 class="text-2xl font-semibold pb-6" id="GameDescription">Game Description</h2>
+        </div>
+        <div>
+            <h2 class="text-2xl font-semibold pb-6" id="Requirements">Requirements</h2>
+        </div>
+        <div>
+            <h2 class="text-2xl font-semibold pb-6">Struttura progetto</h2>
+        </div>
+        <div>
+            <h2 class="text-2xl font-semibold pb-6">Descrizione main</h2>
+        </div>
+        <div>
+            <h2 class="text-2xl font-semibold pb-6">Descrizione core system</h2>
+        </div>
+        <div>
+            <h2 class="text-2xl font-semibold pb-6">Descrizione agent system</h2>
+        </div>
+        <div>
+            <h2 class="text-2xl font-semibold pb-6">Descrizione object behaviour system</h2>
+        </div>
+    </div>
+
+    <main>
+        <section class="w-screen h-96 flex justify-center items-center">
+            <h1 class="text-4xl">Welcome to KindaCode.com</h1>
+        </section>
+        <section class="w-screen h-96 bg-green-200 flex justify-center items-center">
+            <h1 class="text-4xl">Just Some Dummy Content</h1>
+        </section>
+        <section class="w-screen h-96 bg-sky-200 flex justify-center items-center">
+            <h1 class="text-4xl">Just Some Dummy Content</h1>
+        </section>
+        <section class="w-screen h-96 bg-amber-200 flex justify-center items-center">
+            <h1 class="text-4xl">Just Some Dummy Content</h1>
+        </section>
+        <section class="w-screen h-96 bg-purple-200 flex justify-center items-center">
+            <h1 class="text-4xl">Just Some Dummy Content</h1>
+        </section>
+    </main>
+
+    <button id="back-to-project-button" onclick="location.href='../project/index.html';" title="Back to project" class="fixed z-90 top-8 left-8 border-0 w-[100px] h-10 rounded-full drop-shadow-md bg-blue-700 text-white text-l font-bold">&larr; Project</button>
+    <button id="to-top-button" onclick="goToTop()" title="Go To Top" class="fixed z-90 bottom-8 right-8 border-0 w-16 h-16 rounded-full drop-shadow-md bg-blue-700 text-white text-3xl font-bold">&uarr;</button>
+
+	<script>
+        var toTopButton = document.getElementById("to-top-button");
+
+        // When the user scrolls down 200px from the top of the document, show the button
+        window.onscroll = function () {
+            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+                toTopButton.classList.remove("hidden");
+            } else {
+                toTopButton.classList.add("hidden");
+            }
+        }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function goToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
 </body>
+
+</html>
