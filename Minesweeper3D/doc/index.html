@@ -20,50 +20,79 @@
                 <a href="#GameDescription">Game Description</a>
             </li>
             <li class="hover:text-white">
-                <a href="#Requirements">Requirements</a>
+                <a href="#StrutturaProgetto">Struttura progetto</a>
             </li>
-            <ul class="list-disc list-inside ml-6">
-                <li class="hover:text-white">
-                    <a href="#StrutturaProgetto">Struttura progetto</a>
-                </li>
-                <li class="hover:text-white">
-                    <a href="#DescrizioneCore">Descrizione main</a>
-                </li>
-                <li class="hover:text-white">
-                    <a href="#DescrizioneCore">Descrizione core system</a>
-                </li>
-                <li class="hover:text-white">
-                    <a href="#DescrizioneAgent">Descrizione agent system</a>
-                </li>
-                <li class="hover:text-white">
-                    <a href="#DescrizioneObject">Descrizione object behaviour system</a>
-                </li>
-            </ul>
+            <li class="hover:text-white">
+                <a href="#DescrizioneCore">Descrizione main</a>
+            </li>
+            <li class="hover:text-white">
+                <a href="#DescrizioneCore">Descrizione core system</a>
+            </li>
+            <li class="hover:text-white">
+                <a href="#DescrizioneAgent">Descrizione agent system</a>
+            </li>
+            <li class="hover:text-white">
+                <a href="#DescrizioneObject">Descrizione object behaviour system</a>
+            </li>
         </ul>
     </div>
 
     <!-- Sections -->
     <div class="pl-6 pr-6">
         <div>
-            <h2 class="text-2xl font-semibold pb-6" id="GameDescription">Game Description</h2>
+            <div class="flex justify-center items-center">
+                <h2 class="text-2xl font-semibold pb-6" id="GameDescription">Game Description</h2>
+            </div>
+            <p>
+                Minesweeper 3D is a variation of the classic Minesweeper game, which is played on a three-dimensional grid rather than the traditional two-dimensional one.
+                <br>
+                The objective of the game is to clear a minefield without detonating any of the hidden mines.
+                <br>
+                Players use numbers on the surface squares to deduce the location of mines in the underlying 3D grid.
+                <br>
+                The game is won by successfully identifying all of the mines without detonating any of them.
+            </p>
+            <div class="flex justify-center items-center pt-6 pb-6">
+                <h3 class="text-xl font-semibold">Game Logic</h3>
+            </div>
+            <p>
+                The game logic of Minesweeper 3D is similar to that of the classic version. The player is presented with a grid of squares, each of which may contain a mine or not. The player must use logic and deduction to determine which squares contain mines and which do not.
+                <br>
+                Similar to the 2D version, the player can click on a square to reveal its contents, which can be a number or a mine. If the square contains a number, it indicates how many mines are located in the adjacent squares. If the square contains a mine, the game is over.
+                <br>
+                The player can also mark squares as containing mines by right-clicking on them. This allows the player to keep track of which squares are suspected to contain mines.
+                <br>
+                The player wins by correctly identifying all of the mines without detonating any of them. The game is lost when the player detonates a mine.
+                <br>
+                The main difference is that in the 2D version the player must consider a 3x3 square centered in the cell with the number, while in the 3D version the player must consider a 3x3x3 cube centered in the cell with the number. The cube is empty inside therefore only the cells in the external layer must be considered.
+                <br>
+                The player can decide between 3 cube sizes: 3x3x3, 5x5x5 and 7x7x7. The number of mines is also customizable between 1 and 20.
+            </p>
         </div>
         <div>
-            <h2 class="text-2xl font-semibold pb-6" id="Requirements">Requirements</h2>
+            <div class="flex justify-center items-center pt-6 pb-6">
+                <h2 class="text-2xl font-semibold pb-6">Struttura progetto</h2>
+            </div>
         </div>
         <div>
-            <h2 class="text-2xl font-semibold pb-6">Struttura progetto</h2>
+            <div class="flex justify-center items-center pt-6 pb-6">
+                <h2 class="text-2xl font-semibold pb-6">Descrizione main</h2>
+            </div>
         </div>
         <div>
-            <h2 class="text-2xl font-semibold pb-6">Descrizione main</h2>
+            <div class="flex justify-center items-center pt-6 pb-6">
+                <h2 class="text-2xl font-semibold pb-6">Descrizione core system</h2>
+            </div>
         </div>
         <div>
-            <h2 class="text-2xl font-semibold pb-6">Descrizione core system</h2>
+            <div class="flex justify-center items-center pt-6 pb-6">
+                <h2 class="text-2xl font-semibold pb-6">Descrizione agent system</h2>
+            </div>
         </div>
         <div>
-            <h2 class="text-2xl font-semibold pb-6">Descrizione agent system</h2>
-        </div>
-        <div>
-            <h2 class="text-2xl font-semibold pb-6">Descrizione object behaviour system</h2>
+            <div class="flex justify-center items-center pt-6 pb-6">
+                <h2 class="text-2xl font-semibold pb-6">Descrizione object behaviour system</h2>
+            </div>
         </div>
     </div>
 
@@ -88,22 +117,30 @@
     <button id="back-to-project-button" onclick="location.href='../project/index.html';" title="Back to project" class="fixed z-90 top-8 left-8 border-0 w-[100px] h-10 rounded-full drop-shadow-md bg-blue-700 text-white text-l font-bold">&larr; Project</button>
     <button id="to-top-button" onclick="goToTop()" title="Go To Top" class="fixed z-90 bottom-8 right-8 border-0 w-16 h-16 rounded-full drop-shadow-md bg-blue-700 text-white text-3xl font-bold">&uarr;</button>
 
-	<script>
+    <script>
         var toTopButton = document.getElementById("to-top-button");
 
         // When the user scrolls down 200px from the top of the document, show the button
-        window.onscroll = function () {
+        window.onscroll = function() {
             if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-                toTopButton.classList.remove("hidden");
+                toTopButton
+                    .classList
+                    .remove("hidden");
             } else {
-                toTopButton.classList.add("hidden");
+                toTopButton
+                    .classList
+                    .add("hidden");
             }
         }
 
         // When the user clicks on the button, scroll to the top of the document
         function goToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         }
+
     </script>
 </body>
 
