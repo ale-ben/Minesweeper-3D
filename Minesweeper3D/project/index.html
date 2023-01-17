@@ -12,10 +12,10 @@
 <body>
     <div>
         <h2 class="flex items-center justify-center text-2xl font-semibold mb-8 sm:text-6xl">Minesweeper 3D</h2>
-        <div class="flex flex-col 2xl:flex-row items-center justify-center">
+        <div class="flex flex-col min-[1650px]:flex-row items-center justify-center">
             <canvas id="canvas" width="1280" height="720" class="bg-cyan-200"></canvas>
-            <div class="pl-6">
-                <div class="pb-6">
+            <div class="pl-6 pt-6 flex flex-row min-[1650px]:flex-col">
+                <div class="pb-6 pl-6">
                     <p class="font-semibold text-3xl">Scoreboard</p>
                     <p class="text-1xl ">
                         Mines remaining:
@@ -27,7 +27,7 @@
                     </p>
 
                 </div>
-                <div>
+                <div class="pb-6 pl-6">
                     <p class="font-semibold text-3xl pb-3">Controls</p>
 
                     <label class="relative inline-flex items-center mb-5 cursor-pointer">
@@ -40,7 +40,7 @@
                     <label class="relative inline-flex items-center mb-5 cursor-pointer">
                         <input id="syncLightToggle" type="checkbox" value="" class="sr-only peer" checked="checked">
                         <div class="w-9 h-5 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                        <span class="ml-3 text-sm font-medium">Sync light source position with camera</span>
+                        <span class="ml-3 text-sm font-medium">Sync light source with camera</span>
                     </label>
                     <br>
 
@@ -58,7 +58,10 @@
                     </label>
                     <br>
 
-                    <p>
+                </div>
+				<div class="pb-6 pl-6">
+					<p class="font-semibold text-3xl pb-3">Startup Settings</p>
+					<p>
                         Cube size:
                         <output>3</output>
                         <input id="cubeSizeRange" type="range" value="3" min="3" max="7" step="2" oninput="this.previousElementSibling.value = this.value" class="w-full h-1 mb-6 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700">
@@ -70,12 +73,16 @@
                     </p>
                     <button onclick="window.location.reload();" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Reset</button>
                     <button onclick="location.href='../doc/index.html';" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Documentation</button>
-                </div>
+				</div>
             </div>
         </div>
+		<div class="flex flex-row items-center justify-center pt-6">
+			<img src="../resources/img/keyboardControls.png" alt="Keyboard controls" class="pl-6"/>
+			<img src="../resources/img/mouseControls.png" alt="Mouse controls" class="pl-6"/>
+			<img src="../resources/img/touchControls.png" alt="Touch controls" class="pl-6"/>
+		</div>
     </div>
 </body>
-<!-- This sample uses TWGL (Tiny WebGL) to hide the clutter. Otherwise the sample would be full of code not related to the point of the sample. For more info see https://webgl2fundamentals.org/webgl/lessons/webgl-less-code-more-fun.html -->
 
 <script>
     var debug = false;

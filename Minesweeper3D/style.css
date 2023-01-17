@@ -587,6 +587,10 @@ video {
           appearance: none;
 }
 
+.flex-row {
+  flex-direction: row;
+}
+
 .flex-col {
   flex-direction: column;
 }
@@ -639,6 +643,10 @@ video {
 
 .pl-6 {
   padding-left: 1.5rem;
+}
+
+.pt-6 {
+  padding-top: 1.5rem;
 }
 
 .pb-6 {
@@ -808,8 +816,12 @@ video {
   }
 }
 
-@media (min-width: 1536px) {
-  .\32xl\:flex-row {
+@media (min-width: 1650px) {
+  .min-\[1650px\]\:flex-row {
     flex-direction: row;
+  }
+
+  .min-\[1650px\]\:flex-col {
+    flex-direction: column;
   }
 }
