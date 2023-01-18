@@ -4,9 +4,6 @@ import {
 import {
     MeshLoader
 } from "../WebGL_helper_functions/MeshLoader.js";
-import {
-    TextElement
-} from "./TextElement.js";
 
 export class CubeElement extends Element {
     constructor(filePath, offset, cubeDistance, options = {}) {
