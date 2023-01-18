@@ -1,6 +1,6 @@
 <!-- Licensed under a BSD license. See license.html for license -->
 <!DOCTYPE html>
-<html>
+<html class="scroll-smooth">
 
 <head>
     <meta charset="utf-8">
@@ -13,8 +13,10 @@
     <h2 class="flex items-center justify-center font-semibold mb-8 text-6xl">Minesweeper 3D - Documentation</h2>
 
     <!-- Index -->
-    <div class="flex flex-col space-y-4 my-8 justify-center items-center">
-        <h2 class="text-2xl font-semibold sm:text-2xl border-b-[1px]" id="index">Index</h2>
+    <div class="flex flex-col space-y-4 my-8 pl-10 pt-12">
+		<div class="flex justify-center items-center">
+			<h2 class="text-4xl font-semibold pb-6" id="index">Index</h2>
+		</div>
         <ul class="list-disc text-xl space-y-1">
             <li class="hover:text-blue-700">
                 <a href="#GameDescription">Game Description</a>
@@ -62,6 +64,20 @@
             <li class="hover:text-blue-700">
                 <a href="#InterestingAspects">Interesting Aspects</a>
             </li>
+			<ul class="list-disc list-inside text-xl space-y-1">
+                <li class="hover:text-blue-700">
+                    <a href="#WebGLHelper2">WebGL helper functions</a>
+                </li>
+                <li class="hover:text-blue-700">
+                    <a href="#Picking">Picking</a>
+                </li>
+                <li class="hover:text-blue-700">
+                    <a href="#TextureManagement">Texture Management</a>
+                </li>
+                <li class="hover:text-blue-700">
+                    <a href="#TransparencyOrder">Transparency Needs Order</a>
+                </li>
+            </ul>
         </ul>
     </div>
 
@@ -371,7 +387,7 @@
         </div>
 
         <button id="back-to-project-button" onclick="location.href='../project/index.html';" title="Back to project" class="fixed z-90 top-8 left-8 border-0 w-[100px] h-10 rounded-full drop-shadow-md bg-blue-700 text-white text-l font-bold">&larr; Project</button>
-        <button id="to-top-button" onclick="goToTop()" title="Go To Top" class="hidden fixed z-90 bottom-8 right-8 border-0 w-16 h-16 rounded-full drop-shadow-md bg-blue-700 text-white text-3xl font-bold">&uarr;</button>
+        <button id="to-top-button" onclick="location.href='#index';" title="Go To Top" class="hidden fixed z-90 bottom-8 right-8 border-0 w-16 h-16 rounded-full drop-shadow-md bg-blue-700 text-white text-3xl font-bold">&uarr;</button>
 
         <script>
             var toTopButton = document.getElementById("to-top-button");
@@ -388,15 +404,6 @@
                         .add("hidden");
                 }
             }
-
-            // When the user clicks on the button, scroll to the top of the document
-            function goToTop() {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
-            }
-
         </script>
 </body>
 
