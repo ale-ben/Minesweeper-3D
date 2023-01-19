@@ -77,6 +77,9 @@
                 <li>
                     <a href="#TransparencyOrder">Transparency Needs Order</a>
                 </li>
+                <li>
+                    <a href="#Options">Options</a>
+                </li>
             </ul>
         </ul>
     </div>
@@ -372,7 +375,7 @@
                         on the same object and update the texture without changing oter object properties like center or rotation.
                     </p>
                     <div class="section_title_div">
-                        <h3 id="TransparencyOrder">Transparency needs order</h3>
+                        <h3 id="TransparencyOrder">Transparency Needs Order</h3>
                     </div>
                     <p>
                         A problem I encountered was that often transparent object hides the object behind them and render only the background.
@@ -380,6 +383,20 @@
                         This is due to the fact that WebGL evaluates objects in the same order they are drawn, so if an object is drawn after a transparent object, it will be hidden.
                         <br>
                         For this reason while generating the CubeElements I have to make sure that objects that can be transparents (cells with value 0) are rendered last.
+                    </p>
+                    <div class="section_title_div">
+                        <h3 id="Options">Options</h3>
+                    </div>
+                    <p>
+                        The game allows to enable or disable light sync, while playing it is suggested to keep this enabled as it will keep the face in front of the camera well lit.
+                        <br>
+                        If disabled light will stay in the current camera position and will not move. This will result in some faces completely dark.
+                        <br>
+                        Another option is to enable or disable transparency. With transparency disabled some different textures will be rendered.
+                        <br>
+                        A clear example of this is the start button that renders a cube with the author image if transparency is disabled.
+                        <br>
+                        Note that textures are not actually different, disabling transparency will just render textures that have opacity set to 0.
                     </p>
 
         </div>
