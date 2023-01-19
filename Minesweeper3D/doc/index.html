@@ -1,6 +1,6 @@
 <!-- Licensed under a BSD license. See license.html for license -->
 <!DOCTYPE html>
-<html>
+<html class="scroll-smooth">
 
 <head>
     <meta charset="utf-8">
@@ -10,66 +10,82 @@
 </head>
 
 <body class="pb-40">
-    <h2 class="flex items-center justify-center font-semibold mb-8 text-6xl">Minesweeper 3D - Documentation</h2>
+    <h2 class="flex items-center justify-center mb-8">Minesweeper 3D - Documentation</h2>
 
     <!-- Index -->
-    <div class="flex flex-col space-y-4 my-8 justify-center items-center">
-        <h2 class="text-2xl font-semibold sm:text-2xl border-b-[1px]" id="index">Index</h2>
-        <ul class="list-disc text-xl space-y-1">
-            <li class="hover:text-blue-700">
+    <div class="flex flex-col space-y-4 my-8 pl-10 pt-12">
+        <div class="section_title_div pt-0">
+            <h2 id="index">Index</h2>
+        </div>
+        <ul class="text-xl">
+            <li>
                 <a href="#GameDescription">Game Description</a>
             </li>
-            <ul class="list-disc list-inside text-xl space-y-1">
-                <li class="hover:text-blue-700">
+            <ul class="list-inside">
+                <li>
                     <a href="#GameLogic">Game Logic</a>
                 </li>
             </ul>
-            <li class="hover:text-blue-700">
+            <li>
                 <a href="#ProjectStructure">ProjectStructure</a>
             </li>
 
-            <ul class="list-disc list-inside text-xl space-y-1">
-                <li class="hover:text-blue-700">
+            <ul class="list-inside">
+                <li>
                     <a href="#WebGLHelper">WebGL helper functions</a>
                 </li>
-                <li class="hover:text-blue-700">
+                <li>
                     <a href="#Minesweeper3D">Minesweeper 3D</a>
                 </li>
             </ul>
-            <li class="hover:text-blue-700">
+            <li>
                 <a href="#ProjectAnalysis">Project Analysis</a>
             </li>
-            <ul class="list-disc list-inside text-xl space-y-1">
-                <li class="hover:text-blue-700">
+            <ul class="list-inside">
+                <li>
                     <a href="#Camera">Camera</a>
                 </li>
-                <li class="hover:text-blue-700">
+                <li>
                     <a href="#Element">Element</a>
                 </li>
-                <li class="hover:text-blue-700">
+                <li>
                     <a href="#Environment">Environment</a>
                 </li>
-                <li class="hover:text-blue-700">
+                <li>
                     <a href="#Main">Main</a>
                 </li>
-                <li class="hover:text-blue-700">
+                <li>
                     <a href="#MeshLoader">MeshLoader</a>
                 </li>
-                <li class="hover:text-blue-700">
+                <li>
                     <a href="#RenderEngine">RenderEngine</a>
                 </li>
             </ul>
-            <li class="hover:text-blue-700">
+            <li>
                 <a href="#InterestingAspects">Interesting Aspects</a>
             </li>
+            <ul class="list-inside">
+                <li>
+                    <a href="#WebGLHelper2">WebGL helper functions</a>
+                </li>
+                <li>
+                    <a href="#Picking">Picking</a>
+                </li>
+                <li>
+                    <a href="#TextureManagement">Texture Management</a>
+                </li>
+                <li>
+                    <a href="#TransparencyOrder">Transparency Needs Order</a>
+                </li>
+            </ul>
         </ul>
     </div>
 
     <!-- Sections -->
     <div class="pl-6 pr-6">
         <div>
-            <div class="flex justify-center items-center">
-                <h2 class="text-4xl font-semibold pb-6" id="GameDescription">Game Description</h2>
+            <div class="section_title_div">
+                <h2 id="GameDescription">Game Description</h2>
             </div>
             <p>
                 Minesweeper 3D is a variation of the classic Minesweeper game, which is played on a three-dimensional grid rather than the traditional two-dimensional one.
@@ -80,8 +96,8 @@
                 <br>
                 The game is won by successfully identifying all of the mines without detonating any of them.
             </p>
-            <div class="flex justify-center items-center pt-6 pb-6">
-                <h3 class="text-2xl font-semibold" id="GameLogic">Game Logic</h3>
+            <div class="section_title_div">
+                <h3 id="GameLogic">Game Logic</h3>
             </div>
             <p>
                 The game logic of Minesweeper 3D is similar to that of the classic version. The player is presented with a grid of squares, each of which may contain a mine or not. The player must use logic and deduction to determine which squares contain mines and which do not.
@@ -98,11 +114,11 @@
             </p>
         </div>
         <div>
-            <div class="flex justify-center items-center pt-6 pb-6">
-                <h2 class="text-4xl font-semibold pb-6" id="ProjectStructure">Project Structure</h2>
+            <div class="section_title_div">
+                <h2 id="ProjectStructure">Project Structure</h2>
             </div>
-            <div class="flex justify-center items-center pt-6 pb-6">
-                <h3 class="text-2xl font-semibold" id="WebGLHelper">WebGL helper functions</h3>
+            <div class="section_title_div">
+                <h3 id="WebGLHelper">WebGL helper functions</h3>
             </div>
             <p>
                 To simplify the WebGL code for loading and rendering meshes, some helper functions have been implemented. These functions are located in the
@@ -118,12 +134,12 @@
                 <br>
                 RenderEngine is used to render meshes loaded with MeshLoader. It also provides functions to enable transparency and handle picking of objects in a 3D canvas.
             </p>
-            <div class="flex justify-center items-center pt-6 pb-6">
-                <h3 class="text-2xl font-semibold" id="Minesweeper3D">Minesweeper 3D</h3>
+            <div class="section_title_div">
+                <h3 id="Minesweeper3D">Minesweeper 3D</h3>
             </div>
             <p>
                 The project is composed of 5 main files:
-            <ul class="list-disc pl-6">
+            <ul class="pl-6">
                 <li>
                     <code>CubeRepresentation</code>
                     handles the generation of the cube structure and random bomb placement. The cube is represented as a 1D array of cells instead of a 3D matrix for optimization reasons.
@@ -148,11 +164,11 @@
             </p>
         </div>
         <div>
-            <div class="flex justify-center items-center pt-6 pb-6">
-                <h2 class="text-4xl font-semibold pb-6" id="ProjectAnalysis">Project Analysis</h2>
+            <div class="section_title_div">
+                <h2 id="ProjectAnalysis">Project Analysis</h2>
             </div>
-            <div class="flex justify-center items-center pt-6 pb-6">
-                <h3 class="text-2xl font-semibold" id="Camera">Camera.js</h3>
+            <div class="section_title_div">
+                <h3 id="Camera">Camera.js</h3>
             </div>
             <p>
                 This class handles the camera position and the various movement events.
@@ -169,15 +185,15 @@
                 <code>getSharedUniforms</code>
                 function that returns the uniforms that are shared between all the objects in the scene. These uniforms are the camera position, the projection matrix, the view matrix, and the light position.
             </p>
-            <div class="flex justify-center items-center pt-6 pb-6">
-                <h3 class="text-2xl font-semibold" id="Element">Element.js</h3>
+            <div class="section_title_div">
+                <h3 id="Element">Element.js</h3>
             </div>
             <p>
                 This class represents the basic object that can be rendered. It is extended by all the other classes that represent objects that can be rendered.
                 <br>
                 <b>Each object has the following properties:
                 </b>
-            <ul class="list-disc pl-6">
+            <ul class="pl-6">
                 <li>
                     <code>center</code>
                     the position of the center of the object in the scene.
@@ -213,7 +229,7 @@
                 </p>
                 <p>
                     <b>And the following methods:</b>
-                <ul class="list-disc">
+                <ul>
                     <li>
                         <code>setID</code>
                         splits the object id in 4 fields in order to be able to save it in a texture.
@@ -234,7 +250,7 @@
                 </p>
                 <p>
                     <b>There are 3 classes that extend Element:</b>
-                <ul class="list-disc">
+                <ul>
                     <li>
                         <code>CubeElement</code>
                         represents a single cube cell. This class implements a custom onClick method that handles changing the object texture and calling functions to verify game status (victory or loss). This function also handles the update of the number of mines in the dashboard.
@@ -249,8 +265,8 @@
                     </li>
                 </ul>
                 </p>
-                <div class="flex justify-center items-center pt-6 pb-6">
-                    <h3 class="text-2xl font-semibold" id="Environment">Environment.js</h3>
+                <div class="section_title_div">
+                    <h3 id="Environment">Environment.js</h3>
                 </div>
                 <p>
                     This class is responsible for the management of all the elements that need to be rendered and the camera.
@@ -265,8 +281,8 @@
                     <code>onClick</code>
                     code after the object has been identified. Actual object identification is delegated to RenderEngine.js
                 </p>
-                <div class="flex justify-center items-center pt-6 pb-6">
-                    <h3 class="text-2xl font-semibold" id="Main">Main.js</h3>
+                <div class="section_title_div">
+                    <h3 id="Main">Main.js</h3>
                 </div>
                 <p>
                     This file is responsible for the initialization of the game.
@@ -276,14 +292,14 @@
                     This file is also responsible for the start of each render loop and for the event handlers on the player toggles.
                 </p>
 
-                <div class="flex justify-center items-center pt-6 pb-6">
-                    <h3 class="text-2xl font-semibold" id="MeshLoader">MeshLoader</h3>
+                <div class="section_title_div">
+                    <h3 id="MeshLoader">MeshLoader</h3>
                 </div>
                 <p>
                     Part of the WebGL helper functions repository, this class is used to load meshes from .obj and .mtl files.
                     <br>
                     The class exposes 3 main functions:
-                <ul class="list-disc pl-6">
+                <ul class="pl-6">
                     <li>
                         <code>ParseOBJ</code>
                         given some text, it parses it to generate an object. This function is used to load a mesh from a .obj file.
@@ -297,8 +313,8 @@
                         main function, given the gl context and an object it reads the obj and mtl file, calls the relative parser and populates the object.
                     </li>
                     </p>
-                    <div class="flex justify-center items-center pt-6 pb-6">
-                        <h3 class="text-2xl font-semibold" id="RenderEngine">RenderEngine</h3>
+                    <div class="section_title_div">
+                        <h3 id="RenderEngine">RenderEngine</h3>
                     </div>
                     <p>
                         Part of the WebGL helper functions repository, this class is responsible for object rendering and object click identification.
@@ -317,12 +333,12 @@
                         This class also contains the shaders needed to render objects and for picking.
                     </p>
 
-                    <div class="flex justify-center items-center">
-                        <h2 class="text-4xl font-semibold pb-6" id="InterestingAspects">Interesting Aspects</h2>
+                    <div class="section_title_div">
+                        <h2 id="InterestingAspects">Interesting Aspects</h2>
                     </div>
 
-                    <div class="flex justify-center items-center pt-6 pb-6">
-                        <h3 class="text-2xl font-semibold" id="WebGLHelper2">WebGL Helper Functions</h3>
+                    <div class="section_title_div">
+                        <h3 id="WebGLHelper2">WebGL Helper Functions</h3>
                     </div>
                     <p>
                         As mentioned before, this project uses a WebGL helper functions repository that I created to simplify the use of WebGL.
@@ -331,8 +347,8 @@
                         <br>
                         I decided to make this classes as generic as possible, in order to be able to use them in other projects (which is also the reason for a separate repository), this means that both MeshLoader and RenderEngine implements features not needed for this project (such as extra parameters in shaders or loading of unused keys in .mtl).
                     </p>
-                    <div class="flex justify-center items-center pt-6 pb-6">
-                        <h3 class="text-2xl font-semibold" id="Picking">Picking</h3>
+                    <div class="section_title_div">
+                        <h3 id="Picking">Picking</h3>
                     </div>
                     <p>
                         3D object click detection (or picking) has been implemented following a WebGLFundamentals guide.
@@ -343,8 +359,8 @@
                         <br>
                         When the user clicks on the canvas, the click coordinates are passed to the detectObject function in RenderEngine.js. This function extracts the color of the pixel in the specialized canvas at the specified mouse coordinates, converts the 4 channels to an int and return the value. If the value id different than 0, it means that the user has clicked on an object and the Environment calls the onClick function of the clicked object.
                     </p>
-                    <div class="flex justify-center items-center pt-6 pb-6">
-                        <h3 class="text-2xl font-semibold" id="TextureManagement">Texture Management</h3>
+                    <div class="section_title_div">
+                        <h3 id="TextureManagement">Texture Management</h3>
                     </div>
                     <p>
                         Since MeshLoader allows to specify a separate .mtl path for each object, I have been able to make one single Cube .obj file and generate multiple .mtl files for each texture. When generating the CubeElements, I can decide which .mtl file to load based on the cube value.
@@ -355,8 +371,8 @@
                         <code>LoadOBJAndMesh</code>
                         on the same object and update the texture without changing oter object properties like center or rotation.
                     </p>
-                    <div class="flex justify-center items-center pt-6 pb-6">
-                        <h3 class="text-2xl font-semibold" id="TransparencyOrder">Transparency needs order</h3>
+                    <div class="section_title_div">
+                        <h3 id="TransparencyOrder">Transparency needs order</h3>
                     </div>
                     <p>
                         A problem I encountered was that often transparent object hides the object behind them and render only the background.
@@ -369,7 +385,7 @@
         </div>
 
         <button id="back-to-project-button" onclick="location.href='../project/index.html';" title="Back to project" class="fixed z-90 top-8 left-8 border-0 w-[100px] h-10 rounded-full drop-shadow-md bg-blue-700 text-white text-l font-bold">&larr; Project</button>
-        <button id="to-top-button" onclick="goToTop()" title="Go To Top" class="hidden fixed z-90 bottom-8 right-8 border-0 w-16 h-16 rounded-full drop-shadow-md bg-blue-700 text-white text-3xl font-bold">&uarr;</button>
+        <button id="to-top-button" onclick="location.href='#index';" title="Go To Top" class="hidden fixed z-90 bottom-8 right-8 border-0 w-16 h-16 rounded-full drop-shadow-md bg-blue-700 text-white text-3xl font-bold">&uarr;</button>
 
         <script>
             var toTopButton = document.getElementById("to-top-button");
@@ -385,14 +401,6 @@
                         .classList
                         .add("hidden");
                 }
-            }
-
-            // When the user clicks on the button, scroll to the top of the document
-            function goToTop() {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
             }
 
         </script>
